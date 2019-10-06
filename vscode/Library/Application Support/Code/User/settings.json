@@ -1,0 +1,444 @@
+{
+  "editor.wordWrap": true,
+  "editor.wordWrapColumn": 1,
+  "editor.fontFamily": "Fira Code Retina, Fira Code, Menlo, Monaco, 'Courier New', monospace",
+  "editor.fontLigatures": true,
+  "editor.lineHeight": 25,
+  "editor.letterSpacing": 0.5,
+  "editor.lineNumbers": "relative",
+  "files.trimTrailingWhitespace": true,
+  "editor.renderWhitespace": "all",
+  "editor.fontWeight": "500",
+  "editor.cursorStyle": "line",
+  "editor.cursorBlinking": "solid",
+  "editor.tabSize": 2,
+  "workbench.iconTheme": "vs-seti",
+  "window.zoomLevel": 0,
+  "emmet.syntaxProfiles": {
+    "javascript": "jsx"
+  },
+  "emmet.triggerExpansionOnTab": true,
+  "sync.gist": "c9bec1af52927c0dd2f0f82317ce34fe",
+  "sync.lastUpload": "",
+  "sync.autoDownload": false,
+  "sync.autoUpload": false,
+  "sync.lastDownload": "2017-09-28T14:18:00.718Z",
+  "sync.forceDownload": false,
+  "sync.anonymousGist": false,
+  "sync.host": "",
+  "sync.pathPrefix": "",
+  "sync.quietSync": false,
+  "sync.askGistName": false,
+  "vscode_custom_css.imports": [
+    "/Volumes/Macintosh HD/Users/kleclair/.vscodestyles.css"
+  ],
+  "git.enableSmartCommit": true,
+  "gitlens.gitExplorer.enabled": true,
+  "cSpell.userWords": [
+    "arrify"
+  ],
+  "gitlens.advanced.messages": {
+    "suppressCommitHasNoPreviousCommitWarning": false,
+    "suppressCommitNotFoundWarning": false,
+    "suppressFileNotUnderSourceControlWarning": false,
+    "suppressGitVersionWarning": false,
+    "suppressLineUncommittedWarning": false,
+    "suppressNoRepositoryWarning": false,
+    "suppressResultsExplorerNotice": false,
+    "suppressShowKeyBindingsNotice": true,
+    "suppressUpdateNotice": false,
+    "suppressWelcomeNotice": true
+  },
+  "gitlens.keymap": "chorded",
+  "gitlens.historyExplorer.enabled": true,
+  "terminal.integrated.rendererType": "dom",
+  "editor.matchBrackets": false,
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "terminal.integrated.fontFamily": "Inconsolata for Powerline",
+  "terminal.integrated.fontSize": 15,
+  "debug.node.autoAttach": "off",
+  "terminal.integrated.experimentalBufferImpl": "TypedArray",
+  "workbench.colorTheme": "Dracula",
+  "C_Cpp.intelliSenseEngine": "Tag Parser",
+  "gitlens.views.repositories.enabled": true,
+  "gitlens.views.fileHistory.enabled": true,
+  "gitlens.views.lineHistory.enabled": true,
+  "git.autofetch": true,
+  "explorer.confirmDragAndDrop": false,
+  "scss.lint.hexColorLength": "ignore",
+  "editor.formatOnSave": true,
+  "editor.suggestSelection": "first",
+  "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+  "go.lintTool": "golint",
+  "go.formatTool": "gofmt",
+  "go.useLanguageServer": true,
+  "[go]": {
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSaveTimeout": 5000,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true
+    }
+  },
+  "gopls": {
+    "deepCompletion": true,
+    "completeUnimported": true,
+  },
+  // "go.alternateTools": {
+  //   "gopls": "bingo"
+  // },
+  "vim.insertModeKeyBindingsNonRecursive": [],
+  "vim.visualModeKeyBindingsNonRecursive": [
+    {
+      "before": [
+        "J"
+      ],
+      "after": [
+        "5",
+        "j"
+      ]
+    },
+    {
+      "before": [
+        "K"
+      ],
+      "after": [
+        "5",
+        "k"
+      ]
+    },
+    {
+      "before": [
+        "<C-l>"
+      ],
+      "after": [
+        "$"
+      ]
+    },
+    {
+      "before": [
+        "<C-h>"
+      ],
+      "after": [
+        "^"
+      ]
+    },
+    {
+      "before": [
+        "L"
+      ],
+      "after": [
+        "e"
+      ]
+    },
+    {
+      "before": [
+        "H"
+      ],
+      "after": [
+        "b"
+      ]
+    },
+    {
+      "before": [
+        "d"
+      ],
+      "after": [
+        "\"",
+        "_",
+        "d"
+      ]
+    },
+    {
+      "before": [
+        "<Leader>",
+        "d"
+      ],
+      "after": [
+        "d"
+      ]
+    },
+    {
+      "before": [
+        "D"
+      ],
+      "after": [
+        "\"",
+        "_",
+        "D"
+      ]
+    },
+    {
+      "before": [
+        "<Leader>",
+        "D"
+      ],
+      "after": [
+        "D"
+      ]
+    }
+  ],
+  "vim.normalModeKeyBindingsNonRecursive": [
+    {
+      "before": [
+        "leader",
+        "w"
+      ],
+      "after": [
+        "leader",
+        "leader",
+        "leader",
+        "b",
+        "d",
+        "w"
+      ]
+    },
+    {
+      "before": [
+        "leader",
+        "e"
+      ],
+      "after": [
+        "leader",
+        "leader",
+        "leader",
+        "b",
+        "d",
+        "e"
+      ]
+    },
+    {
+      "before": [
+        "J"
+      ],
+      "after": [
+        "5",
+        "j"
+      ]
+    },
+    {
+      "before": [
+        "K"
+      ],
+      "after": [
+        "5",
+        "k"
+      ]
+    },
+    {
+      "before": [
+        "<Leader>",
+        "h"
+      ],
+      "after": [
+        "<C-w>",
+        "h"
+      ]
+    },
+    {
+      "before": [
+        "<Leader>",
+        "l"
+      ],
+      "after": [
+        "<C-w>",
+        "l"
+      ]
+    },
+    {
+      "before": [
+        "<C-l>"
+      ],
+      "after": [
+        "$"
+      ]
+    },
+    {
+      "before": [
+        "<C-h>"
+      ],
+      "after": [
+        "^"
+      ]
+    },
+    {
+      "before": [
+        "<Leader>",
+        "p"
+      ],
+      "commands": [
+        "workbench.action.showCommands"
+      ]
+    },
+    {
+      "before": [
+        "<Leader>",
+        "t"
+      ],
+      "commands": [
+        "workbench.action.gotoSymbol"
+      ]
+    },
+    {
+      "before": [
+        "<Leader>",
+        "/"
+      ],
+      "commands": [
+        ":noh"
+      ]
+    },
+    {
+      "before": [
+        "L"
+      ],
+      "after": [
+        "w"
+      ]
+    },
+    {
+      "before": [
+        "H"
+      ],
+      "after": [
+        "b"
+      ]
+    },
+    {
+      "before": [
+        "<C-j>"
+      ],
+      "after": [
+        "<C-d>"
+      ]
+    },
+    {
+      "before": [
+        "<C-k>"
+      ],
+      "after": [
+        "<C-u>"
+      ]
+    },
+    {
+      "before": [
+        "<Leader>",
+        "o"
+      ],
+      "after": [
+        "o",
+        "<Esc>"
+      ]
+    },
+    {
+      "before": [
+        "<Leader>",
+        "O"
+      ],
+      "after": [
+        "O",
+        "<Esc>"
+      ]
+    },
+    {
+      "before": [
+        "d"
+      ],
+      "after": [
+        "\"",
+        "_",
+        "d"
+      ]
+    },
+    {
+      "before": [
+        "c"
+      ],
+      "after": [
+        "\"",
+        "_",
+        "c"
+      ]
+    },
+    {
+      "before": [
+        "<Leader>",
+        "d"
+      ],
+      "after": [
+        "d"
+      ]
+    },
+    {
+      "before": [
+        "D"
+      ],
+      "after": [
+        "\"",
+        "_",
+        "D"
+      ]
+    },
+    {
+      "before": [
+        "<Leader>",
+        "D"
+      ],
+      "after": [
+        "D"
+      ]
+    }
+  ],
+  "vim.insertModeKeyBindings": [
+    {
+      "before": [
+        "j",
+        "j"
+      ],
+      "after": [
+        "<Esc>"
+      ]
+    }
+  ],
+  "vim.disableExtension": false,
+  "vim.easymotionMarkerFontFamily": "Fira Code",
+  "vim.easymotionMarkerFontWeight": "500",
+  "vim.easymotionMarkerFontSize": "14",
+  "vim.sneak": true,
+  "vim.incsearch": true,
+  "vim.useSystemClipboard": true,
+  "vim.highlightedyank.enable": true,
+  "vim.useCtrlKeys": true,
+  "vim.hlsearch": true,
+  "vim.visualstar": true,
+  "vim.leader": "<space>",
+  "vim.easymotion": true,
+  "vim.easymotionMarkerBackgroundColor": "#6272a4",
+  "vim.easymotionMarkerYOffset": 0,
+  "vim.easymotionMarkerWidthPerChar": 10,
+  "vim.easymotionMarkerHeight": 22,
+  "vim.easymotionKeys": "hklyuiopnmqwertzxcvbasdgjf",
+  "vim.enableNeovim": true,
+  "vim.neovimPath": "/usr/local/bin/nvim",
+  "vim.handleKeys": {
+    "<C-a>": false,
+    "<C-f>": false
+  },
+  "editor.fontSize": 13,
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "yzhang.markdown-all-in-one"
+  },
+  "files.exclude": {
+    "**/.classpath": true,
+    "**/.project": true,
+    "**/.settings": true,
+    "**/.factorypath": true
+  },
+  "editor.codeActionsOnSaveTimeout": 1500,
+  "editor.formatOnSaveTimeout": 1500,
+  "python.jediEnabled": false,
+  "files.autoSaveDelay": 3000,
+  "typescript.updateImportsOnFileMove.enabled": "always"
+}
