@@ -78,10 +78,6 @@
       "source.organizeImports": true
     }
   },
-  "gopls": {
-    "deepCompletion": true,
-    "completeUnimported": true,
-  },
   // "go.alternateTools": {
   //   "gopls": "bingo"
   // },

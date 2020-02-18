@@ -196,7 +196,7 @@ export PATH="$PATH:/Users/kevin.r/istio-1.0.6/bin"
 alias go=richgo
 
 # Alias for lazygit
-alias lg='lazygit' 
+alias lg='lazygit'
 
 # Git alias
 alias gaa='git add --all'
@@ -206,4 +206,10 @@ alias gpo='git push origin $(git rev-parse --abbrev-ref HEAD)'
 # Cat alias
 alias cat='bat -p'
 
+# Runner global
+alias run='runner -f $HOME/runnerfile.sh'
+alias runf='runner -f $HOME/runnerfile.sh -l | fzf | xargs -o runner -f $HOME/runnerfile.sh'
+
+
 export PATH=$GOPATH/bin:$PATH
+function gi() { curl -sLw n https://www.gitignore.io/api/$@ ;}
