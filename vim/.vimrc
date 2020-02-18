@@ -134,6 +134,11 @@ highlight LineNr ctermfg=grey
 set autowrite " Save file when switching buffers
 set guifont=Fira\ Code:h12
 
+" This sends all yanks to the system clipboard (requires building vim with
+" +clipboard support)
+set clipboard=unnamed
+
+
 " -------------------------------------------------------------------------------------------------
 " Airline
 " -------------------------------------------------------------------------------------------------
@@ -180,30 +185,19 @@ nnoremap <Leader>O O<Esc>
 
 " System clipboard
 
-vnoremap <Leader>y "+y
-vnoremap <Leader>x "+x
 vnoremap d "_d
 vnoremap <Leader>d "+d
 vnoremap D "_D
 vnoremap <Leader>D "+D
 vnoremap dd "_dd
 vnoremap <Leader>dd "+dd
-vnoremap <Leader>p "+p
-vnoremap <Leader>P "+P
 
-nnoremap <Leader>y "+y
-nnoremap <Leader>Y "+Y
-nnoremap <Leader>yy "+yy
-nnoremap <Leader>x "+x
-nnoremap <Leader>dd "+dd
 nnoremap d "_d
 nnoremap <Leader>d "+d
 nnoremap D "_D
 nnoremap <Leader>D "+D
 nnoremap dd "_dd
 nnoremap <Leader>dd "+dd
-nnoremap <Leader>p "+p
-nnoremap <Leader>P "+P
 
 " Insert Mode
 inoremap jj <Esc>
@@ -240,11 +234,5 @@ if has('nvim')
   tnoremap <C-j> <c-\><c-n><c-w>j
   tnoremap <C-k> <c-\><c-n><c-w>k
   tnoremap <C-l> <c-\><c-n><c-w>l
-
-  tnoremap <Leader>y "+y
-  tnoremap <Leader>Y "+Y
-  tnoremap <Leader>yy "+yy
-  tnoremap <Leader>p "+p
-  tnoremap <Leader>P "+P
 
 endif
