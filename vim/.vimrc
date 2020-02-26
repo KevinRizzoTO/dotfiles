@@ -140,6 +140,9 @@ set guifont=Fira\ Code:h14
 " reduce timeout for shorter mapping delay
 set timeoutlen=200 ttimeoutlen=0
 
+" disable swapfiles
+set noswapfile
+
 
 " -------------------------------------------------------------------------------------------------
 " Airline
@@ -164,6 +167,7 @@ let g:gitgutter_map_keys=0
 
 " Move to word
 map  <Leader>w <Plug>(easymotion-bd-w)
+map  <Leader>e <Plug>(easymotion-bd-e)
 nnoremap J 5j
 nnoremap K 5k
 nnoremap <C-j> <C-d>

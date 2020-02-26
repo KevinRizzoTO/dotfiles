@@ -214,6 +214,19 @@ alias cat='bat -p'
 alias run='runner -f $HOME/runnerfile.sh'
 alias runf='runner -f $HOME/runnerfile.sh -l | fzf | xargs -o runner -f $HOME/runnerfile.sh'
 
-
+# Add GOBIN to path
 export PATH=$GOPATH/bin:$PATH
+
+# .gitignore generate
 function gi() { curl -sLw n https://www.gitignore.io/api/$@ ;}
+
+# Default to nvim for vim
+if type nvim > /dev/null 2>&1; then
+  alias vim='nvim'
+fi
+
+# Add gnu-sed to PATH
+export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
+
+# Add homebrew ruby to path
+export PATH="/usr/local/opt/ruby/bin:$PATH"
