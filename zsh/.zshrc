@@ -230,3 +230,6 @@ export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
 
 # Add homebrew ruby to path
 export PATH="/usr/local/opt/ruby/bin:$PATH"
+
+# Ensure colors are correct for tmux (and possibly others)
+export TERM="xterm-256color"
