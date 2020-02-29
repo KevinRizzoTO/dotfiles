@@ -28,6 +28,7 @@ Plug 'preservim/nerdcommenter'
 Plug 'kien/rainbow_parentheses.vim'
 Plug 'janko/vim-test'
 Plug 'raimondi/delimitmate'
+Plug 'vimwiki/vimwiki'
 call plug#end()
 
 " -------------------------------------------------------------------------------------------------
@@ -158,6 +159,13 @@ let g:highlightedyank_highlight_duration = 100
 " Gitgutter
 " -------------------------------------------------------------------------------------------------
 let g:gitgutter_map_keys=0
+
+" -------------------------------------------------------------------------------------------------
+" vimwiki
+" -------------------------------------------------------------------------------------------------
+
+let g:vimwiki_list = [{'path': '~/OneDrive/OneDrive - ecobee Inc/vimwiki',
+                      \ 'syntax': 'markdown', 'ext': '.md'}]
 
 " -------------------------------------------------------------------------------------------------
 " Key Mappings
