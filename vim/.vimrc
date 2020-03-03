@@ -29,6 +29,9 @@ Plug 'kien/rainbow_parentheses.vim'
 Plug 'janko/vim-test'
 Plug 'raimondi/delimitmate'
 Plug 'vimwiki/vimwiki'
+Plug 'wakatime/vim-wakatime'
+Plug 'tpope/vim-markdown'
+Plug 'Asheq/close-buffers.vim'
 call plug#end()
 
 " -------------------------------------------------------------------------------------------------
