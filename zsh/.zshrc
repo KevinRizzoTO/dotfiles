@@ -233,3 +233,5 @@ export PATH="/usr/local/opt/ruby/bin:$PATH"
 
 # Ensure colors are correct for tmux (and possibly others)
 export TERM="xterm-256color"
+
+export EDITOR="nvim"

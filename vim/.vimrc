@@ -32,6 +32,7 @@ Plug 'vimwiki/vimwiki'
 Plug 'wakatime/vim-wakatime'
 Plug 'tpope/vim-markdown'
 Plug 'Asheq/close-buffers.vim'
+Plug 'AndrewRadev/linediff.vim'
 call plug#end()
 
 " -------------------------------------------------------------------------------------------------
@@ -92,8 +93,9 @@ nmap <leader>rn <Plug>(coc-rename)
 " Remap for format selected region
 vmap <leader>f  <Plug>(coc-format-selected)
 nmap <leader>f  <Plug>(coc-format-selected)
-" Show all diagnostics
-nnoremap <silent> <space>a  :<C-u>CocFzfListDiagnostics<cr>
+" Show current buffer diagnostics
+nnoremap <silent> <leader>a  :CocFzfList diagnostics --current-buf<cr>
+nnoremap <silent> <leader><leader>a  :CocFzfList diagnostics<cr>
 
 " -------------------------------------------------------------------------------------------------
 " Go
@@ -147,6 +149,9 @@ set timeoutlen=200 ttimeoutlen=0
 " disable swapfiles
 set noswapfile
 
+" always move words down to next line
+set linebreak
+
 
 " -------------------------------------------------------------------------------------------------
 " Airline
@@ -169,6 +174,15 @@ let g:gitgutter_map_keys=0
 
 let g:vimwiki_list = [{'path': '~/OneDrive/OneDrive - ecobee Inc/vimwiki',
                       \ 'syntax': 'markdown', 'ext': '.md'}]
+
+let g:vimwiki_global_ext = 0
+
+" -------------------------------------------------------------------------------------------------
+" autocmd
+" -------------------------------------------------------------------------------------------------
+
+autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+autocmd BufRead,BufNewFile *.md setlocal spell
 
 " -------------------------------------------------------------------------------------------------
 " Key Mappings
@@ -202,6 +216,9 @@ nnoremap <Leader>/ :noh<CR>
 " Add in extra lines without going into insert mode
 nnoremap <Leader>o o<Esc>
 nnoremap <Leader>O O<Esc>
+
+" Select all text in buffer
+nnoremap <C-A> ggVG
 
 " ----------------------------------------------------------------------------
 " Quickfix
@@ -267,7 +284,7 @@ nnoremap <C-p> :Files<Cr>
 " Search through all commands
 nnoremap <Leader>p :Commands<Cr>
 " Search through all document symbols
-nnoremap <Leader>t :CocFzfListOutline<Cr>
+nnoremap <Leader>t :CocFzfList outline<Cr>
 " Split pane vertically
 nnoremap <C-\> :vsp<CR>
 
