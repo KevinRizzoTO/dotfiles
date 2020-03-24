@@ -235,3 +235,5 @@ export PATH="/usr/local/opt/ruby/bin:$PATH"
 export TERM="xterm-256color"
 
 export EDITOR="nvim"
+
+[[ -s "/Users/kevin.r/.gvm/scripts/gvm" ]] && source "/Users/kevin.r/.gvm/scripts/gvm"

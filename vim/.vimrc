@@ -33,6 +33,8 @@ Plug 'wakatime/vim-wakatime'
 Plug 'tpope/vim-markdown'
 Plug 'Asheq/close-buffers.vim'
 Plug 'AndrewRadev/linediff.vim'
+Plug 'aklt/plantuml-syntax'
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 call plug#end()
 
 " -------------------------------------------------------------------------------------------------
@@ -96,6 +98,9 @@ nmap <leader>f  <Plug>(coc-format-selected)
 " Show current buffer diagnostics
 nnoremap <silent> <leader>a  :CocFzfList diagnostics --current-buf<cr>
 nnoremap <silent> <leader><leader>a  :CocFzfList diagnostics<cr>
+
+" Add command to run Prettier on current buffer
+command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
 " -------------------------------------------------------------------------------------------------
 " Go
@@ -171,7 +176,6 @@ let g:gitgutter_map_keys=0
 " -------------------------------------------------------------------------------------------------
 " vimwiki
 " -------------------------------------------------------------------------------------------------
-
 let g:vimwiki_list = [{'path': '~/OneDrive/OneDrive - ecobee Inc/vimwiki',
                       \ 'syntax': 'markdown', 'ext': '.md'}]
 
@@ -180,7 +184,6 @@ let g:vimwiki_global_ext = 0
 " -------------------------------------------------------------------------------------------------
 " autocmd
 " -------------------------------------------------------------------------------------------------
-
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 autocmd BufRead,BufNewFile *.md setlocal spell
 
@@ -246,7 +249,9 @@ nnoremap [t :tabp<cr>
 nnoremap <tab>   <c-w>w
 nnoremap <S-tab> <c-w>W
 
-" System clipboard
+" ----------------------------------------------------------------------------
+" System Clipboard
+" ----------------------------------------------------------------------------
 
 " This sends all yanks to the system clipboard (requires building vim with
 " +clipboard support)
@@ -265,6 +270,14 @@ nnoremap D "_D
 nnoremap <Leader>D "+D
 nnoremap dd "_dd
 nnoremap <Leader>dd "+dd
+
+vnoremap c "_c
+vnoremap C "_C
+vnoremap cc "_cc
+
+nnoremap c "_c
+nnoremap C "_C
+nnoremap cc "_cc
 
 " Insert Mode
 inoremap jj <Esc>
