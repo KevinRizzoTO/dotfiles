@@ -35,6 +35,8 @@ Plug 'Asheq/close-buffers.vim'
 Plug 'AndrewRadev/linediff.vim'
 Plug 'aklt/plantuml-syntax'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
+Plug 'editorconfig/editorconfig-vim'
+Plug 'justinmk/vim-sneak'
 call plug#end()
 
 " -------------------------------------------------------------------------------------------------
@@ -157,6 +159,14 @@ set noswapfile
 " always move words down to next line
 set linebreak
 
+filetype plugin indent on
+" On pressing tab, insert 2 spaces
+set expandtab
+" show existing tab with 2 spaces width
+set tabstop=2
+set softtabstop=2
+" when indenting with '>', use 2 spaces width
+set shiftwidth=2
 
 " -------------------------------------------------------------------------------------------------
 " Airline
@@ -300,6 +310,14 @@ nnoremap <Leader>p :Commands<Cr>
 nnoremap <Leader>t :CocFzfList outline<Cr>
 " Split pane vertically
 nnoremap <C-\> :vsp<CR>
+
+" ----------------------------------------------------------------------------
+" vim-sneak overrides
+" ----------------------------------------------------------------------------
+map f <Plug>Sneak_f
+map F <Plug>Sneak_F
+map t <Plug>Sneak_t
+map T <Plug>Sneak_T
 
 
 " ----------------------------------------------------------------------------
