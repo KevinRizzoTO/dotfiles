@@ -27,12 +27,11 @@ Plug 'preservim/nerdcommenter'
 Plug 'kien/rainbow_parentheses.vim'
 Plug 'janko/vim-test'
 Plug 'raimondi/delimitmate'
-Plug 'vimwiki/vimwiki'
+Plug 'vimwiki/vimwiki', { 'branch': 'dev'  }
 Plug 'wakatime/vim-wakatime'
 Plug 'tpope/vim-markdown'
 Plug 'Asheq/close-buffers.vim'
 Plug 'AndrewRadev/linediff.vim'
-Plug 'whiteinge/diffconflicts'
 Plug 'aklt/plantuml-syntax'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 Plug 'editorconfig/editorconfig-vim'
@@ -197,6 +196,7 @@ let g:vimwiki_global_ext = 0
 " autocmd
 " -------------------------------------------------------------------------------------------------
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+au FileType vimwiki set syntax=markdown
 autocmd BufRead,BufNewFile *.md setlocal spell
 
 " -------------------------------------------------------------------------------------------------
@@ -235,6 +235,9 @@ nnoremap <Leader>O O<Esc>
 " Select all text in buffer
 nnoremap <C-A> ggVG
 
+" Save current buffer shortcut
+nnoremap <C-s> :w<CR>
+
 " ----------------------------------------------------------------------------
 " Quickfix
 " ----------------------------------------------------------------------------
@@ -260,6 +263,21 @@ nnoremap [t :tabp<cr>
 " ----------------------------------------------------------------------------
 nnoremap <tab>   <c-w>w
 nnoremap <S-tab> <c-w>W
+
+" ----------------------------------------------------------------------------
+" Git Fugitive
+" ----------------------------------------------------------------------------
+nnoremap <Leader>gs :G<CR>
+nnoremap <Leader>gj :diffget //3<CR>
+nnoremap <Leader>gf :diffget //2<CR>
+
+" ----------------------------------------------------------------------------
+" <tab> / <s-tab> | Circular windows navigation
+" ----------------------------------------------------------------------------
+nnoremap <tab>   <c-w>w
+nnoremap <S-tab> <c-w>W
+
+
 
 " ----------------------------------------------------------------------------
 " System Clipboard

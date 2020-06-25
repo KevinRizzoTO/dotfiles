@@ -214,10 +214,6 @@ alias cat='bat -p'
 alias run='runner -f $HOME/runnerfile.sh'
 alias runf='runner -f $HOME/runnerfile.sh -l | fzf | xargs -o runner -f $HOME/runnerfile.sh'
 
-# Make pip point to pip3
-alias pip=pip3
-
-
 # .gitignore generate
 function gi() { curl -sLw n https://www.gitignore.io/api/$@ ;}
 
@@ -239,3 +235,7 @@ export EDITOR="nvim"
 
 export GOPATH=$HOME/go
 export PATH=$GOPATH/bin:$PATH
+
+# Add Python bin to PATH
+
+export PATH=$HOME/Library/Python/3.7/bin:$PATH

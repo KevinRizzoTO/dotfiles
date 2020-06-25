@@ -506,5 +506,6 @@
       "name": "Vue Green",
       "value": "#42b883"
     }
-  ]
+],
+"python.languageServer": "Microsoft"
 }
