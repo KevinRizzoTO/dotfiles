@@ -208,12 +208,6 @@ autocmd BufRead,BufNewFile *.md setlocal spell
 " Move to word
 map  <Leader>w <Plug>(easymotion-bd-w)
 map  <Leader>e <Plug>(easymotion-bd-e)
-nnoremap J 5j
-nnoremap K 5k
-nnoremap <C-j> <C-d>
-nnoremap <C-k> <C-u>
-nnoremap L w
-nnoremap H b
 
 " Move across panes
 nnoremap <Leader>h <C-w>h
@@ -311,14 +305,6 @@ nnoremap cc "_cc
 
 " Insert Mode
 inoremap jj <Esc>
-
-" Visual Mode
-vnoremap J 5j
-vnoremap K 5k
-vnoremap <C-l> $
-vnoremap <C-h> ^
-vnoremap L w
-vnoremap H b
 
 " VS Code Parity
 
