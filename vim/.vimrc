@@ -25,7 +25,6 @@ Plug 'preservim/nerdcommenter'
 Plug 'kien/rainbow_parentheses.vim'
 Plug 'janko/vim-test'
 Plug 'raimondi/delimitmate'
-Plug 'vimwiki/vimwiki', { 'branch': 'dev'  }
 Plug 'wakatime/vim-wakatime'
 Plug 'tpope/vim-markdown'
 Plug 'Asheq/close-buffers.vim'
@@ -180,14 +179,6 @@ let g:highlightedyank_highlight_duration = 100
 " Gitgutter
 " -------------------------------------------------------------------------------------------------
 let g:gitgutter_map_keys=0
-
-" -------------------------------------------------------------------------------------------------
-" vimwiki
-" -------------------------------------------------------------------------------------------------
-let g:vimwiki_list = [{'path': '~/OneDrive/OneDrive - ecobee Inc/vimwiki',
-                      \ 'syntax': 'markdown', 'ext': '.md'}]
-
-let g:vimwiki_global_ext = 0
 
 " -------------------------------------------------------------------------------------------------
 " autocmd
