@@ -17,10 +17,8 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-fugitive'
 Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
-Plug 'pangloss/vim-javascript'
-Plug 'mxw/vim-jsx'
+Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-surround'
-Plug 'nicwest/vim-http'
 Plug 'airblade/vim-gitgutter'
 Plug 'machakann/vim-highlightedyank'
 Plug 'preservim/nerdcommenter'
@@ -32,7 +30,6 @@ Plug 'wakatime/vim-wakatime'
 Plug 'tpope/vim-markdown'
 Plug 'Asheq/close-buffers.vim'
 Plug 'AndrewRadev/linediff.vim'
-Plug 'aklt/plantuml-syntax'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 Plug 'editorconfig/editorconfig-vim'
 Plug 'justinmk/vim-sneak'
@@ -99,7 +96,7 @@ nmap <leader>rn <Plug>(coc-rename)
 vmap <leader>f  <Plug>(coc-format-selected)
 nmap <leader>f  <Plug>(coc-format-selected)
 " Show current buffer diagnostics
-nnoremap <silent> <leader>a  :CocFzfList diagnostics --current-buf<cr>
+nnoremap <silent> <leader>a  :CocList --input=<c-r>=expand("%")<cr> diagnostics<cr>
 nnoremap <silent> <leader><leader>a  :CocFzfList diagnostics<cr>
 
 " Add command to run Prettier on current buffer
