@@ -450,8 +450,7 @@
     ]
   },
   "terraform.languageServer": {
-    "enabled": true,
-    "args": []
+    "external": true
   },
   "peacock.favoriteColors": [
     {
@@ -507,11 +506,12 @@
       "value": "#42b883"
     }
 ],
-"python.languageServer": "Microsoft",
+"python.languageServer": "Pylance",
 "[html]": {
   "editor.defaultFormatter": "esbenp.prettier-vscode"
 },
 "[json]": {
   "editor.defaultFormatter": "esbenp.prettier-vscode"
-}
+},
+"python.dataScience.alwaysTrustNotebooks": true
 }

@@ -25,6 +25,11 @@ Plug 'machakann/vim-highlightedyank'
 Plug 'preservim/nerdcommenter'
 Plug 'kien/rainbow_parentheses.vim'
 Plug 'janko/vim-test'
+Plug 'tyru/open-browser.vim'
+Plug 'weirongxu/plantuml-previewer.vim'
+Plug 'scrooloose/vim-slumlord'
+Plug 'xolox/vim-notes'
+Plug 'xolox/vim-misc'
 Plug 'raimondi/delimitmate'
 Plug 'wakatime/vim-wakatime'
 Plug 'tpope/vim-markdown'
@@ -316,7 +321,7 @@ nnoremap <C-p> :Files<Cr>
 " Search through all commands
 nnoremap <Leader>p :Commands<Cr>
 " Search through all document symbols
-nnoremap <Leader>t :CocFzfList outline<Cr>
+nnoremap <Leader>t :CocList outline<Cr>
 " Split pane vertically
 nnoremap <C-\> :vsp<CR>
 
