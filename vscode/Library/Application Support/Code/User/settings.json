@@ -513,5 +513,6 @@
 "[json]": {
   "editor.defaultFormatter": "esbenp.prettier-vscode"
 },
-"python.dataScience.alwaysTrustNotebooks": true
+"python.dataScience.alwaysTrustNotebooks": true,
+"python.dataScience.askForKernelRestart": false
 }

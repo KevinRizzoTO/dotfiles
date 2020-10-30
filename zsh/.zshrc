@@ -100,14 +100,6 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 
-# Java runtime
-export JAVA_HOME=$(/usr/libexec/java_home)
-# Catalina base
-export CATALINA_HOME=/usr/local/opt/tomcat@7/libexec
-
-# Add tomcat to PATH
-export PATH=${PATH}:/usr/local/opt/tomcat@7/bin
-
 # Add go to path
 export GOPATH=$HOME/go
 # The next line updates PATH for the Google Cloud SDK.
@@ -115,13 +107,6 @@ if [ -f '/Users/kevin.r/Documents/google-cloud-sdk/path.zsh.inc' ]; then . '/Use
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/kevin.r/Documents/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/kevin.r/Documents/google-cloud-sdk/completion.zsh.inc'; fi
-
-# tabtab source for serverless package
-# uninstall by removing these lines or running `tabtab uninstall serverless`
-[[ -f /Users/kevin.r/.npm/_npx/66084/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh ]] && . /Users/kevin.r/.npm/_npx/66084/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh
-# tabtab source for sls package
-# uninstall by removing these lines or running `tabtab uninstall sls`
-[[ -f /Users/kevin.r/.npm/_npx/66084/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh ]] && . /Users/kevin.r/.npm/_npx/66084/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh
 
 eval "$(rbenv init -)"
 
@@ -192,9 +177,6 @@ if [ /usr/local/bin/kubectl ]; then source <(kubectl completion zsh); fi
 # Fish Autocomplete
 source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 if [ /usr/local/bin/kubectl ]; then source <(kubectl completion zsh); fi
-
-# Add Istio to PATH
-export PATH="$PATH:/Users/kevin.r/istio-1.0.6/bin"
 
 # Alias all go commands to richgo
 alias go=richgo
