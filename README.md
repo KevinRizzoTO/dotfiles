@@ -2,6 +2,7 @@
 
 ## To Download
 
+- [stow](https://www.gnu.org/software/stow/) `brew install stow`
 - [Alfred](https://www.alfredapp.com/) `brew cask install alfred`
 - [iTerm2](https://www.iterm2.com/) `brew cask install iterm2`
 - [Insomnia](https://insomnia.rest/) `brew cask install insomnia`
@@ -12,3 +13,4 @@
 - [fzf](https://github.com/junegunn/fzf) `brew install fzf`
 - [bat](https://github.com/sharkdp/bat) `brew install bat`
 - [zsh Dracula](https://draculatheme.com/zsh)
+- [Neovim](https://neovim.io/) `brew install neovim`
