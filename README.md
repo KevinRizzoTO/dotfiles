@@ -14,3 +14,7 @@
 - [bat](https://github.com/sharkdp/bat) `brew install bat`
 - [zsh Dracula](https://draculatheme.com/zsh)
 - [Neovim](https://neovim.io/) `brew install neovim`
+
+## How-tos
+
+- [Adding a new SSH key to GitHub](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
