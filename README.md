@@ -18,6 +18,7 @@
 - [nvm](https://github.com/nvm-sh/nvm) `curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.36.0/install.sh | bash`
 - [Powerline Fonts](https://github.com/powerline/fonts)
 - [yarn](https://classic.yarnpkg.com/en/) `brew install yarn`
+- [diff-so-fancy](https://github.com/so-fancy/diff-so-fancy) `brew install diff-so-fancy`
 
 ## How-tos
 
