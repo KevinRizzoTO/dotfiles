@@ -26,4 +26,4 @@
 
 ## TODO
 
-- [ ] git config
+- [x] git config
