@@ -15,9 +15,14 @@
 - [zsh Dracula](https://draculatheme.com/zsh)
 - [Neovim](https://neovim.io/) `brew install neovim`
 - [rg](https://github.com/BurntSushi/ripgrep) `brew install rg`
-- [nvm](https://github.com/nvm-sh/nvm) `curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.36.0/install.sh | bash
-`
+- [nvm](https://github.com/nvm-sh/nvm) `curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.36.0/install.sh | bash`
+- [Powerline Fonts](https://github.com/powerline/fonts)
+- [yarn](https://classic.yarnpkg.com/en/) `brew install yarn`
 
 ## How-tos
 
 - [Setting up git](https://medium.com/@gpp/configuring-ssh-key-for-github-9d2416a377ae)
+
+## TODO
+
+- [ ] git config

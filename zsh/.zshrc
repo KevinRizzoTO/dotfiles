@@ -107,7 +107,7 @@ if [ -f '/Users/kevin.r/Documents/google-cloud-sdk/path.zsh.inc' ]; then . '/Use
 if [ -f '/Users/kevin.r/Documents/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/kevin.r/Documents/google-cloud-sdk/completion.zsh.inc'; fi
 
 # Fish Autocomplete
-source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # Alias all go commands to richgo
 alias go=richgo
