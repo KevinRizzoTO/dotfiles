@@ -14,7 +14,10 @@
 - [bat](https://github.com/sharkdp/bat) `brew install bat`
 - [zsh Dracula](https://draculatheme.com/zsh)
 - [Neovim](https://neovim.io/) `brew install neovim`
+- [rg](https://github.com/BurntSushi/ripgrep) `brew install rg`
+- [nvm](https://github.com/nvm-sh/nvm) `curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.36.0/install.sh | bash
+`
 
 ## How-tos
 
-- [Adding a new SSH key to GitHub](https://medium.com/@gpp/configuring-ssh-key-for-github-9d2416a377ae)
+- [Setting up git](https://medium.com/@gpp/configuring-ssh-key-for-github-9d2416a377ae)
