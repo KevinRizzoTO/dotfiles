@@ -19,6 +19,8 @@
 - [Powerline Fonts](https://github.com/powerline/fonts)
 - [yarn](https://classic.yarnpkg.com/en/) `brew install yarn`
 - [diff-so-fancy](https://github.com/so-fancy/diff-so-fancy) `brew install diff-so-fancy`
+- [powerlevel10k](https://github.com/romkatv/powerlevel10k) `git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+`
 
 ## How-tos
 
