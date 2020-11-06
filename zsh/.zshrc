@@ -67,9 +67,12 @@ plugins=(
   zsh-syntax-highlighting
   zsh-nvm
   zsh-z
+  zsh-vim-mode
 )
 
 source $ZSH/oh-my-zsh.sh
+
+bindkey "jj" vi-cmd-mode
 
 # User configuration
 
