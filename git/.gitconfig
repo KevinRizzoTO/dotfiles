@@ -1,6 +1,6 @@
 [user]
+	name = KevinRizzoTO
 	email = contact@kevinrizzo.com
-	name = Kevin
 [core]
 	filemode = false
 	pager = diff-so-fancy | less --tabs=4 -RFX
