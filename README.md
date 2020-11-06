@@ -29,3 +29,4 @@
 ## TODO
 
 - [x] git config
+- [ ] powerlevel10k config
