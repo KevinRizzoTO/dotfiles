@@ -51,7 +51,7 @@ ZSH_THEME=dracula
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -100,14 +100,6 @@ export NVM_DIR="$HOME/.nvm"
 
 # Add go to path
 export GOPATH=$HOME/go
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/kevin.r/Documents/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/kevin.r/Documents/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/kevin.r/Documents/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/kevin.r/Documents/google-cloud-sdk/completion.zsh.inc'; fi
-
-# Fish Autocomplete
-source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # Alias all go commands to richgo
 alias go=richgo
@@ -115,13 +107,8 @@ alias go=richgo
 # Alias for lazygit
 alias lg='lazygit'
 
-# Git alias
-alias gaa='git add --all'
-alias gcm='git commit -m'
-alias gpo='git push origin $(git rev-parse --abbrev-ref HEAD)'
-
 # Cat alias
-alias cat='bat -p'
+alias cat='bat'
 
 # Runner global
 alias run='runner -f $HOME/runnerfile.sh'
@@ -143,12 +130,4 @@ export TERM="xterm-256color"
 
 export EDITOR="nvim"
 
-[[ -s "/Users/kevin.r/.gvm/scripts/gvm" ]] && source "/Users/kevin.r/.gvm/scripts/gvm"
-# Add GOBIN to path
 
-export GOPATH=$HOME/go
-export PATH=$GOPATH/bin:$PATH
-
-# Add Python bin to PATH
-
-export PATH=$HOME/Library/Python/3.7/bin:$PATH
