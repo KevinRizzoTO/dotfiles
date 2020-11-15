@@ -1,6 +1,6 @@
 .DS_Store
 nvim/.config/configstore
-nvim/.config/coc
+nvim/.config/coc/*
 !nvim/.config/coc/extensions
 nvim/.config/coc/extensions/*
 !nvim/.config/coc/extensions/package.json
