@@ -63,6 +63,7 @@ export NVM_COMPLETION=true
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
   git
+  aws
   zsh-autosuggestions
   zsh-syntax-highlighting
   zsh-nvm
