@@ -64,6 +64,7 @@ export NVM_COMPLETION=true
 plugins=(
   git
   aws
+  tmux
   zsh-autosuggestions
   zsh-syntax-highlighting
   zsh-nvm
@@ -142,6 +143,10 @@ export PATH="/usr/local/opt/ruby/bin:$PATH"
 export TERM="xterm-256color"
 
 export EDITOR="nvim"
+
+# Setup direnv hook
+eval "$(direnv hook zsh)"
+
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

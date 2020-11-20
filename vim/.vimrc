@@ -10,14 +10,13 @@ call plug#begin('~/.vim/plugged')
 Plug 'easymotion/vim-easymotion'
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug '/usr/local/opt/fzf'
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
 Plug 'junegunn/fzf.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': 'yarn install'}
 Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-surround'
 Plug 'airblade/vim-gitgutter'
@@ -127,15 +126,12 @@ let g:go_highlight_generate_tags = 1
 
 
 " -------------------------------------------------------------------------------------------------
-" NERDTree
+" coc-explorer
 " -------------------------------------------------------------------------------------------------
 autocmd StdinReadPre * let s:std_in=1
-" Automatically open NERDTree when starting vim on a directory
-autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif 
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-:nnoremap <C-b> :NERDTreeToggle<CR>
-" Show hidden files
-let NERDTreeShowHidden=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'CocCommand explorer' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
+autocmd BufEnter * if (winnr("$") == 1 && &filetype == 'coc-explorer') | q | endif
+:nnoremap <C-b> :CocCommand explorer<CR>
 
 " -------------------------------------------------------------------------------------------------
 " UI
