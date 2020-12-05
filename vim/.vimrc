@@ -39,6 +39,8 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'justinmk/vim-sneak'
 Plug 'nelstrom/vim-visual-star-search'
 Plug 'antoinemadec/coc-fzf'
+Plug 'tpope/vim-repeat'
+Plug 'metakirby5/codi.vim'
 call plug#end()
 
 " -------------------------------------------------------------------------------------------------
@@ -188,6 +190,16 @@ let g:gitgutter_map_keys=0
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 au FileType vimwiki set syntax=markdown
 autocmd BufRead,BufNewFile *.md setlocal spell
+
+" -------------------------------------------------------------------------------------------------
+" codi
+" -------------------------------------------------------------------------------------------------
+let g:codi#interpreters = {
+                   \ 'python': {
+                       \ 'bin': 'python3',
+                       \ 'prompt': '^\(>>>\|\.\.\.\) ',
+                       \ },
+                   \ }
 
 " -------------------------------------------------------------------------------------------------
 " Key Mappings

@@ -3,7 +3,7 @@
 	email = contact@kevinrizzo.com
 [core]
 	filemode = false
-	pager = diff-so-fancy | less --tabs=4 -RFX
+	pager = delta --line-numbers --dark
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
