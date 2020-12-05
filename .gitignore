@@ -1,6 +1,7 @@
 .DS_Store
 nvim/.config/*
 !nvim/.config/coc
+!nvim/.config/nvim
 nvim/.config/coc/*
 !nvim/.config/coc/extensions
 nvim/.config/coc/extensions/*
