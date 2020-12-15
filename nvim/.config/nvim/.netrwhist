@@ -1,6 +1,0 @@
-let g:netrw_dirhistmax  =10
-let g:netrw_dirhistcnt =4
-let g:netrw_dirhist_4='/Users/kevinrizzo/dev/bptn-assessment-tool-frontend'
-let g:netrw_dirhist_3='/Users/kevinrizzo/dotfiles'
-let g:netrw_dirhist_2='/Users/kevinrizzo/dotfiles/nvim/.config/tmuxinator'
-let g:netrw_dirhist_1='/Users/kevinrizzo/dotfiles'

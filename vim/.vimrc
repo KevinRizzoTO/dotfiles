@@ -10,7 +10,6 @@ call plug#begin('~/.vim/plugged')
 Plug 'easymotion/vim-easymotion'
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug '/usr/local/opt/fzf'
-Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
 Plug 'junegunn/fzf.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -41,6 +40,8 @@ Plug 'nelstrom/vim-visual-star-search'
 Plug 'antoinemadec/coc-fzf'
 Plug 'tpope/vim-repeat'
 Plug 'metakirby5/codi.vim'
+Plug 'francoiscabrol/ranger.vim'
+Plug 'rbgrouleff/bclose.vim'
 call plug#end()
 
 " -------------------------------------------------------------------------------------------------
@@ -111,29 +112,15 @@ command! -nargs=0 Prettier :CocCommand prettier.formatFile
 " -------------------------------------------------------------------------------------------------
 " Go
 " -------------------------------------------------------------------------------------------------
-let g:go_doc_keywordprg_enabled = 0
-let g:go_fmt_command = "goimports"   
-let g:go_auto_type_info = 1           
-let g:go_def_mode='gopls'
-let g:go_info_mode='gopls'
-" disable vim-go :GoDef short cut (gd)
-" this is handled by LanguageClient [LC]
-let g:go_def_mapping_enabled = 0
-let g:go_highlight_functions = 1
-let g:go_highlight_function_parameters = 1
-let g:go_highlight_function_calls = 1
-let g:go_highlight_types = 1
-let g:go_highlight_fields = 1
-let g:go_highlight_generate_tags = 1
-
+autocmd BufWritePre *.go :call CocAction('runCommand', 'editor.action.organizeImport')
 
 " -------------------------------------------------------------------------------------------------
-" coc-explorer
+" ranger
 " -------------------------------------------------------------------------------------------------
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'CocCommand explorer' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
-autocmd BufEnter * if (winnr("$") == 1 && &filetype == 'coc-explorer') | q | endif
-:nnoremap <C-b> :CocCommand explorer<CR>
+let g:ranger_map_keys = 0
+let g:ranger_replace_netrw = 1
+let g:ranger_command_override = 'ranger --cmd "set show_hidden=true"'
+:nnoremap <C-b> :RangerCurrentFile<CR>
 
 " -------------------------------------------------------------------------------------------------
 " UI
@@ -370,9 +357,13 @@ au Syntax * RainbowParenthesesLoadBraces
 " ----------------------------------------------------------------------------
 if has('nvim')
   " Terminal mode mappings
-  
-  " Escaping terminal mode
-  tnoremap jj <C-\><C-n>
+
+  " Escape to normal mode, except for fzf
+  au! TermOpen * tnoremap <buffer> <Esc> <c-\><c-n>
+  au! FileType fzf tunmap <buffer> <Esc>
+
+  " Run FZF search
+  tnoremap <C-p> <C-\><C-n> :Files<CR>
 
   " Move across panes and exit terminal mode
   tnoremap <Leader>h <c-\><c-n><c-w>h
