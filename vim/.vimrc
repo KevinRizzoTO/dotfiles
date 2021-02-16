@@ -25,7 +25,6 @@ Plug 'kien/rainbow_parentheses.vim'
 Plug 'janko/vim-test'
 Plug 'tyru/open-browser.vim'
 Plug 'weirongxu/plantuml-previewer.vim'
-Plug 'scrooloose/vim-slumlord'
 Plug 'xolox/vim-notes'
 Plug 'xolox/vim-misc'
 Plug 'raimondi/delimitmate'
@@ -42,6 +41,7 @@ Plug 'tpope/vim-repeat'
 Plug 'metakirby5/codi.vim'
 Plug 'francoiscabrol/ranger.vim'
 Plug 'rbgrouleff/bclose.vim'
+Plug 'kdheepak/lazygit.nvim', { 'branch': 'nvim-v0.4.3' }
 call plug#end()
 
 " -------------------------------------------------------------------------------------------------
@@ -156,6 +156,9 @@ set softtabstop=2
 " when indenting with '>', use 2 spaces width
 set shiftwidth=2
 
+set termencoding=utf-8
+set encoding=utf-8
+
 " -------------------------------------------------------------------------------------------------
 " Airline
 " -------------------------------------------------------------------------------------------------
@@ -187,6 +190,13 @@ let g:codi#interpreters = {
                        \ 'prompt': '^\(>>>\|\.\.\.\) ',
                        \ },
                    \ }
+
+" -------------------------------------------------------------------------------------------------
+" .vimrc
+" -------------------------------------------------------------------------------------------------
+
+command! Vimrc :e ~/.vimrc
+command! VimrcReload :source ~/.vimrc
 
 " -------------------------------------------------------------------------------------------------
 " Key Mappings
@@ -259,6 +269,12 @@ nnoremap <S-tab> <c-w>W
 nnoremap <Leader>gs :G<CR>
 nnoremap <Leader>gj :diffget //3<CR>
 nnoremap <Leader>gf :diffget //2<CR>
+
+" ----------------------------------------------------------------------------
+" lazygit.nvim
+" ----------------------------------------------------------------------------
+nnoremap <silent> <leader>lg :LazyGit<CR>
+
 
 " ----------------------------------------------------------------------------
 " <tab> / <s-tab> | Circular windows navigation
@@ -357,10 +373,6 @@ au Syntax * RainbowParenthesesLoadBraces
 " ----------------------------------------------------------------------------
 if has('nvim')
   " Terminal mode mappings
-
-  " Escape to normal mode, except for fzf
-  au! TermOpen * tnoremap <buffer> <Esc> <c-\><c-n>
-  au! FileType fzf tunmap <buffer> <Esc>
 
   " Run FZF search
   tnoremap <C-p> <C-\><C-n> :Files<CR>

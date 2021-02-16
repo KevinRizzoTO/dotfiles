@@ -109,7 +109,7 @@ bindkey "jj" vi-cmd-mode
 # FZF
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-export FZF_DEFAULT_COMMAND='rg --hidden --no-ignore -l "" -g "!{.git,node_modules,vendor,.idea,.direnv,.vim}"'
+export FZF_DEFAULT_COMMAND='rg --hidden --no-ignore -l "" -g "!{.git,node_modules,vendor,.idea,.direnv,.vim,dist}"'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 # Add go to path
@@ -147,6 +147,9 @@ export EDITOR="nvim"
 # Setup direnv hook
 eval "$(direnv hook zsh)"
 
+# open in typora
+alias typora="open -a typora"
+
 # Codi
 # Usage: codi [filetype] [filename]
 codi() {
@@ -162,7 +165,7 @@ codi() {
 }
 
 # https://github.com/ranger/ranger/wiki/Integration-with-other-programs#changing-directories
-function ranger {
+function ra {
     local IFS=$'\t\n'
     local tempfile="$(mktemp -t tmp.XXXXXX)"
     local ranger_cmd=(
@@ -177,6 +180,13 @@ function ranger {
     fi
     command rm -f -- "$tempfile" 2>/dev/null
 }
+
+# virtualenvwrapper
+#
+export WORKON_HOME=$HOME/.virtualenvs
+export PROJECT_HOME=$HOME/Devel
+export VIRTUALENVWRAPPER_PYTHON=$(which python3)
+source /usr/local/bin/virtualenvwrapper.sh
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
