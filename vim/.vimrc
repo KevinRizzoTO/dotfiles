@@ -329,6 +329,8 @@ vnoremap H b
 
 " Fuzzy seach for files
 nnoremap <C-p> :Files<Cr>
+" Start search for text in project
+nnoremap <C-f> :Rg<Cr>
 " Search through all commands
 nnoremap <Leader>p :Commands<Cr>
 " Search through all document symbols
@@ -376,6 +378,7 @@ if has('nvim')
 
   " Run FZF search
   tnoremap <C-p> <C-\><C-n> :Files<CR>
+  tnoremap <C-f> <C-\><C-n> :Rg<CR>
 
   " Move across panes and exit terminal mode
   tnoremap <Leader>h <c-\><c-n><c-w>h
