@@ -10,7 +10,7 @@
 - [Rectangle](https://rectangleapp.com) `brew cask install rectangle`
 - [Sequel Pro](https://www.sequelpro.com/) `brew cask install sequel-pro`
 - [oh my zsh](https://github.com/ohmyzsh/ohmyzsh) `sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"`
-- [fzf](https://github.com/junegunn/fzf) `brew install fzf`
+- [fzf](https://github.com/junegunn/fzf) `brew install fzf && $(brew --prefix)/opt/fzf/install`
 - [bat](https://github.com/sharkdp/bat) `brew install bat`
 - [Neovim](https://neovim.io/) `brew install neovim`
 - [rg](https://github.com/BurntSushi/ripgrep) `brew install rg`
@@ -29,4 +29,4 @@
 ## TODO
 
 - [x] git config
-- [ ] powerlevel10k config
+- [x] powerlevel10k config

@@ -8,3 +8,5 @@ nvim/.config/coc/*
 !nvim/.config/coc/extensions
 nvim/.config/coc/extensions/*
 !nvim/.config/coc/extensions/package.json
+vscode/Library/Application Support/Code/*
+!vscode/Library/Application Support/Code/User/settings.json

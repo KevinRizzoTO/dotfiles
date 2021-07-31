@@ -1,5 +1,5 @@
 {
-  "editor.wordWrap": true,
+  "editor.wordWrap": "on",
   "editor.wordWrapColumn": 1,
   "editor.fontFamily": "Fira Code Retina, Fira Code, Menlo, Monaco, 'Courier New', monospace",
   "editor.fontLigatures": true,
@@ -505,14 +505,17 @@
       "name": "Vue Green",
       "value": "#42b883"
     }
-],
-"python.languageServer": "Pylance",
-"[html]": {
-  "editor.defaultFormatter": "esbenp.prettier-vscode"
-},
-"[json]": {
-  "editor.defaultFormatter": "esbenp.prettier-vscode"
-},
-"python.dataScience.alwaysTrustNotebooks": true,
-"python.dataScience.askForKernelRestart": false
+  ],
+  "python.languageServer": "Pylance",
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "workbench.editorAssociations": {
+    "*.ipynb": "jupyter-notebook"
+  },
+  "jupyter.alwaysTrustNotebooks": true,
+  "jupyter.askForKernelRestart": false
 }

@@ -15,6 +15,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
+Plug 'rbong/vim-flog'
 Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': 'yarn install'}
 Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-surround'
@@ -25,8 +26,6 @@ Plug 'kien/rainbow_parentheses.vim'
 Plug 'janko/vim-test'
 Plug 'tyru/open-browser.vim'
 Plug 'weirongxu/plantuml-previewer.vim'
-Plug 'xolox/vim-notes'
-Plug 'xolox/vim-misc'
 Plug 'raimondi/delimitmate'
 Plug 'wakatime/vim-wakatime'
 Plug 'tpope/vim-markdown'
@@ -37,11 +36,17 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'justinmk/vim-sneak'
 Plug 'nelstrom/vim-visual-star-search'
 Plug 'antoinemadec/coc-fzf'
+Plug 'dense-analysis/ale'
+Plug 'embear/vim-localvimrc'
+Plug 'fszymanski/fzf-quickfix', {'on': 'Quickfix'}
 Plug 'tpope/vim-repeat'
 Plug 'metakirby5/codi.vim'
 Plug 'francoiscabrol/ranger.vim'
 Plug 'rbgrouleff/bclose.vim'
 Plug 'kdheepak/lazygit.nvim', { 'branch': 'nvim-v0.4.3' }
+Plug 'ConradIrwin/vim-bracketed-paste'
+Plug 'puremourning/vimspector'
+Plug 'szw/vim-maximizer'
 call plug#end()
 
 " -------------------------------------------------------------------------------------------------
@@ -102,12 +107,25 @@ nmap <leader>rn <Plug>(coc-rename)
 " Remap for format selected region
 vmap <leader>f  <Plug>(coc-format-selected)
 nmap <leader>f  <Plug>(coc-format-selected)
-" Show current buffer diagnostics
-nnoremap <silent> <leader>a  :CocList --input=<c-r>=expand("%")<cr> diagnostics<cr>
-nnoremap <silent> <leader><leader>a  :CocFzfList diagnostics<cr>
 
-" Add command to run Prettier on current buffer
-command! -nargs=0 Prettier :CocCommand prettier.formatFile
+nnoremap <Leader>a :CocFzfList diagnostics<CR>
+
+command CocFormat :call CocAction('format')
+
+" -------------------------------------------------------------------------------------------------
+" ALE
+" -------------------------------------------------------------------------------------------------
+let g:ale_disable_lsp = 1
+
+" -------------------------------------------------------------------------------------------------
+" vim-localvimrc
+" -------------------------------------------------------------------------------------------------
+let g:localvimrc_whitelist='.*'
+
+" -------------------------------------------------------------------------------------------------
+" fzf-quickfix
+" -------------------------------------------------------------------------------------------------
+nnoremap <Leader>q :Quickfix<CR>
 
 " -------------------------------------------------------------------------------------------------
 " Go
@@ -194,9 +212,13 @@ let g:codi#interpreters = {
 " -------------------------------------------------------------------------------------------------
 " .vimrc
 " -------------------------------------------------------------------------------------------------
-
 command! Vimrc :e ~/.vimrc
 command! VimrcReload :source ~/.vimrc
+
+" -------------------------------------------------------------------------------------------------
+" vimspector
+" -------------------------------------------------------------------------------------------------
+let g:vimspector_enable_mappings = 'HUMAN'
 
 " -------------------------------------------------------------------------------------------------
 " Key Mappings
@@ -207,6 +229,10 @@ command! VimrcReload :source ~/.vimrc
 " Move to word
 map  <Leader>w <Plug>(easymotion-bd-w)
 map  <Leader>e <Plug>(easymotion-bd-e)
+
+autocmd User EasyMotionPromptBegin silent! CocDisable
+autocmd User EasyMotionPromptEnd silent! CocEnable
+
 nnoremap J 5j
 nnoremap K 5k
 nnoremap <C-j> <C-d>
@@ -237,6 +263,9 @@ nnoremap <C-A> ggVG
 " Save current buffer shortcut
 nnoremap <C-s> :w<CR>
 
+" EX mode is stupid
+nnoremap Q <Nop>
+
 " ----------------------------------------------------------------------------
 " Quickfix
 " ----------------------------------------------------------------------------
@@ -258,12 +287,6 @@ nnoremap ]t :tabn<cr>
 nnoremap [t :tabp<cr>
 
 " ----------------------------------------------------------------------------
-" <tab> / <s-tab> | Circular windows navigation
-" ----------------------------------------------------------------------------
-nnoremap <tab>   <c-w>w
-nnoremap <S-tab> <c-w>W
-
-" ----------------------------------------------------------------------------
 " Git Fugitive
 " ----------------------------------------------------------------------------
 nnoremap <Leader>gs :G<CR>
@@ -277,20 +300,12 @@ nnoremap <silent> <leader>lg :LazyGit<CR>
 
 
 " ----------------------------------------------------------------------------
-" <tab> / <s-tab> | Circular windows navigation
-" ----------------------------------------------------------------------------
-nnoremap <tab>   <c-w>w
-nnoremap <S-tab> <c-w>W
-
-
-
-" ----------------------------------------------------------------------------
 " System Clipboard
 " ----------------------------------------------------------------------------
 
 " This sends all yanks to the system clipboard (requires building vim with
 " +clipboard support)
-set clipboard=unnamed
+set clipboard=unnamedplus
 
 vnoremap d "_d
 vnoremap <Leader>d "+d
@@ -324,6 +339,9 @@ vnoremap <C-l> $
 vnoremap <C-h> ^
 vnoremap L w
 vnoremap H b
+ 
+vnoremap < <gv
+vnoremap > >gv
 
 " VS Code Parity
 
@@ -334,7 +352,7 @@ nnoremap <C-f> :Rg<Cr>
 " Search through all commands
 nnoremap <Leader>p :Commands<Cr>
 " Search through all document symbols
-nnoremap <Leader>t :CocList outline<Cr>
+nnoremap <Leader>t :CocFzfList outline<Cr>
 " Split pane vertically
 nnoremap <C-\> :vsp<CR>
 
@@ -375,6 +393,7 @@ au Syntax * RainbowParenthesesLoadBraces
 " ----------------------------------------------------------------------------
 if has('nvim')
   " Terminal mode mappings
+  autocmd TermOpen * startinsert
 
   " Run FZF search
   tnoremap <C-p> <C-\><C-n> :Files<CR>

@@ -9,7 +9,7 @@ fi
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH=/Users/kevinrizzo/.oh-my-zsh
+export ZSH=/Users/krizzo/.oh-my-zsh
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -67,7 +67,7 @@ plugins=(
   tmux
   zsh-autosuggestions
   zsh-syntax-highlighting
-  zsh-nvm
+  nvm
   zsh-z
   zsh-vim-mode
 )
@@ -121,6 +121,9 @@ alias go=richgo
 # Alias for lazygit
 alias lg='lazygit'
 
+# Alias for lazydocker
+alias ld='lazydocker'
+
 # Cat alias
 alias cat='bat'
 
@@ -138,6 +141,13 @@ fi
 
 # Add homebrew ruby to path
 export PATH="/usr/local/opt/ruby/bin:$PATH"
+
+# Add JDK to PATH
+export PATH="/usr/local/opt/openjdk/bin:$PATH"
+
+# Add gems executables to PATH
+export PATH="/Users/krizzo/.local/share/gem/ruby/3.0.0/bin:$PATH"
+
 
 # Ensure colors are correct for tmux (and possibly others)
 export TERM="xterm-256color"
@@ -181,14 +191,13 @@ function ra {
     command rm -f -- "$tempfile" 2>/dev/null
 }
 
-# virtualenvwrapper
-#
-export WORKON_HOME=$HOME/.virtualenvs
-export PROJECT_HOME=$HOME/Devel
-export VIRTUALENVWRAPPER_PYTHON=$(which python3)
-source /usr/local/bin/virtualenvwrapper.sh
+kitty + complete setup zsh | source /dev/stdin
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 [[ -s "/Users/kevinrizzo/.gvm/scripts/gvm" ]] && source "/Users/kevinrizzo/.gvm/scripts/gvm"
+test -e /Users/krizzo/.iterm2_shell_integration.zsh && source /Users/krizzo/.iterm2_shell_integration.zsh || true
+
+# added by travis gem
+[ ! -s /Users/krizzo/.travis/travis.sh ] || source /Users/krizzo/.travis/travis.sh
