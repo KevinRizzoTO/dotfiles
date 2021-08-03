@@ -1,5 +1,7 @@
 M = {}
 
+local vim = vim
+
 -- Check if the packer tool exists
 local packer_exists = pcall(vim.cmd, [[packadd packer.nvim]])
 
@@ -25,6 +27,8 @@ if not packer_exists then
 end
 
 return require("packer").startup(function()
+  local use = use
+
   use("tpope/vim-fugitive")
   use("tpope/vim-repeat")
   use("tpope/vim-surround")
@@ -49,6 +53,7 @@ return require("packer").startup(function()
   use("akinsho/nvim-toggleterm.lua")
   use("ggandor/lightspeed.nvim")
   use("b3nj5m1n/kommentary")
+  use("rafcamlet/nvim-luapad")
   use({
     'phaazon/hop.nvim',
     as = 'hop'

@@ -2,8 +2,8 @@ require('plugins')
 
 -- alias
 
-local fn = vim.fn  
-local g = vim.g     
+local vim = vim
+local g = vim.g
 local opt = vim.opt
 
 local vimp = require('vimp')
@@ -54,12 +54,13 @@ opt.completeopt = 'menuone,noinsert,noselect'
 vim.cmd[[set shortmess+=c]]
 
 local saga = require('lspsaga')
+local completion_callback = require('completion').on_attach
+local lspconfig = require('lspconfig')
 
 saga.init_lsp_saga()
 
-local completion_callback = require('completion').on_attach
 
-local function attach_keybindings(client, bufnr)
+local function attach_keybindings(_, bufnr)
   vimp.add_buffer_maps(bufnr, function()
     -- adding to keybindings to a specific buffer isn't necessary for lspsaga
     -- do it since it is for nvim lspconfig which makes it easier to keep all bindings in one spot
@@ -69,16 +70,44 @@ local function attach_keybindings(client, bufnr)
     vimp.nnoremap('<Leader>rn', function() require('lspsaga.rename').rename() end)
     vimp.nnoremap('<C-b>', function() require('lspsaga.action').smart_scroll_with_saga(1) end)
     vimp.nnoremap('<C-f>', function() require('lspsaga.action').smart_scroll_with_saga(-1) end)
+    vimp.nnoremap('<Leader>=', function() vim.lsp.buf.formatting() end)
   end)
 end
 
-attach_fns = apply_on_attaches({ completion_callback, attach_keybindings })
+local attach_fns = apply_on_attaches({ completion_callback, attach_keybindings })
+
+local efm_language_configs = {
+  python = {
+    {
+      formatCommand = "autopep8 -",
+      formatStdin = true
+    }
+  }
+}
+
+local server_configs = {
+  efm = {
+    root_dir = lspconfig.util.root_pattern(".git"),
+    filetypes = vim.tbl_keys(efm_language_configs),
+    init_options = {documentFormatting = true},
+    settings = {
+      languages = efm_language_configs,
+      rootMarkers = { ".git/" },
+      log_level = 1,
+      log_file = '~/efm.log'
+    }
+  }
+}
 
 local function setup_servers()
   require'lspinstall'.setup()
   local servers = require'lspinstall'.installed_servers()
   for _, server in pairs(servers) do
-    require'lspconfig'[server].setup{on_attach=attach_fns}
+    local config = {on_attach=attach_fns}
+    if (server_configs[server] ~= nil) then
+      config = vim.tbl_extend("keep", config, server_configs[server])
+    end
+    lspconfig[server].setup(config)
   end
 end
 
@@ -163,6 +192,15 @@ vimp.nnoremap('<C-k>', '<C-u>')
 vimp.nnoremap('<C-l>', '$')
 vimp.nnoremap('<C-h>', '^')
 
+vimp.vnoremap('J', "5j")
+vimp.vnoremap('K', "5k")
+vimp.vnoremap('L', "w")
+vimp.vnoremap('H', "b")
+vimp.vnoremap('<C-j>', '<C-d>')
+vimp.vnoremap('<C-k>', '<C-u>')
+vimp.vnoremap('<C-l>', '$')
+vimp.vnoremap('<C-h>', '^')
+
 -- add extra lines in normal mode
 
 vimp.nnoremap('<Leader>o', 'o<ESC>')
@@ -186,7 +224,7 @@ vimp.nnoremap('_', '<Nop>')
 
 -- terminal mode
 
-vimp.tnoremap([[<C-\><C-\>]], [[<C-\><C-n>]])
+vimp.tnoremap([[<C-\>]], [[<C-\><C-n>]])
 vimp.tnoremap('<C-h>', [[<C-\><C-n><C-W>h]])
 vimp.tnoremap('<C-j>', [[<C-\><C-n><C-W>j]])
 vimp.tnoremap('<C-k>', [[<C-\><C-n><C-W>k]])
