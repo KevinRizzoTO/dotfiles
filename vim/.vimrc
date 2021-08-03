@@ -108,8 +108,6 @@ nmap <leader>rn <Plug>(coc-rename)
 vmap <leader>f  <Plug>(coc-format-selected)
 nmap <leader>f  <Plug>(coc-format-selected)
 
-nnoremap <Leader>a :CocFzfList diagnostics<CR>
-
 command CocFormat :call CocAction('format')
 
 " -------------------------------------------------------------------------------------------------
@@ -126,6 +124,7 @@ let g:localvimrc_whitelist='.*'
 " fzf-quickfix
 " -------------------------------------------------------------------------------------------------
 nnoremap <Leader>q :Quickfix<CR>
+nnoremap <Leader>a :Quickfix!<CR>
 
 " -------------------------------------------------------------------------------------------------
 " Go
@@ -145,11 +144,10 @@ let g:ranger_command_override = 'ranger --cmd "set show_hidden=true"'
 " -------------------------------------------------------------------------------------------------
 set relativenumber " Use relative line numbers
 set rnu
+set termguicolors
 
 " set theme
-let g:dracula_italic = 0
-let g:dracula_colorterm = 0
-colorscheme dracula 
+colorscheme dracula
 
 " set line number colour to grey
 highlight LineNr ctermfg=grey 
