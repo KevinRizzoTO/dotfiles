@@ -59,7 +59,6 @@ local lspconfig = require('lspconfig')
 
 saga.init_lsp_saga()
 
-
 local function attach_keybindings(_, bufnr)
   vimp.add_buffer_maps(bufnr, function()
     -- adding to keybindings to a specific buffer isn't necessary for lspsaga
@@ -68,7 +67,7 @@ local function attach_keybindings(_, bufnr)
     vimp.nnoremap('gd', function() require('lspsaga.provider').preview_definition() end)
     vimp.nnoremap('gh', function() require('lspsaga.hover').render_hover_doc() end)
     vimp.nnoremap('<Leader>rn', function() require('lspsaga.rename').rename() end)
-    vimp.nnoremap('<C-b>', function() require('lspsaga.action').smart_scroll_with_saga(1) end)
+    vimp.nnoremap('<C-n>', function() require('lspsaga.action').smart_scroll_with_saga(1) end)
     vimp.nnoremap('<C-f>', function() require('lspsaga.action').smart_scroll_with_saga(-1) end)
     vimp.nnoremap('<Leader>=', function() vim.lsp.buf.formatting() end)
   end)
