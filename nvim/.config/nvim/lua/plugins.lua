@@ -35,7 +35,6 @@ return require("packer").startup(function()
 
   use("janko/vim-test")
   use("raimondi/delimitmate")
-  use("embear/vim-localvimrc")
   use("wakatime/vim-wakatime")
   use("editorconfig/editorconfig-vim")
   use("nelstrom/vim-visual-star-search")
@@ -45,6 +44,7 @@ return require("packer").startup(function()
   use("shaunsingh/nord.nvim")
   use("Mofiqul/dracula.nvim")
   use({"nvim-treesitter/nvim-treesitter", run = ":TSUpdate"})
+  use("nvim-treesitter/nvim-treesitter-textobjects")
   use("neovim/nvim-lspconfig")
   use("glepnir/lspsaga.nvim")
   use("nvim-lua/completion-nvim")
@@ -54,6 +54,12 @@ return require("packer").startup(function()
   use("ggandor/lightspeed.nvim")
   use("b3nj5m1n/kommentary")
   use("rafcamlet/nvim-luapad")
+  use({
+    'lewis6991/gitsigns.nvim',
+    requires = {
+      'nvim-lua/plenary.nvim'
+    }
+  })
   use({
     'phaazon/hop.nvim',
     as = 'hop'

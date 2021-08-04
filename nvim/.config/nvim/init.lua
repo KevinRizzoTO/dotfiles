@@ -26,11 +26,9 @@ opt.relativenumber = true
 opt.timeoutlen = 250
 opt.termguicolors = true
 
+opt.exrc = true
+
 g.mapleader = ' '
-
--- vim-localvimrc
-
-g.localvimrc_whitelist = '.*'
 
 -- ranger
 
@@ -123,7 +121,24 @@ local ts = require("nvim-treesitter.configs")
 ts.setup({
   ensure_installed = 'maintained',
   highlight = {enable = true},
-  indent = {enable = true}
+  indent = {enable = true},
+  textobjects = {
+    select = {
+      enable = true,
+      lookahead = true,
+      keymaps = {
+        ["af"] = "@function.outer",
+        ["if"] = "@function.inner",
+        ["ac"] = "@conditional.outer",
+        ["ic"] = "@conditional.inner",
+        -- I don't think I've ever actually used the paragraph text object :P so why not
+        ["ap"] = "@parameter.outer",
+        ["ip"] = "@parameter.inner",
+        ["al"] = "@loop.outer",
+        ["il"] = "@loop.inner"
+      },
+    },
+  },
 })
 
 -- Telescope
@@ -140,6 +155,10 @@ require('telescope').setup{
     file_ignore_patterns = { ".git/.*" }
   }
 }
+
+-- gitsigns
+
+require('gitsigns').setup()
 
 -- toggle term
 
@@ -246,20 +265,21 @@ vimp.vnoremap('d', '"_d')
 vimp.vnoremap('<Leader>d', '"+d')
 vimp.vnoremap('D', '"_D')
 vimp.vnoremap('<Leader>D', '"+D')
-vimp.vnoremap('dd', '"dd')
-vimp.vnoremap('<Leader>dd', '"+dd')
+-- don't use vimp here to get around mapping conflict error
+vim.api.nvim_set_keymap('v', 'dd', '"dd', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('v', '<Leader>dd', '"+dd', { noremap = true, silent = true })
 
 vimp.nnoremap('d', '"_d')
 vimp.nnoremap('<Leader>d', '"+d')
 vimp.nnoremap('D', '"_D')
 vimp.nnoremap('<Leader>D', '"+D')
-vimp.nnoremap('dd', '"_dd')
-vimp.nnoremap('<Leader>dd', '"+dd')
+vim.api.nvim_set_keymap('n', 'dd', '"_dd', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Leader>dd', '"+dd', { noremap = true, silent = true })
 
 vimp.vnoremap('c', '"_c')
 vimp.vnoremap('C', '"_C')
-vimp.vnoremap('cc', '"_cc')
+vim.api.nvim_set_keymap('v', 'cc', '"_cc', { noremap = true, silent = true })
 
 vimp.nnoremap('c', '"_c')
 vimp.nnoremap('C', '"_C')
-vimp.nnoremap('cc', '"_cc')
+vim.api.nvim_set_keymap('n', 'cc', '"_cc', { noremap = true, silent = true })
