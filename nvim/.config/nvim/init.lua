@@ -10,7 +10,7 @@ local vimp = require('vimp')
 
 -- colorscheme
 
-vim.cmd[[colorscheme nord]]
+vim.cmd[[colorscheme dracula]]
 
 -- options
 
@@ -25,6 +25,7 @@ opt.hidden = true
 opt.relativenumber = true
 opt.timeoutlen = 250
 opt.termguicolors = true
+vim.cmd[[set noshowmode]]
 
 opt.exrc = true
 
@@ -35,6 +36,7 @@ g.mapleader = ' '
 g.ranger_map_keys = 0
 g.ranger_replace_netrw = 1
 g.ranger_command_override = 'ranger --cmd "set show_hidden=true"'
+g.ranger_open_new_tab = 0
 
 vimp.nnoremap('<C-b>', ':RangerCurrentFile<CR>')
 
@@ -156,14 +158,26 @@ require('telescope').setup{
   }
 }
 
+-- hop
+
+require'hop'.setup()
+
 -- gitsigns
 
 require('gitsigns').setup()
 
+-- lualine
+
+require('lualine').setup({
+  options = {
+    theme = 'dracula'
+  }
+})
+
 -- toggle term
 
 require('toggleterm').setup({
-  open_mapping = [[<C-t>]]
+  open_mapping = '`'
 })
 
 -- lazygit
@@ -198,6 +212,8 @@ vimp.nnoremap('<Leader>t', function() require('telescope.builtin').lsp_document_
 vimp.nnoremap('<Leader>a', function() require('telescope.builtin').lsp_document_diagnostics() end)
 
 vimp.nnoremap('<Leader>w', function() require('hop').hint_words() end)
+
+vimp.nnoremap('<Leader>f', function() require('telescope.builtin').live_grep() end)
 
 -- movement helpers
 
@@ -256,6 +272,8 @@ vimp.nnoremap([[<C-\>]], ":vsp<CR>")
 
 vimp.nnoremap('<C-]>', ':tabn<CR>')
 vimp.nnoremap('<C-[>', ':tabp<CR>')
+vimp.nnoremap('<C-t>', ':tabnew<CR>')
+vimp.nnoremap('<C-w>', ':tabclose<CR>')
 
 -- clipboard
 

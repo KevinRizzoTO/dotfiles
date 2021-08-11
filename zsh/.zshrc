@@ -124,12 +124,9 @@ alias lg='lazygit'
 # Alias for lazydocker
 alias ld='lazydocker'
 
-# Cat alias
+# Cat alias/bat config
 alias cat='bat'
-
-# Runner global
-alias run='runner -f $HOME/runnerfile.sh'
-alias runf='runner -f $HOME/runnerfile.sh -l | fzf | xargs -o runner -f $HOME/runnerfile.sh'
+export BAT_THEME="Dracula"
 
 # .gitignore generate
 function gi() { curl -sLw n https://www.gitignore.io/api/$@ ;}
@@ -154,11 +151,9 @@ export TERM="xterm-256color"
 
 export EDITOR="nvim"
 
+
 # Setup direnv hook
 eval "$(direnv hook zsh)"
-
-# open in typora
-alias typora="open -a typora"
 
 # Codi
 # Usage: codi [filetype] [filename]

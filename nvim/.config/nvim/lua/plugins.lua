@@ -1,5 +1,3 @@
-M = {}
-
 local vim = vim
 
 -- Check if the packer tool exists
@@ -41,8 +39,8 @@ return require("packer").startup(function()
   use("metakirby5/codi.vim")
   use({"francoiscabrol/ranger.vim", requires = {"rbgrouleff/bclose.vim"}})
   use("szw/vim-maximizer")
+  use("dracula/vim", {as = "dracula"})
   use("shaunsingh/nord.nvim")
-  use("Mofiqul/dracula.nvim")
   use({"nvim-treesitter/nvim-treesitter", run = ":TSUpdate"})
   use("nvim-treesitter/nvim-treesitter-textobjects")
   use("neovim/nvim-lspconfig")
@@ -54,6 +52,8 @@ return require("packer").startup(function()
   use("ggandor/lightspeed.nvim")
   use("b3nj5m1n/kommentary")
   use("rafcamlet/nvim-luapad")
+  use("kyazdani42/nvim-web-devicons")
+  use("hoob3rt/lualine.nvim")
   use({
     'lewis6991/gitsigns.nvim',
     requires = {
