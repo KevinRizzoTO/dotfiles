@@ -57,9 +57,17 @@ local saga = require('lspsaga')
 local completion_callback = require('completion').on_attach
 local lspconfig = require('lspconfig')
 
+vim.cmd([[
+  augroup CompletionTriggerCharacter
+    autocmd!
+    autocmd BufEnter * let g:completion_trigger_character = ['.']
+    autocmd BufEnter *.py let g:completion_trigger_character = ['.', '[']
+  augroup end
+]])
+
 saga.init_lsp_saga()
 
-local function attach_keybindings(_, bufnr)
+local function attach_lsp_to_buffer(client, bufnr)
   vimp.add_buffer_maps(bufnr, function()
     -- adding to keybindings to a specific buffer isn't necessary for lspsaga
     -- do it since it is for nvim lspconfig which makes it easier to keep all bindings in one spot
@@ -71,9 +79,13 @@ local function attach_keybindings(_, bufnr)
     vimp.nnoremap('<C-f>', function() require('lspsaga.action').smart_scroll_with_saga(-1) end)
     vimp.nnoremap('<Leader>=', function() vim.lsp.buf.formatting() end)
   end)
+
+  if client.resolved_capabilities.document_formatting then
+    vim.cmd([[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()]])
+  end
 end
 
-local attach_fns = apply_on_attaches({ completion_callback, attach_keybindings })
+local attach_fns = apply_on_attaches({ completion_callback, attach_lsp_to_buffer })
 
 local efm_language_configs = {
   python = {
@@ -182,10 +194,7 @@ require('toggleterm').setup({
 
 -- lazygit
 
-local Terminal  = require('toggleterm.terminal').Terminal
-local lazygit = Terminal:new({ cmd = "lazygit", hidden = true, direction = 'float' })
-
-vimp.nnoremap('<Leader>g', function() lazygit:toggle() end)
+vimp.nnoremap('<Leader>g', ':LazyGit<CR>')
 
 -- highlighted yank
 

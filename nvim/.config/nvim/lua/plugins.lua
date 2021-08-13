@@ -60,6 +60,7 @@ return require("packer").startup(function()
       'nvim-lua/plenary.nvim'
     }
   })
+  use('kdheepak/lazygit.nvim')
   use({
     'phaazon/hop.nvim',
     as = 'hop'
