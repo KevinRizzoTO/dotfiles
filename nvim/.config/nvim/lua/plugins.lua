@@ -31,7 +31,7 @@ return require("packer").startup(function()
   use("tpope/vim-repeat")
   use("tpope/vim-surround")
 
-  use("janko/vim-test")
+
   use("raimondi/delimitmate")
   use("wakatime/vim-wakatime")
   use("editorconfig/editorconfig-vim")
@@ -69,4 +69,12 @@ return require("packer").startup(function()
     'nvim-telescope/telescope.nvim',
     requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
   })
+  use({ "rcarriga/vim-ultest", requires = {"vim-test/vim-test"}, run = ":UpdateRemotePlugins" })
+
+  -- DAP
+
+  use('mfussenegger/nvim-dap')
+  use('nvim-telescope/telescope-dap.nvim')
+  use('mfussenegger/nvim-dap-python')
+  use('rcarriga/nvim-dap-ui')
 end)

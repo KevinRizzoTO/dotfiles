@@ -155,11 +155,16 @@ ts.setup({
   },
 })
 
+-- vim-ultest
+
+g.ultest_use_pty = 1
+
 -- Telescope
 
 local actions = require('telescope.actions')
+local telescope = require('telescope')
 
-require('telescope').setup{
+telescope.setup{
   defaults = {
     mappings = {
       i = {
@@ -170,9 +175,32 @@ require('telescope').setup{
   }
 }
 
+vimp.nnoremap('<C-p>', function()
+  require('telescope.builtin').find_files({
+    hidden = true,
+    follow = true
+  })
+end)
+
+vimp.nnoremap('<Leader>p', function() require('telescope.builtin').commands() end)
+
+vimp.nnoremap('<Leader>t', function() require('telescope.builtin').lsp_document_symbols() end)
+
+vimp.nnoremap('<Leader>a', function() require('telescope.builtin').lsp_document_diagnostics() end)
+
+vimp.nnoremap('<Leader>f', function() require('telescope.builtin').live_grep() end)
+
+-- nvim-dap
+
+telescope.load_extension('dap')
+
+require('dap-python').setup(vim.api.nvim_eval("system('which python3')"):sub(1, -2))
+require('dapui').setup()
+
 -- hop
 
 require'hop'.setup()
+vimp.nnoremap('<Leader>w', function() require('hop').hint_words() end)
 
 -- gitsigns
 
@@ -205,24 +233,7 @@ vim.cmd[[
   augroup END
 ]]
 
--- Mappings
-
-vimp.nnoremap('<C-p>', function()
-  require('telescope.builtin').find_files({
-    hidden = true,
-    follow = true
-  })
-end)
-
-vimp.nnoremap('<Leader>p', function() require('telescope.builtin').commands() end)
-
-vimp.nnoremap('<Leader>t', function() require('telescope.builtin').lsp_document_symbols() end)
-
-vimp.nnoremap('<Leader>a', function() require('telescope.builtin').lsp_document_diagnostics() end)
-
-vimp.nnoremap('<Leader>w', function() require('hop').hint_words() end)
-
-vimp.nnoremap('<Leader>f', function() require('telescope.builtin').live_grep() end)
+-- Generic mappings
 
 -- movement helpers
 
