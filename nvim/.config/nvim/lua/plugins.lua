@@ -37,15 +37,17 @@ return require("packer").startup(function()
   use("editorconfig/editorconfig-vim")
   use("nelstrom/vim-visual-star-search")
   use("metakirby5/codi.vim")
-  use({"francoiscabrol/ranger.vim", requires = {"rbgrouleff/bclose.vim"}})
-  use("szw/vim-maximizer")
+  use("Pocco81/TrueZen.nvim")
   use("dracula/vim", {as = "dracula"})
   use("shaunsingh/nord.nvim")
   use({"nvim-treesitter/nvim-treesitter", run = ":TSUpdate"})
   use("nvim-treesitter/nvim-treesitter-textobjects")
   use("neovim/nvim-lspconfig")
-  use("glepnir/lspsaga.nvim")
-  use("nvim-lua/completion-nvim")
+  use({"hrsh7th/nvim-cmp", requires = {
+    'hrsh7th/cmp-buffer',
+    'hrsh7th/cmp-nvim-lsp',
+    'hrsh7th/cmp-path'
+  }})
   use("kabouzeid/nvim-lspinstall")
   use("svermeulen/vimpeccable")
   use("akinsho/nvim-toggleterm.lua")
@@ -77,4 +79,10 @@ return require("packer").startup(function()
   use('nvim-telescope/telescope-dap.nvim')
   use('mfussenegger/nvim-dap-python')
   use('rcarriga/nvim-dap-ui')
+
+  use("tamago324/lir.nvim")
+
+  use("akinsho/bufferline.nvim")
+
+  use("rbgrouleff/bclose.vim")
 end)

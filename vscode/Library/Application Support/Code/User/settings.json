@@ -517,5 +517,11 @@
     "*.ipynb": "jupyter-notebook"
   },
   "jupyter.alwaysTrustNotebooks": true,
-  "jupyter.askForKernelRestart": false
+  "jupyter.askForKernelRestart": false,
+  "notebook.cellToolbarLocation": {
+    "default": "right",
+    "jupyter-notebook": "left"
+  },
+  "vim.neovimConfigPath": "~/.config/nvim/init.lua",
+  "vim.neovimUseConfigFile": true
 }

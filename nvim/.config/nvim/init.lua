@@ -22,7 +22,8 @@ opt.softtabstop = 2
 opt.shiftwidth = 2
 
 opt.hidden = true
-opt.relativenumber = true
+-- opt.relativenumber = true
+opt.number = true
 opt.timeoutlen = 250
 opt.termguicolors = true
 vim.cmd[[set noshowmode]]
@@ -31,103 +32,17 @@ opt.exrc = true
 
 g.mapleader = ' '
 
--- ranger
+-- lir.nvim
 
-g.ranger_map_keys = 0
-g.ranger_replace_netrw = 1
-g.ranger_command_override = 'ranger --cmd "set show_hidden=true"'
-g.ranger_open_new_tab = 0
-
-vimp.nnoremap('<C-b>', ':RangerCurrentFile<CR>')
+require('config.lir')
 
 -- LSP
 
-local function apply_on_attaches(fns)
-  return function(...)
-    for _, fn in pairs(fns) do
-      fn(...)
-    end
-  end
-end
+require('config.lsp')
 
-opt.completeopt = 'menuone,noinsert,noselect'
-vim.cmd[[set shortmess+=c]]
+-- nvim-cmp
 
-local saga = require('lspsaga')
-local completion_callback = require('completion').on_attach
-local lspconfig = require('lspconfig')
-
-vim.cmd([[
-  augroup CompletionTriggerCharacter
-    autocmd!
-    autocmd BufEnter * let g:completion_trigger_character = ['.']
-    autocmd BufEnter *.py let g:completion_trigger_character = ['.', '[']
-  augroup end
-]])
-
-saga.init_lsp_saga()
-
-local function attach_lsp_to_buffer(client, bufnr)
-  vimp.add_buffer_maps(bufnr, function()
-    -- adding to keybindings to a specific buffer isn't necessary for lspsaga
-    -- do it since it is for nvim lspconfig which makes it easier to keep all bindings in one spot
-
-    vimp.nnoremap('gd', function() require('lspsaga.provider').preview_definition() end)
-    vimp.nnoremap('gh', function() require('lspsaga.hover').render_hover_doc() end)
-    vimp.nnoremap('<Leader>rn', function() require('lspsaga.rename').rename() end)
-    vimp.nnoremap('<C-n>', function() require('lspsaga.action').smart_scroll_with_saga(1) end)
-    vimp.nnoremap('<C-f>', function() require('lspsaga.action').smart_scroll_with_saga(-1) end)
-    vimp.nnoremap('<Leader>=', function() vim.lsp.buf.formatting() end)
-  end)
-
-  if client.resolved_capabilities.document_formatting then
-    vim.cmd([[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()]])
-  end
-end
-
-local attach_fns = apply_on_attaches({ completion_callback, attach_lsp_to_buffer })
-
-local efm_language_configs = {
-  python = {
-    {
-      formatCommand = "autopep8 -",
-      formatStdin = true
-    }
-  }
-}
-
-local server_configs = {
-  efm = {
-    root_dir = lspconfig.util.root_pattern(".git"),
-    filetypes = vim.tbl_keys(efm_language_configs),
-    init_options = {documentFormatting = true},
-    settings = {
-      languages = efm_language_configs,
-      rootMarkers = { ".git/" },
-      log_level = 1,
-      log_file = '~/efm.log'
-    }
-  }
-}
-
-local function setup_servers()
-  require'lspinstall'.setup()
-  local servers = require'lspinstall'.installed_servers()
-  for _, server in pairs(servers) do
-    local config = {on_attach=attach_fns}
-    if (server_configs[server] ~= nil) then
-      config = vim.tbl_extend("keep", config, server_configs[server])
-    end
-    lspconfig[server].setup(config)
-  end
-end
-
-setup_servers()
-
-require'lspinstall'.post_install_hook = function ()
-  setup_servers() -- reload installed servers
-  vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
-end
+require('config.nvim-cmp')
 
 -- treesitter
 
@@ -153,11 +68,26 @@ ts.setup({
       },
     },
   },
+  incremental_selection = {
+    enable = true,
+    keymaps = {
+      init_selection = "<Leader>v",
+      node_incremental = ".",
+      scope_incremental = ";",
+      node_decremental = ",",
+    },
+  }
 })
 
 -- vim-ultest
 
 g.ultest_use_pty = 1
+
+-- TrueZen.nvim
+
+require('true-zen').setup()
+
+vim.api.nvim_set_keymap('n', '<Leader>z', ':TZFocus<CR>', { noremap = true, silent = true })
 
 -- Telescope
 
@@ -171,7 +101,7 @@ telescope.setup{
         ["<esc>"] = actions.close,
       }
     },
-    file_ignore_patterns = { ".git/.*" }
+    file_ignore_patterns = { ".git/.*", "node_modules" }
   }
 }
 
@@ -190,11 +120,25 @@ vimp.nnoremap('<Leader>a', function() require('telescope.builtin').lsp_document_
 
 vimp.nnoremap('<Leader>f', function() require('telescope.builtin').live_grep() end)
 
+vimp.nnoremap('gr', function() require('telescope.builtin').lsp_references() end)
+
+local actions = require("telescope.actions")
+
+vimp.nnoremap('-', function() require('telescope.builtin').file_browser({
+  hidden = true,
+  initial_mode = 'normal',
+  attach_mappings = function(_, map)
+    map('n', 'l', actions.select_default)
+    map('n', 'h', actions.move_to_bottom + actions.select_default)
+    return true
+  end
+}) end)
+
 -- nvim-dap
 
 telescope.load_extension('dap')
 
-require('dap-python').setup(vim.api.nvim_eval("system('which python3')"):sub(1, -2))
+require('dap-python').setup(vim.fn.exepath('python3'))
 require('dapui').setup()
 
 -- hop
@@ -217,12 +161,19 @@ require('lualine').setup({
 -- toggle term
 
 require('toggleterm').setup({
-  open_mapping = '`'
+  open_mapping = '<Leader>`',
+  direction = 'float'
 })
 
 -- lazygit
 
 vimp.nnoremap('<Leader>g', ':LazyGit<CR>')
+
+-- bufferline.nvim
+
+require("bufferline").setup({
+  diagnostics = "nvim_lsp"
+})
 
 -- highlighted yank
 
@@ -243,7 +194,7 @@ vimp.nnoremap('L', "w")
 vimp.nnoremap('H', "b")
 vimp.nnoremap('<C-j>', '<C-d>')
 vimp.nnoremap('<C-k>', '<C-u>')
-vimp.nnoremap('<C-l>', '$')
+vim.api.nvim_set_keymap('n', '<C-l>', '$', { noremap = true, silent = true })
 vimp.nnoremap('<C-h>', '^')
 
 vimp.vnoremap('J', "5j")
@@ -284,16 +235,17 @@ vimp.tnoremap('<C-j>', [[<C-\><C-n><C-W>j]])
 vimp.tnoremap('<C-k>', [[<C-\><C-n><C-W>k]])
 vimp.tnoremap('<C-l>', [[<C-\><C-n><C-W>l]])
 
--- create new vertical split
+-- create new split
 
 vimp.nnoremap([[<C-\>]], ":vsp<CR>")
+vimp.nnoremap("|", ":sp<CR>")
 
 -- tabs
 
-vimp.nnoremap('<C-]>', ':tabn<CR>')
-vimp.nnoremap('<C-[>', ':tabp<CR>')
+vimp.nnoremap('<C-]>', ':bnext<CR>')
+vimp.nnoremap('<C-[>', ':bprev<CR>')
 vimp.nnoremap('<C-t>', ':tabnew<CR>')
-vimp.nnoremap('<C-w>', ':tabclose<CR>')
+vimp.nnoremap('<C-w>', ':Bclose<CR>')
 
 -- clipboard
 
