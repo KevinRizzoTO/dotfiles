@@ -22,8 +22,7 @@ opt.softtabstop = 2
 opt.shiftwidth = 2
 
 opt.hidden = true
--- opt.relativenumber = true
-opt.number = true
+opt.relativenumber = true
 opt.timeoutlen = 250
 opt.termguicolors = true
 vim.cmd[[set noshowmode]]
