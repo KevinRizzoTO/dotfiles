@@ -82,6 +82,8 @@ return require("packer").startup(function()
 
   use("tamago324/lir.nvim")
 
+  use("beauwilliams/focus.nvim")
+
   use("akinsho/bufferline.nvim")
 
   use("rbgrouleff/bclose.vim")

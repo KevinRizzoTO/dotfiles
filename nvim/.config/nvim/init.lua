@@ -133,6 +133,7 @@ vimp.nnoremap('-', function() require('telescope.builtin').file_browser({
   end
 }) end)
 
+
 -- nvim-dap
 
 telescope.load_extension('dap')
@@ -182,6 +183,10 @@ vim.cmd[[
     au TextYankPost * silent! lua vim.highlight.on_yank { higroup='IncSearch', timeout=200 }
   augroup END
 ]]
+
+-- focus.nvim
+
+require('focus').setup({relativenumber = true, cursorline = false})
 
 -- Generic mappings
 
@@ -236,14 +241,12 @@ vimp.tnoremap('<C-l>', [[<C-\><C-n><C-W>l]])
 
 -- create new split
 
-vimp.nnoremap([[<C-\>]], ":vsp<CR>")
-vimp.nnoremap("|", ":sp<CR>")
+vimp.nnoremap([[<C-\>]], ":FocusSplitNicely<CR>")
 
 -- tabs
 
 vimp.nnoremap('<C-]>', ':bnext<CR>')
 vimp.nnoremap('<C-[>', ':bprev<CR>')
-vimp.nnoremap('<C-t>', ':tabnew<CR>')
 vimp.nnoremap('<C-w>', ':Bclose<CR>')
 
 -- clipboard
