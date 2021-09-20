@@ -25,9 +25,12 @@ opt.hidden = true
 opt.relativenumber = true
 opt.timeoutlen = 250
 opt.termguicolors = true
+
+opt.winminwidth= 15
 vim.cmd[[set noshowmode]]
 
 opt.exrc = true
+
 
 g.mapleader = ' '
 
@@ -167,7 +170,27 @@ require('toggleterm').setup({
 
 -- lazygit
 
-vimp.nnoremap('<Leader>g', ':LazyGit<CR>')
+local Terminal  = require('toggleterm.terminal').Terminal
+local lazygit = Terminal:new({
+  cmd = "lazygit",
+  direction = 'float',
+  -- function to run on opening the terminal
+  on_open = function(term)
+    vim.cmd("startinsert!")
+    vim.api.nvim_buf_set_keymap(term.bufnr, "i", "q", "<cmd>close<CR>", {noremap = true, silent = true})
+    vim.api.nvim_buf_set_keymap(term.bufnr, "n", "q", "<cmd>close<CR>", {noremap = true, silent = true})
+  end,
+  -- function to run on closing the terminal
+  on_close = function(term)
+    vim.cmd("bufdo! e")
+  end,
+})
+
+function _G._lazygit_toggle()
+  lazygit:toggle()
+end
+
+vim.api.nvim_set_keymap("n", "<leader>g", "<cmd>lua _lazygit_toggle()<CR>", {noremap = true, silent = true})
 
 -- bufferline.nvim
 
@@ -184,9 +207,33 @@ vim.cmd[[
   augroup END
 ]]
 
--- focus.nvim
+-- golden_size
 
-require('focus').setup({relativenumber = true, cursorline = false})
+local function ignore_by_buftype(types)
+  local buftype = vim.api.nvim_buf_get_option(0, 'buftype')
+  for _, type in pairs(types) do
+    if type == buftype then
+      return 1
+    end
+  end
+end
+
+local golden_size = require("golden_size")
+-- set the callbacks, preserve the defaults
+golden_size.set_ignore_callbacks({
+  { ignore_by_buftype, {'terminal','quickfix', 'nerdtree'} },
+  { golden_size.ignore_float_windows }, -- default one, ignore float windows
+  { golden_size.ignore_by_window_flag }, -- default one, ignore windows with w:ignore_gold_size=1
+})
+
+-- vim-sneak
+
+vim.cmd[[
+map f <Plug>Sneak_f
+map F <Plug>Sneak_F
+map t <Plug>Sneak_t
+map T <Plug>Sneak_T
+]]
 
 -- Generic mappings
 
@@ -241,7 +288,8 @@ vimp.tnoremap('<C-l>', [[<C-\><C-n><C-W>l]])
 
 -- create new split
 
-vimp.nnoremap([[<C-\>]], ":FocusSplitNicely<CR>")
+vimp.nnoremap([[<C-\>]], ":vsp<CR>")
+vimp.nnoremap("|", ":sp<CR>")
 
 -- tabs
 

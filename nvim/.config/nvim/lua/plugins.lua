@@ -46,12 +46,13 @@ return require("packer").startup(function()
   use({"hrsh7th/nvim-cmp", requires = {
     'hrsh7th/cmp-buffer',
     'hrsh7th/cmp-nvim-lsp',
-    'hrsh7th/cmp-path'
+    'hrsh7th/cmp-path',
+    'hrsh7th/vim-vsnip',
+    'hrsh7th/cmp-vsnip'
   }})
   use("kabouzeid/nvim-lspinstall")
   use("svermeulen/vimpeccable")
   use("akinsho/nvim-toggleterm.lua")
-  use("ggandor/lightspeed.nvim")
   use("b3nj5m1n/kommentary")
   use("rafcamlet/nvim-luapad")
   use("kyazdani42/nvim-web-devicons")
@@ -82,9 +83,10 @@ return require("packer").startup(function()
 
   use("tamago324/lir.nvim")
 
-  use("beauwilliams/focus.nvim")
-
   use("akinsho/bufferline.nvim")
 
   use("rbgrouleff/bclose.vim")
+  use("dm1try/golden_size")
+
+  use("justinmk/vim-sneak")
 end)
