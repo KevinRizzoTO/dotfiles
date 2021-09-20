@@ -6,7 +6,6 @@ PACKAGES=(
 	rectangle
 	fzf
 	bat
-	neovim
 	rg
 	yarn
 	tmuxinator
@@ -37,3 +36,7 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.36.0/install.sh | bash
 # powerlevel10k
 
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+
+# neovim (at HEAD)
+
+brew install --HEAD neovim
