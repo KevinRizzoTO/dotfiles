@@ -3,6 +3,7 @@ config/.config/*
 !config/.config/coc
 !config/.config/nvim
 !config/.config/kitty
+!config/.config/ranger
 config/.config/nvim/pack/*
 config/.config/nvim/plugin/*
 config/.config/coc/*
