@@ -5,12 +5,13 @@ local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
 
 if fn.empty(fn.glob(install_path)) > 0 then
   packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+  vim.cmd [[packadd packer.nvim]]
 end
-
-vim.cmd([[packadd packer.nvim]])
 
 return require("packer").startup(function()
   local use = use
+
+  use({'wbthomason/packer.nvim'})
 
   use({ "tpope/vim-fugitive" })
   use({ "tpope/vim-repeat" })
@@ -18,7 +19,6 @@ return require("packer").startup(function()
 
 
   use({ "raimondi/delimitmate", lock = true })
-  use({ "wakatime/vim-wakatime", lock = true })
   use({ "editorconfig/editorconfig-vim", lock = true })
   use({ "nelstrom/vim-visual-star-search", lock = true })
   use({ "metakirby5/codi.vim", lock = true })
@@ -96,4 +96,7 @@ return require("packer").startup(function()
     end
   })
 
+  if packer_bootstrap then
+    require('packer').install()
+  end
 end)

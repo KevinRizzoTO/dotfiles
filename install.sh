@@ -1,21 +1,45 @@
-if [ $SPIN ]; then
+# oh my zsh
 
-  sudo apt-get install -y fzf
-  sudo apt-get install -y rg
-  sudo apt-get install -y stow
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+# powerlevel10k
+
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+
+# oh my zsh plugins
+
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+git clone https://github.com/agkozak/zsh-z ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-z
+git clone https://github.com/softmoth/zsh-vim-mode ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-vim-mode
+
+if [ $SPIN ]; then
 
   wget https://github.com/dandavison/delta/releases/download/0.9.1/git-delta-musl_0.9.1_amd64.deb
   sudo dpkg -i git-delta-musl_0.9.1_amd64.deb
 
-  sudo add-apt-repository ppa:neovim-ppa/stable -y
-  sudo apt-get install neovim
+  sudo add-apt-repository ppa:neovim-ppa/unstable -y
 
   wget https://github.com/sharkdp/bat/releases/download/v0.18.3/bat_0.18.3_amd64.deb
   sudo dpkg -i bat_0.18.3_amd64.deb 
 
   wget https://github.com/jesseduffield/lazygit/releases/download/v0.30.1/lazygit_0.30.1_Linux_x86_64.tar.gz
-  tar -xzvf lazygit_0.30.1_Linux_x86_64.tar.gz
-  sudo mv ./lazygit /usr/bin/lazygit
+  mkdir /tmp/lazygit
+  tar -xzvf lazygit_0.30.1_Linux_x86_64.tar.gz -C /tmp/lazygit/
+  sudo mv /tmp/lazygit/lazygit /usr/bin/lazygit
+
+  sudo apt-get install -y ranger caca-utils highlight atool w3m poppler-utils mediainfo fzf ripgrep stow neovim
+
+  stow git
+  stow nvim
+  stow p10k
+
+  rm ~/.zshrc
+  stow zsh
+
+  stow tmux
+  stow ranger
+  stow lazygit
 
 else
   # install Homebrew
@@ -86,17 +110,7 @@ else
 
 fi
 
-# oh my zsh
+# install neovim plugins
 
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-
-# powerlevel10k
-
-git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
-
-# oh my zsh plugins
-
-git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-git clone https://github.com/agkozak/zsh-z $ZSH_CUSTOM/plugins/zsh-z
-git clone https://github.com/softmoth/zsh-vim-mode $ZSH_CUSTOM/plugins/zsh-vim-mode
+nvim --headless -u NONE -c 'autocmd User PackerComplete quitall' -c 'lua require("plugins")'
+nvim --headless -c "TSInstallSync all" -c "q"

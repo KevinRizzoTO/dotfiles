@@ -113,7 +113,7 @@ export FZF_DEFAULT_COMMAND='rg --hidden --no-ignore -l "" -g "!{.git,node_module
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 # Alias for lazygit
-alias lg='lazygit'
+alias lg='CONFIG_DIR=$HOME/.config/lazygit lazygit'
 
 # Cat alias/bat config
 alias cat='bat'
@@ -140,7 +140,10 @@ export EDITOR="nvim"
 
 
 # Setup direnv hook
-eval "$(direnv hook zsh)"
+
+if ! command -v direnv &> /dev/null; then
+  eval "$(direnv hook zsh)"
+fi
 
 # https://github.com/ranger/ranger/wiki/Integration-with-other-programs#changing-directories
 function ra {
@@ -159,7 +162,10 @@ function ra {
     command rm -f -- "$tempfile" 2>/dev/null
 }
 
-kitty + complete setup zsh | source /dev/stdin
+if ! command -v kitty &> /dev/null; then
+  kitty + complete setup zsh | source /dev/stdin
+fi
+
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

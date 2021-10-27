@@ -6,4 +6,4 @@ git:
     pager: delta --dark --paging=never --24-bit-color=never --line-numbers
   overrideGpg: true
 os:
-    openCommand: "ttab 'vim {{filename}}'"
+  openCommand: "ttab 'vim {{filename}}'"
