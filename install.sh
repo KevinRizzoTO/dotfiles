@@ -1,70 +1,94 @@
-# install Homebrew
+if [ $SPIN ]; then
 
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  sudo apt-get install -y fzf
+  sudo apt-get install -y rg
+  sudo apt-get install -y stow
 
-# brew all the things
+  wget https://github.com/dandavison/delta/releases/download/0.9.1/git-delta-musl_0.9.1_amd64.deb
+  sudo dpkg -i git-delta-musl_0.9.1_amd64.deb
 
-brew install stow
+  sudo add-apt-repository ppa:neovim-ppa/stable -y
+  sudo apt-get install neovim
 
-brew install alfred
+  wget https://github.com/sharkdp/bat/releases/download/v0.18.3/bat_0.18.3_amd64.deb
+  sudo dpkg -i bat_0.18.3_amd64.deb 
 
-brew install insomnia
+  wget https://github.com/jesseduffield/lazygit/releases/download/v0.30.1/lazygit_0.30.1_Linux_x86_64.tar.gz
+  tar -xzvf lazygit_0.30.1_Linux_x86_64.tar.gz
+  sudo mv ./lazygit /usr/bin/lazygit
 
-brew install rectangle
+else
+  # install Homebrew
 
-brew install fzf
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-brew install bat
+  # brew all the things
 
-brew install rg
+  brew install stow
 
-brew install yarn
+  brew install alfred
 
-brew install tmuxinator
+  brew install insomnia
 
-brew install git-delta
+  brew install rectangle
 
-brew install lazygit
+  brew install fzf
 
-brew install kitty
+  brew install bat
 
-brew install font-clear-sans
+  brew install rg
 
-brew install font-consolas-for-powerline
+  brew install yarn
 
-brew install font-dejavu-sans-mono-for-powerline
+  brew install tmuxinator
 
-brew install font-fira-code
+  brew install git-delta
 
-brew install font-fira-mono-for-powerline
+  brew install lazygit
 
-brew install font-inconsolata
+  brew install kitty
 
-brew install font-inconsolata-for-powerline
+  brew install font-clear-sans
 
-brew install font-liberation-mono-for-powerline
+  brew install font-consolas-for-powerline
 
-brew install font-menlo-for-powerline
+  brew install font-dejavu-sans-mono-for-powerline
 
-brew install font-roboto
+  brew install font-fira-code
 
-brew install visual-studio-code
+  brew install font-fira-mono-for-powerline
 
-brew install --HEAD neovim
+  brew install font-inconsolata
 
-brew install direnv
+  brew install font-inconsolata-for-powerline
 
-brew install obsidian
+  brew install font-liberation-mono-for-powerline
 
-brew install saulpw/vd/visidata
+  brew install font-menlo-for-powerline
+
+  brew install font-roboto
+
+  brew install visual-studio-code
+
+  brew install --HEAD neovim
+
+  brew install direnv
+
+  brew install obsidian
+
+  brew install saulpw/vd/visidata
+
+  brew install ranger
+
+  brew install spotify
+
+  brew install docker
+
+fi
 
 # oh my zsh
 
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-
-# nvm
-
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.36.0/install.sh | bash
 
 # powerlevel10k
 

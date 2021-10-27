@@ -22,7 +22,10 @@ opt.softtabstop = 2
 opt.shiftwidth = 2
 
 opt.hidden = true
+
 opt.relativenumber = true
+opt.number = true
+
 opt.timeoutlen = 250
 opt.termguicolors = true
 
@@ -31,12 +34,10 @@ vim.cmd[[set noshowmode]]
 
 opt.exrc = true
 
+opt.shell = "/bin/zsh"
+
 
 g.mapleader = ' '
-
--- lir.nvim
-
-require('config.lir')
 
 -- LSP
 
@@ -81,9 +82,18 @@ ts.setup({
   }
 })
 
--- vim-ultest
+-- add embedded template parser so ERB works
 
-g.ultest_use_pty = 1
+local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
+
+parser_config.embedded_template = {
+  install_info = {
+    url = 'https://github.com/tree-sitter/tree-sitter-embedded-template',
+    files =  { 'src/parser.c' },
+    requires_generate_from_grammar  = true,
+  },
+  used_by = { 'eruby' }
+}
 
 -- TrueZen.nvim
 
@@ -118,23 +128,25 @@ vimp.nnoremap('<Leader>p', function() require('telescope.builtin').commands() en
 
 vimp.nnoremap('<Leader>t', function() require('telescope.builtin').lsp_document_symbols() end)
 
-vimp.nnoremap('<Leader>a', function() require('telescope.builtin').lsp_document_diagnostics() end)
-
-vimp.nnoremap('<Leader>f', function() require('telescope.builtin').live_grep() end)
+vim.api.nvim_set_keymap("n", "<leader>a", "<cmd>Trouble lsp_document_diagnostics<cr>",
+  {silent = true, noremap = true}
+)
 
 vimp.nnoremap('gr', function() require('telescope.builtin').lsp_references() end)
 
-local actions = require("telescope.actions")
+require('telescope').load_extension('fzf')
 
-vimp.nnoremap('-', function() require('telescope.builtin').file_browser({
-  hidden = true,
-  initial_mode = 'normal',
-  attach_mappings = function(_, map)
-    map('n', 'l', actions.select_default)
-    map('n', 'h', actions.move_to_bottom + actions.select_default)
-    return true
-  end
-}) end)
+-- ctrlsf.vim
+
+g.ctrlsf_default_root = 'project'
+
+vim.cmd([[
+  nmap <Leader>f <Plug>CtrlSFPrompt
+
+  let g:ctrlsf_extra_backend_args = {
+      \ 'rg': '--hidden',
+      \ }
+]])
 
 
 -- nvim-dap
@@ -165,37 +177,59 @@ require('lualine').setup({
 
 require('toggleterm').setup({
   open_mapping = '<Leader>`',
-  direction = 'float'
+  direction = 'float',
+  shade_terminals = false
 })
 
 -- lazygit
 
-local Terminal  = require('toggleterm.terminal').Terminal
-local lazygit = Terminal:new({
-  cmd = "lazygit",
-  direction = 'float',
-  -- function to run on opening the terminal
-  on_open = function(term)
-    vim.cmd("startinsert!")
-    vim.api.nvim_buf_set_keymap(term.bufnr, "i", "q", "<cmd>close<CR>", {noremap = true, silent = true})
-    vim.api.nvim_buf_set_keymap(term.bufnr, "n", "q", "<cmd>close<CR>", {noremap = true, silent = true})
-  end,
-  -- function to run on closing the terminal
-  on_close = function(term)
-    vim.cmd("bufdo! e")
-  end,
-})
-
-function _G._lazygit_toggle()
-  lazygit:toggle()
-end
-
-vim.api.nvim_set_keymap("n", "<leader>g", "<cmd>lua _lazygit_toggle()<CR>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<leader>g", ":LazyGit<CR>", {noremap = true, silent = true})
 
 -- bufferline.nvim
 
 require("bufferline").setup({
-  diagnostics = "nvim_lsp"
+  options = {
+    custom_filter = function(buf_number)
+      local buf_name = vim.fn.bufname(buf_number)
+
+      -- ranger buffers when visible are hard to get rid of
+      -- buffer names have pattern of $PORT:ranger in them
+      if string.match(buf_name, '%d+:ranger') then
+        return false
+      end
+
+      return true
+    end,
+    diagnostics = "nvim_lsp",
+    groups = {
+      options = {
+        toggle_hidden_on_enter = true -- when you re-enter a hidden group this options re-opens that group so the buffer is visible
+      },
+      items = {
+        {
+          name = "Tests", -- Mandatory
+          priority = 2, -- determines where it will appear relative to other groups (Optional)
+          icon = "", -- Optional
+          matcher = function(buf) -- Mandatory
+            return buf.filename:match('%_test') or buf.filename:match('%_spec')
+          end,
+        },
+        {
+          name = "Docs",
+          auto_close = false,  -- whether or not close this group if it doesn't contain the current buffer
+          matcher = function(buf)
+            return buf.filename:match('%.md') or buf.filename:match('%.txt')
+          end,
+        },
+        {
+          name = "Terminals",
+          matcher = function(buf)
+            return buf.buftype == 'terminal'
+          end
+        }
+      }
+    }
+  }
 })
 
 -- highlighted yank
@@ -229,11 +263,63 @@ golden_size.set_ignore_callbacks({
 -- vim-sneak
 
 vim.cmd[[
-map f <Plug>Sneak_f
-map F <Plug>Sneak_F
-map t <Plug>Sneak_t
-map T <Plug>Sneak_T
+  map f <Plug>Sneak_f
+  map F <Plug>Sneak_F
+  map t <Plug>Sneak_t
+  map T <Plug>Sneak_T
 ]]
+
+-- toggle between relative and absolute numbers
+
+vim.cmd([[
+  command ToggleRelativeNumbers :set relativenumber!
+]])
+
+-- ranger.vim
+
+g.ranger_replace_netrw = 1
+g.ranger_command_override = 'ranger --cmd "set show_hidden=true"'
+
+vim.api.nvim_set_keymap('n', '<C-b>', ':RangerCurrentFile<CR>', { noremap = true, silent = true })
+
+-- custom commands
+
+local running_terms = {}
+
+function _G._run_command(cmd)
+  local cmdTerm
+  if running_terms[cmd] ~= nil then
+    cmdTerm = running_terms[cmd]
+  else
+    local Terminal  = require('toggleterm.terminal').Terminal
+
+    cmdTerm = Terminal:new({
+      cmd = cmd,
+      direction = "float",
+      dir = vim.loop.cwd(),
+      close_on_exit = false,
+      on_open = function(term)
+        vim.cmd("startinsert!")
+        vim.api.nvim_buf_set_keymap(term.bufnr, "n", "q", "<cmd>close<CR>", {noremap = true, silent = true})
+      end,
+      on_exit = function(term)
+        running_terms[cmd] = nil
+      end
+    })
+
+    running_terms[cmd] = cmdTerm
+  end
+
+  cmdTerm:open()
+end
+
+vim.cmd([[
+  command -nargs=+ Dev :lua _run_command("/opt/dev/bin/dev " .. <q-args>)
+]])
+
+vim.cmd([[
+  command -nargs=+ Run :lua _run_command(<q-args>)
+]])
 
 -- Generic mappings
 

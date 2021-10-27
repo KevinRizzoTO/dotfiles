@@ -112,24 +112,14 @@ bindkey "jj" vi-cmd-mode
 export FZF_DEFAULT_COMMAND='rg --hidden --no-ignore -l "" -g "!{.git,node_modules,vendor,.idea,.direnv,.vim,dist}"'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
-# Add go to path
-export GOPATH=$HOME/go
-
-# Alias all go commands to richgo
-alias go=richgo
-
 # Alias for lazygit
 alias lg='lazygit'
-
-# Alias for lazydocker
-alias ld='lazydocker'
 
 # Cat alias/bat config
 alias cat='bat'
 export BAT_THEME="Dracula"
 
-# .gitignore generate
-function gi() { curl -sLw n https://www.gitignore.io/api/$@ ;}
+alias shopify-dev='~/src/github.com/Shopify/shopify-cli/bin/shopify'
 
 # Default to nvim for vim
 if type nvim > /dev/null 2>&1; then
@@ -138,9 +128,6 @@ fi
 
 # Add homebrew ruby to path
 export PATH="/usr/local/opt/ruby/bin:$PATH"
-
-# Add JDK to PATH
-export PATH="/usr/local/opt/openjdk/bin:$PATH"
 
 # Add gems executables to PATH
 export PATH="/Users/krizzo/.local/share/gem/ruby/3.0.0/bin:$PATH"
@@ -154,20 +141,6 @@ export EDITOR="nvim"
 
 # Setup direnv hook
 eval "$(direnv hook zsh)"
-
-# Codi
-# Usage: codi [filetype] [filename]
-codi() {
-  local syntax="${1:-python}"
-  shift
-  vim -c \
-    "let g:startify_disable_at_vimenter = 1 |\
-    set bt=nofile ls=0 noru nonu nornu |\
-    hi ColorColumn ctermbg=NONE |\
-    hi VertSplit ctermbg=NONE |\
-    hi NonText ctermfg=0 |\
-    Codi $syntax" "$@"
-}
 
 # https://github.com/ranger/ranger/wiki/Integration-with-other-programs#changing-directories
 function ra {
@@ -194,5 +167,7 @@ kitty + complete setup zsh | source /dev/stdin
 [[ -s "/Users/kevinrizzo/.gvm/scripts/gvm" ]] && source "/Users/kevinrizzo/.gvm/scripts/gvm"
 test -e /Users/krizzo/.iterm2_shell_integration.zsh && source /Users/krizzo/.iterm2_shell_integration.zsh || true
 
-# added by travis gem
-[ ! -s /Users/krizzo/.travis/travis.sh ] || source /Users/krizzo/.travis/travis.sh
+[ -f /opt/dev/dev.sh ] && source /opt/dev/dev.sh
+if [ -e /Users/kevinrizzo/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/kevinrizzo/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+
+[[ -f /opt/dev/sh/chruby/chruby.sh ]] && type chruby >/dev/null 2>&1 || chruby () { source /opt/dev/sh/chruby/chruby.sh; chruby "$@"; }
