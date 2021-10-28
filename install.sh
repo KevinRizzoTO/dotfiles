@@ -31,6 +31,7 @@ if [ $SPIN ]; then
   git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
   ~/.fzf/install --all
 
+
   sudo apt-get install -y ranger caca-utils highlight atool w3m poppler-utils mediainfo ripgrep stow neovim
 
   stow git
@@ -116,4 +117,4 @@ fi
 # install neovim plugins
 
 nvim --headless -u NONE -c 'autocmd User PackerComplete quitall' -c 'lua require("plugins")'
-nvim --headless -c "TSInstallSync all" -c "q"
+nvim --headless -c "TSInstallSync maintained" -c "q"
