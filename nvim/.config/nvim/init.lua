@@ -351,9 +351,9 @@ vimp.nnoremap("|", ":sp<CR>")
 
 -- tabs
 
-vimp.nnoremap('<C-]>', ':bnext<CR>')
-vimp.nnoremap('<C-[>', ':bprev<CR>')
-vimp.nnoremap('<C-w>', ':Bclose<CR>')
+vimp.nnoremap('<A-]>', ':bnext<CR>')
+vimp.nnoremap('<A-[>', ':bprev<CR>')
+vimp.nnoremap('<A-w>', ':Bclose<CR>')
 
 -- clipboard
 
