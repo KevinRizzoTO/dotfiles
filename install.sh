@@ -28,7 +28,10 @@ if [ $SPIN ]; then
   tar -xzvf lazygit_0.30.1_Linux_x86_64.tar.gz -C /tmp/lazygit/
   sudo mv /tmp/lazygit/lazygit /usr/bin/lazygit
 
-  sudo apt-get install -y ranger caca-utils highlight atool w3m poppler-utils mediainfo fzf ripgrep stow neovim
+  git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+  ~/.fzf/install --all
+
+  sudo apt-get install -y ranger caca-utils highlight atool w3m poppler-utils mediainfo ripgrep stow neovim
 
   stow git
   stow nvim

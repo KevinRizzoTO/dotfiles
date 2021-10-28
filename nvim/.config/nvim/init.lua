@@ -29,7 +29,6 @@ opt.number = true
 opt.timeoutlen = 250
 opt.termguicolors = true
 
-opt.winminwidth= 15
 vim.cmd[[set noshowmode]]
 
 opt.exrc = true
@@ -101,57 +100,29 @@ require('true-zen').setup()
 
 vim.api.nvim_set_keymap('n', '<Leader>z', ':TZFocus<CR>', { noremap = true, silent = true })
 
--- Telescope
-
-local actions = require('telescope.actions')
-local telescope = require('telescope')
-
-telescope.setup{
-  defaults = {
-    mappings = {
-      i = {
-        ["<esc>"] = actions.close,
-      }
-    },
-    file_ignore_patterns = { ".git/.*", "node_modules" }
-  }
-}
+-- fzf
 
 vimp.nnoremap('<C-p>', function()
-  require('telescope.builtin').find_files({
-    hidden = true,
-    follow = true
-  })
+  require('fzf-lua').files()
 end)
 
-vimp.nnoremap('<Leader>p', function() require('telescope.builtin').commands() end)
+vimp.nnoremap('<Leader>p', function() require('fzf-lua').commands() end)
 
-vimp.nnoremap('<Leader>t', function() require('telescope.builtin').lsp_document_symbols() end)
+vimp.nnoremap('<Leader>t', function() require('fzf-lua').lsp_document_symbols() end)
 
-vim.api.nvim_set_keymap("n", "<leader>a", "<cmd>Trouble lsp_document_diagnostics<cr>",
+vim.api.nvim_set_keymap("n", "<leader>a", "<cmd>lua require('fzf-lua').lsp_document_diagnostics()<cr>",
   {silent = true, noremap = true}
 )
 
-vimp.nnoremap('gr', function() require('telescope.builtin').lsp_references() end)
+vimp.nnoremap('<Leader>f', function() 
+  require('fzf-lua').live_grep({
+    rg_opts = "--hidden --column --line-number --no-heading --color=always --smart-case -g '!{.git,node_modules}/*'"
+  })
+end)
 
-require('telescope').load_extension('fzf')
-
--- ctrlsf.vim
-
-g.ctrlsf_default_root = 'project'
-
-vim.cmd([[
-  nmap <Leader>f <Plug>CtrlSFPrompt
-
-  let g:ctrlsf_extra_backend_args = {
-      \ 'rg': '--hidden',
-      \ }
-]])
-
+vimp.nnoremap('gr', function() require('fzf-lua').lsp_references() end)
 
 -- nvim-dap
-
-telescope.load_extension('dap')
 
 require('dap-python').setup(vim.fn.exepath('python3'))
 require('dapui').setup()
@@ -278,6 +249,7 @@ vim.cmd([[
 -- ranger.vim
 
 g.ranger_replace_netrw = 1
+g.ranger_map_keys = 0
 g.ranger_command_override = 'ranger --cmd "set show_hidden=true"'
 
 vim.api.nvim_set_keymap('n', '<C-b>', ':RangerCurrentFile<CR>', { noremap = true, silent = true })
