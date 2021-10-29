@@ -102,25 +102,40 @@ vim.api.nvim_set_keymap('n', '<Leader>z', ':TZFocus<CR>', { noremap = true, sile
 
 -- fzf
 
-vimp.nnoremap('<C-p>', function()
-  require('fzf-lua').files()
-end)
-
-vimp.nnoremap('<Leader>p', function() require('fzf-lua').commands() end)
-
-vimp.nnoremap('<Leader>t', function() require('fzf-lua').lsp_document_symbols() end)
-
-vim.api.nvim_set_keymap("n", "<leader>a", "<cmd>lua require('fzf-lua').lsp_document_diagnostics()<cr>",
+vim.api.nvim_set_keymap("n", "<C-p>", ":Files<CR>",
   {silent = true, noremap = true}
 )
 
-vimp.nnoremap('<Leader>f', function() 
-  require('fzf-lua').live_grep({
-    rg_opts = "--hidden --column --line-number --no-heading --color=always --smart-case -g '!{.git,node_modules}/*'"
-  })
-end)
+vim.api.nvim_set_keymap("n", "<C-f>", ":Rg<CR>",
+  {silent = true, noremap = true}
+)
 
-vimp.nnoremap('gr', function() require('fzf-lua').lsp_references() end)
+vim.api.nvim_set_keymap("n", "<Leader>p", ":Commands<CR>",
+  {silent = true, noremap = true}
+)
+
+
+vim.api.nvim_set_keymap("n", "<leader>a", ":LspDiagnostics 0<cr>",
+  {silent = true, noremap = true}
+)
+
+vim.cmd([[
+
+function! Build_quickfix_list(lines)
+  call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
+  copen
+  cc
+endfunction
+
+let g:fzf_action = {
+  \ 'ctrl-q': function('Build_quickfix_list'),
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit' }
+
+let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all'
+
+]])
 
 -- nvim-dap
 

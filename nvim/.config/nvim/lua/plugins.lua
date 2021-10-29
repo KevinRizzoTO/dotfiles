@@ -88,6 +88,10 @@ return require("packer").startup(function()
       'kyazdani42/nvim-web-devicons' } -- optional for icons
   }
 
+  use('junegunn/fzf')
+  use('junegunn/fzf.vim')
+  use('ojroques/nvim-lspfuzzy')
+
   use {'kevinhwang91/nvim-bqf'}
 
   if packer_bootstrap then
