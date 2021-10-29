@@ -34,7 +34,6 @@ if [ $SPIN ]; then
 
   sudo apt-get install -y ranger caca-utils highlight atool w3m poppler-utils mediainfo ripgrep stow neovim
 
-  stow git
   stow nvim
   stow p10k
 

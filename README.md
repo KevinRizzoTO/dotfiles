@@ -25,8 +25,3 @@
 ## How-tos
 
 - [Setting up git](https://medium.com/@gpp/configuring-ssh-key-for-github-9d2416a377ae)
-
-## TODO
-
-- [x] git config
-- [x] powerlevel10k config
