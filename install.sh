@@ -45,6 +45,9 @@ if [ $SPIN ]; then
   stow ranger
   stow lazygit
 
+  echo 'AddressFamily inet' | sudo tee -a /etc/ssh/sshd_config
+  sudo service ssh restart
+
 else
   # install Homebrew
 
