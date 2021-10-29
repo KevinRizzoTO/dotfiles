@@ -1,13 +1,5 @@
 .DS_Store
-config/.config/*
-!config/.config/coc
-!config/.config/nvim
-!config/.config/kitty
-!config/.config/ranger
-config/.config/ranger/plugins
-config/.config/nvim/pack/*
-config/.config/nvim/plugin/*
-config/.config/coc/*
-!config/.config/coc/extensions
-config/.config/coc/extensions/*
-!config/.config/coc/extensions/package.json
+ranger/.config/ranger/plugins/__pycache__
+lazygit/.config/lazygit/state.yml
+nvim/.config/nvim/plugin
+

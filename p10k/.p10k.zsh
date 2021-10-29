@@ -48,7 +48,7 @@
 
   function prompt_my_spin() {
     if [ $SPIN ]; then
-      p10k segment -i '🌀' -f yellow -t $SPIN_INSTANCE_FQDN
+      p10k segment -i '🌀' -f yellow -t ${SPIN_INSTANCE_FQDN:-"SPIN"}
     fi
   }
 

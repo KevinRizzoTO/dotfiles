@@ -31,8 +31,8 @@ if [ $SPIN ]; then
   git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
   ~/.fzf/install --all
 
-
-  sudo apt-get install -y ranger caca-utils highlight atool w3m poppler-utils mediainfo ripgrep stow neovim
+  sudo apt-get update -y
+  sudo apt-get install -y ranger caca-utils highlight atool poppler-utils mediainfo ripgrep stow neovim --fix-missing
 
   stow nvim
   stow p10k
