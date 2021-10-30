@@ -21,7 +21,6 @@ return require("packer").startup(function()
   use({ "raimondi/delimitmate", lock = true })
   use({ "editorconfig/editorconfig-vim", lock = true })
   use({ "nelstrom/vim-visual-star-search", lock = true })
-  use({ "metakirby5/codi.vim", lock = true })
   use({ "Pocco81/TrueZen.nvim", lock = true })
   use("dracula/vim", {as = "dracula", lock = true})
   use({"nvim-treesitter/nvim-treesitter", run = ":TSUpdate", lock = true})
@@ -41,6 +40,7 @@ return require("packer").startup(function()
   use({ "rafcamlet/nvim-luapad", lock = true })
   use({ "kyazdani42/nvim-web-devicons", lock = true })
   use({ "hoob3rt/lualine.nvim", lock = true })
+  use({ 'nvim-lua/plenary.nvim', lock = true})
   use({
     'lewis6991/gitsigns.nvim',
     requires = {
@@ -52,11 +52,6 @@ return require("packer").startup(function()
   use({
     'phaazon/hop.nvim',
     as = 'hop',
-    lock = true
-  })
-  use({
-    'nvim-telescope/telescope.nvim',
-    requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}},
     lock = true
   })
   use({ "vim-test/vim-test", lock = true })
@@ -75,17 +70,9 @@ return require("packer").startup(function()
 
   use({ "justinmk/vim-sneak", lock = true })
 
-  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make', lock = true }
-
   use("asvetliakov/vim-easymotion", {as = 'vsc-easymotion', lock = true})
 
   use("kassio/neoterm")
-
-  use { 'ibhagwan/fzf-lua',
-    requires = {
-      'vijaymarupudi/nvim-fzf',
-      'kyazdani42/nvim-web-devicons' } -- optional for icons
-  }
 
   use('junegunn/fzf')
   use('junegunn/fzf.vim')
