@@ -72,7 +72,6 @@ return require("packer").startup(function()
 
   use({ "francoiscabrol/ranger.vim"})
   use({ "rbgrouleff/bclose.vim", lock = true })
-  use({ "dm1try/golden_size", lock = true })
 
   use({ "justinmk/vim-sneak", lock = true })
 
