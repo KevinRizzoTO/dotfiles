@@ -346,6 +346,7 @@ vimp.nnoremap('<Leader>j', '<C-w>j')
 vimp.nnoremap('<Leader>k', '<C-w>k')
 
 vimp.nnoremap('<Leader>/', ':noh<CR>')
+vimp.nnoremap('<Leader>f', ':%s//g<LEFT><LEFT>')
 
 vimp.nnoremap('Q', '<Nop>')
 vimp.nnoremap('_', '<Nop>')
