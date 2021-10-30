@@ -214,7 +214,9 @@ require("bufferline").setup({
           end
         }
       }
-    }
+    },
+    show_close_icons = false,
+    show_buffer_close_icons = false
   }
 })
 
