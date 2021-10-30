@@ -102,11 +102,25 @@ vim.api.nvim_set_keymap('n', '<Leader>z', ':TZFocus<CR>', { noremap = true, sile
 
 -- fzf
 
-vim.api.nvim_set_keymap("n", "<C-p>", ":Files<CR>",
+vim.api.nvim_set_keymap("n", "<C-p>", ":Files!<CR>",
   {silent = true, noremap = true}
 )
 
-vim.api.nvim_set_keymap("n", "<C-f>", ":Rg<CR>",
+function _G._rg_fzf_search(search) 
+  vim.fn['fzf#vim#grep']('rg --column --line-number --no-heading --color=always --smart-case --no-ignore --hidden -g "!{.git,node_modules,vendor,.idea,.direnv,.vim,dist}" -- ' .. search, 1, vim.fn['fzf#vim#with_preview'](), 1)
+end
+
+function _G._rg_fzf_input(use_bang)
+  local search = vim.fn.input("Search: ", "")
+
+  if search == "" then
+    return
+  end
+
+  _rg_fzf_search(search, use_bang)
+end
+
+vim.api.nvim_set_keymap("n", "<C-f>", ":lua _rg_fzf_input()<CR>",
   {silent = true, noremap = true}
 )
 
@@ -134,6 +148,8 @@ let g:fzf_action = {
   \ 'ctrl-v': 'vsplit' }
 
 let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all'
+
+command! -bang -nargs=* Rg :lua _rg_fzf_input(<q-args>, <bang>0)<CR>
 
 ]])
 
@@ -349,9 +365,9 @@ vimp.nnoremap("|", ":sp<CR>")
 
 -- tabs
 
-vimp.nnoremap('<A-]>', ':bnext<CR>')
-vimp.nnoremap('<A-[>', ':bprev<CR>')
-vimp.nnoremap('<A-w>', ':Bclose<CR>')
+vimp.nnoremap(']b', ':BufferLineCycleNext<CR>')
+vimp.nnoremap('[b', ':BufferLineCyclePrev<CR>')
+vimp.nnoremap('bc', ':Bclose!<CR>')
 
 -- clipboard
 
