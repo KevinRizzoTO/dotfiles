@@ -183,10 +183,6 @@ require('toggleterm').setup({
   shade_terminals = false
 })
 
--- lazygit
-
-vim.api.nvim_set_keymap("n", "<leader>g", ":LazyGit<CR>", {noremap = true, silent = true})
-
 -- bufferline.nvim
 
 require("bufferline").setup({
@@ -259,6 +255,14 @@ vim.cmd[[
 vim.cmd([[
   command ToggleRelativeNumbers :set relativenumber!
 ]])
+
+-- fugitive
+
+vim.cmd([[
+  autocmd BufReadPost fugitive://* set bufhidden=delete
+]])
+
+vim.api.nvim_set_keymap("n", "<leader>g", ":G<CR>", {noremap = true, silent = true})
 
 -- ranger.vim
 
