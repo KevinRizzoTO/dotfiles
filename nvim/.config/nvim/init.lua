@@ -388,7 +388,7 @@ vimp.nnoremap("|", ":sp<CR>")
 
 vimp.nnoremap(']b', ':BufferLineCycleNext<CR>')
 vimp.nnoremap('[b', ':BufferLineCyclePrev<CR>')
-vimp.nnoremap('bc', ':Bclose!<CR>')
+vimp.nnoremap('<Leader>bc', ':bd!<CR>')
 
 -- quickfix
 
