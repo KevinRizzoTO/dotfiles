@@ -272,6 +272,22 @@ g.ranger_command_override = 'ranger --cmd "set show_hidden=true"'
 
 vim.api.nvim_set_keymap('n', '<C-b>', ':RangerCurrentFile<CR>', { noremap = true, silent = true })
 
+-- nvim bqf
+
+require('bqf').setup({
+  preview = {
+    should_preview_cb = function(bufnr)
+      local filename = vim.api.nvim_buf_get_name(bufnr)
+
+      if string.match(filename, "fugitive://") then
+        return false
+      end
+
+      return true
+    end
+  }  
+})
+
 -- custom commands
 
 local running_terms = {}
