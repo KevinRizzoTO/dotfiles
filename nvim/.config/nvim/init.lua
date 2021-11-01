@@ -262,7 +262,7 @@ vim.cmd([[
   autocmd BufReadPost fugitive://* set bufhidden=delete
 ]])
 
-vim.api.nvim_set_keymap("n", "<leader>g", ":G<CR>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<leader>g", ":tab G<CR>", {noremap = true, silent = true})
 
 -- ranger.vim
 
