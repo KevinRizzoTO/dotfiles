@@ -192,7 +192,7 @@ require("bufferline").setup({
 
       -- ranger buffers when visible are hard to get rid of
       -- buffer names have pattern of $PORT:ranger in them
-      if string.match(buf_name, '%d+:ranger') then
+      if string.match(buf_name, '%d+:ranger') or vim.bo[buf_number].filetype == 'qf' then
         return false
       end
 
