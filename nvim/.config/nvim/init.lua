@@ -158,11 +158,6 @@ command! -bang -nargs=* Rg :lua _rg_fzf_input(<q-args>, <bang>0)<CR>
 require('dap-python').setup(vim.fn.exepath('python3'))
 require('dapui').setup()
 
--- hop
-
-require'hop'.setup()
-vimp.nnoremap('<Leader>w', function() require('hop').hint_words() end)
-
 -- gitsigns
 
 require('gitsigns').setup()
@@ -242,13 +237,6 @@ vim.cmd[[
 ]]
 
 -- vim-sneak
-
-vim.cmd[[
-  map f <Plug>Sneak_f
-  map F <Plug>Sneak_F
-  map t <Plug>Sneak_t
-  map T <Plug>Sneak_T
-]]
 
 -- toggle between relative and absolute numbers
 

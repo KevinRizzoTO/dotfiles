@@ -49,11 +49,6 @@ return require("packer").startup(function()
     lock = true
   })
   use({ "kdheepak/lazygit.nvim", lock = true })
-  use({
-    'phaazon/hop.nvim',
-    as = 'hop',
-    lock = true
-  })
   use({ "vim-test/vim-test", lock = true })
 
   -- DAP
@@ -68,9 +63,14 @@ return require("packer").startup(function()
   use({ "francoiscabrol/ranger.vim"})
   use({ "rbgrouleff/bclose.vim", lock = true })
 
-  use({ "justinmk/vim-sneak", lock = true })
 
   use("asvetliakov/vim-easymotion", {as = 'vsc-easymotion', lock = true})
+  use({
+    'phaazon/hop.nvim',
+    as = 'hop',
+    lock = true
+  })
+  use('ggandor/lightspeed.nvim')
 
   use("kassio/neoterm")
 
