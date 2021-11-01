@@ -22,12 +22,12 @@ git clone https://github.com/softmoth/zsh-vim-mode ${ZSH_CUSTOM:-~/.oh-my-zsh/cu
 if [ $SPIN ]; then
 
   wget https://github.com/dandavison/delta/releases/download/0.9.1/git-delta-musl_0.9.1_amd64.deb
-  sudo wait_for_lock && sudo dpkg -i git-delta-musl_0.9.1_amd64.deb
+  wait_for_lock && sudo dpkg -i git-delta-musl_0.9.1_amd64.deb
 
-  sudo wait_for_lock && sudo add-apt-repository ppa:neovim-ppa/unstable -y
+  wait_for_lock && sudo add-apt-repository ppa:neovim-ppa/unstable -y
 
   wget https://github.com/sharkdp/bat/releases/download/v0.18.3/bat_0.18.3_amd64.deb
-  sudo wait_for_lock && sudo dpkg -i bat_0.18.3_amd64.deb 
+  wait_for_lock && sudo dpkg -i bat_0.18.3_amd64.deb 
 
   wget https://github.com/jesseduffield/lazygit/releases/download/v0.30.1/lazygit_0.30.1_Linux_x86_64.tar.gz
   mkdir /tmp/lazygit
@@ -37,8 +37,8 @@ if [ $SPIN ]; then
   git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
   ~/.fzf/install --all
 
-  sudo wait_for_lock && sudo apt-get update -y
-  sudo wait_for_lock && sudo apt-get install -y ranger caca-utils highlight atool poppler-utils mediainfo ripgrep stow neovim --fix-missing
+  wait_for_lock && sudo apt-get update -y
+  wait_for_lock && sudo apt-get install -y ranger caca-utils highlight atool poppler-utils mediainfo ripgrep stow neovim --fix-missing
 
   stow nvim
   stow p10k
