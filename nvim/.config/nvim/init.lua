@@ -374,6 +374,13 @@ vimp.nnoremap(']b', ':BufferLineCycleNext<CR>')
 vimp.nnoremap('[b', ':BufferLineCyclePrev<CR>')
 vimp.nnoremap('bc', ':Bclose!<CR>')
 
+-- quickfix
+
+vimp.nnoremap(']q', ':cnext<CR>')
+vimp.nnoremap('[q', ':cprev<CR>')
+vimp.nnoremap('[Q', ':first<CR>')
+vimp.nnoremap(']Q', ':clast<CR>')
+
 -- clipboard
 
 opt.clipboard = 'unnamedplus'
