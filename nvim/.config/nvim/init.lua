@@ -178,55 +178,6 @@ require('toggleterm').setup({
   shade_terminals = false
 })
 
--- bufferline.nvim
-
-require("bufferline").setup({
-  options = {
-    custom_filter = function(buf_number)
-      local buf_name = vim.fn.bufname(buf_number)
-
-      -- ranger buffers when visible are hard to get rid of
-      -- buffer names have pattern of $PORT:ranger in them
-      if string.match(buf_name, '%d+:ranger') or vim.bo[buf_number].filetype == 'qf' then
-        return false
-      end
-
-      return true
-    end,
-    diagnostics = "nvim_lsp",
-    groups = {
-      options = {
-        toggle_hidden_on_enter = true -- when you re-enter a hidden group this options re-opens that group so the buffer is visible
-      },
-      items = {
-        {
-          name = "Tests", -- Mandatory
-          priority = 2, -- determines where it will appear relative to other groups (Optional)
-          icon = "", -- Optional
-          matcher = function(buf) -- Mandatory
-            return buf.filename:match('%_test') or buf.filename:match('%_spec')
-          end,
-        },
-        {
-          name = "Docs",
-          auto_close = false,  -- whether or not close this group if it doesn't contain the current buffer
-          matcher = function(buf)
-            return buf.filename:match('%.md') or buf.filename:match('%.txt')
-          end,
-        },
-        {
-          name = "Terminals",
-          matcher = function(buf)
-            return buf.buftype == 'terminal'
-          end
-        }
-      }
-    },
-    show_close_icons = false,
-    show_buffer_close_icons = false
-  }
-})
-
 -- highlighted yank
 
 vim.cmd[[
@@ -378,11 +329,9 @@ vim.cmd([[
 vimp.nnoremap([[<C-\>]], ":vsp<CR>")
 vimp.nnoremap("|", ":sp<CR>")
 
--- tabs
+-- buffers
 
-vimp.nnoremap(']b', ':BufferLineCycleNext<CR>')
-vimp.nnoremap('[b', ':BufferLineCyclePrev<CR>')
-vimp.nnoremap('<Leader>bc', ':bd!<CR>')
+vim.api.nvim_set_keymap('n', '<Leader>b', ':ls<cr>:b<space>', { noremap = true, silent = true })
 
 -- quickfix
 

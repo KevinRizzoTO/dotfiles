@@ -58,8 +58,6 @@ return require("packer").startup(function()
   use({ "mfussenegger/nvim-dap-python", lock = true })
   use({ "rcarriga/nvim-dap-ui", lock = true })
 
-  use({ "akinsho/bufferline.nvim", lock = true })
-
   use({ "francoiscabrol/ranger.vim"})
   use({ "rbgrouleff/bclose.vim", lock = true })
 
