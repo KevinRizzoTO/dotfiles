@@ -70,6 +70,7 @@ plugins=(
   nvm
   zsh-z
   zsh-vim-mode
+  fzf-tab
 )
 
 source $ZSH/oh-my-zsh.sh
