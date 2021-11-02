@@ -94,12 +94,6 @@ parser_config.embedded_template = {
   used_by = { 'eruby' }
 }
 
--- TrueZen.nvim
-
-require('true-zen').setup()
-
-vim.api.nvim_set_keymap('n', '<Leader>z', ':TZFocus<CR>', { noremap = true, silent = true })
-
 -- fzf
 
 vim.api.nvim_set_keymap("n", "<C-p>", ":Files!<CR>",

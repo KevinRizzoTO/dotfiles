@@ -17,11 +17,10 @@ return require("packer").startup(function()
   use({ "tpope/vim-repeat" })
   use({ "tpope/vim-surround" })
 
-
   use({ "raimondi/delimitmate", lock = true })
   use({ "editorconfig/editorconfig-vim", lock = true })
   use({ "nelstrom/vim-visual-star-search", lock = true })
-  use({ "Pocco81/TrueZen.nvim", lock = true })
+
   use("dracula/vim", {as = "dracula", lock = true})
   use({"nvim-treesitter/nvim-treesitter", run = ":TSUpdate", lock = true})
   use({ "nvim-treesitter/nvim-treesitter-textobjects", lock = true })
@@ -41,13 +40,7 @@ return require("packer").startup(function()
   use({ "kyazdani42/nvim-web-devicons", lock = true })
   use({ "hoob3rt/lualine.nvim", lock = true })
   use({ 'nvim-lua/plenary.nvim', lock = true})
-  use({
-    'lewis6991/gitsigns.nvim',
-    requires = {
-      'nvim-lua/plenary.nvim'
-    },
-    lock = true
-  })
+  use({ 'lewis6991/gitsigns.nvim', lock = true })
   use({ "kdheepak/lazygit.nvim", lock = true })
   use({ "vim-test/vim-test", lock = true })
 
@@ -61,13 +54,7 @@ return require("packer").startup(function()
   use({ "francoiscabrol/ranger.vim"})
   use({ "rbgrouleff/bclose.vim", lock = true })
 
-
   use("asvetliakov/vim-easymotion", {as = 'vsc-easymotion', lock = true})
-  use({
-    'phaazon/hop.nvim',
-    as = 'hop',
-    lock = true
-  })
   use('ggandor/lightspeed.nvim')
 
   use("kassio/neoterm")
