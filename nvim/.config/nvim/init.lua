@@ -292,7 +292,7 @@ vimp.nnoremap("|", ":sp<CR>")
 
 -- buffers
 
-vim.api.nvim_set_keymap('n', '<Leader>b', ':ls<cr>:b<space>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Leader>b', ':Buffers<CR>', { noremap = true, silent = true })
 
 -- quickfix
 
