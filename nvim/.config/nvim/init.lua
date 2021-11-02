@@ -227,45 +227,6 @@ require('bqf').setup({
   }  
 })
 
--- custom commands
-
-local running_terms = {}
-
-function _G._run_command(cmd)
-  local cmdTerm
-  if running_terms[cmd] ~= nil then
-    cmdTerm = running_terms[cmd]
-  else
-    local Terminal  = require('toggleterm.terminal').Terminal
-
-    cmdTerm = Terminal:new({
-      cmd = cmd,
-      direction = "float",
-      dir = vim.loop.cwd(),
-      close_on_exit = false,
-      on_open = function(term)
-        vim.cmd("startinsert!")
-        vim.api.nvim_buf_set_keymap(term.bufnr, "n", "q", "<cmd>close<CR>", {noremap = true, silent = true})
-      end,
-      on_exit = function(term)
-        running_terms[cmd] = nil
-      end
-    })
-
-    running_terms[cmd] = cmdTerm
-  end
-
-  cmdTerm:open()
-end
-
-vim.cmd([[
-  command -nargs=+ Dev :lua _run_command("/opt/dev/bin/dev " .. <q-args>)
-]])
-
-vim.cmd([[
-  command -nargs=+ Run :lua _run_command(<q-args>)
-]])
-
 -- Generic mappings
 
 vim.api.nvim_set_keymap('i', 'jj', '<Esc>', { noremap = true, silent = true })
