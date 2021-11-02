@@ -317,6 +317,8 @@ vim.cmd([[
 
 -- Generic mappings
 
+vim.api.nvim_set_keymap('i', 'jj', '<Esc>', { noremap = true, silent = true })
+
 -- movement helpers
 
 vimp.nnoremap('J', "5j")
@@ -366,6 +368,10 @@ vimp.tnoremap('<C-h>', [[<C-\><C-n><C-W>h]])
 vimp.tnoremap('<C-j>', [[<C-\><C-n><C-W>j]])
 vimp.tnoremap('<C-k>', [[<C-\><C-n><C-W>k]])
 vimp.tnoremap('<C-l>', [[<C-\><C-n><C-W>l]])
+
+vim.cmd([[
+  autocmd TermOpen term://* startinsert
+]])
 
 -- create new split
 
