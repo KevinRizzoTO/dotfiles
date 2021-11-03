@@ -123,6 +123,10 @@ else
 
 fi
 
+# install ranger plugins
+
+git clone https://github.com/alexanderjeurissen/ranger_devicons ~/.config/ranger/plugins/ranger_devicons
+
 # install neovim plugins
 
 nvim --headless -u NONE -c 'autocmd User PackerComplete quitall' -c 'lua require("plugins")'
