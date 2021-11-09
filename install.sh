@@ -26,6 +26,7 @@ if [ $SPIN ]; then
   wait_for_lock && sudo dpkg -i git-delta-musl_0.9.1_amd64.deb
 
   wait_for_lock && sudo add-apt-repository ppa:neovim-ppa/unstable -y
+  wait_for_lock && sudo add-apt-repository ppa:longsleep/golang-backports -y
 
   wget https://github.com/sharkdp/bat/releases/download/v0.18.3/bat_0.18.3_amd64.deb
   wait_for_lock && sudo dpkg -i bat_0.18.3_amd64.deb 
@@ -39,7 +40,7 @@ if [ $SPIN ]; then
   ~/.fzf/install --all
 
   wait_for_lock && sudo apt-get update -y
-  wait_for_lock && sudo apt-get install -y ranger caca-utils highlight atool poppler-utils mediainfo ripgrep stow neovim --fix-missing
+  wait_for_lock && sudo apt-get install -y ranger caca-utils highlight atool poppler-utils mediainfo ripgrep stow neovim golang-go --fix-missing
 
   stow nvim
   stow p10k
@@ -131,3 +132,4 @@ git clone https://github.com/alexanderjeurissen/ranger_devicons ~/.config/ranger
 
 nvim --headless -u NONE -c 'autocmd User PackerComplete quitall' -c 'lua require("plugins")'
 nvim --headless -c "TSInstallSync maintained" -c "q"
+nvim --headless -c "LspInstall --sync solargraph tsserver efm" -c "q"
