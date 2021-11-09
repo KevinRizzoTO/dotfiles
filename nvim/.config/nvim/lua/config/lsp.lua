@@ -108,6 +108,9 @@ local server_configs = {
     root_dir = lspconfig.util.root_pattern("Gemfile", ".git"),
     on_attach = attach_lsp_to_buffer,
     autostart = false
+  },
+  rust_analyzer = {
+    on_attach = attach_lsp_to_buffer
   }
 }
 
@@ -140,6 +143,8 @@ lsp_installer.on_server_ready(function(server)
     server:setup(opts)
     vim.cmd [[ do User LspAttachBuffers ]]
 end)
+
+lspconfig.rust_analyzer.setup(server_configs.rust_analyzer)
 
 vim.lsp.set_log_level("debug")
 
