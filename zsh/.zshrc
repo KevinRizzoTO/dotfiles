@@ -178,3 +178,5 @@ test -e /Users/krizzo/.iterm2_shell_integration.zsh && source /Users/krizzo/.ite
 if [ -e /Users/kevinrizzo/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/kevinrizzo/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
 
 [[ -f /opt/dev/sh/chruby/chruby.sh ]] && type chruby >/dev/null 2>&1 || chruby () { source /opt/dev/sh/chruby/chruby.sh; chruby "$@"; }
+
+[[ -x /usr/local/bin/brew ]] && eval $(/usr/local/bin/brew shellenv)
