@@ -118,7 +118,7 @@ local Job = require('plenary.job')
 
 Job:new({
   command = 'bundle',
-  args = { 'show', 'srb' },
+  args = { 'exec', 'which', 'srb' },
   cwd = vim.loop.cwd(),
   on_stderr = function(j, return_val)
     -- no sorbet, use solargraph
@@ -145,6 +145,7 @@ lsp_installer.on_server_ready(function(server)
 end)
 
 lspconfig.rust_analyzer.setup(server_configs.rust_analyzer)
+lspconfig.sorbet.setup(server_configs.sorbet)
 
 vim.lsp.set_log_level("debug")
 
