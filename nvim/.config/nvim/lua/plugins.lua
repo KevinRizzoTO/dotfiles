@@ -14,18 +14,19 @@ return require("packer").startup(function()
   use({'wbthomason/packer.nvim'})
 
   use({ "tpope/vim-fugitive" })
+  use({ "tpope/vim-rhubarb" })
   use({ "tpope/vim-repeat" })
   use({ "tpope/vim-surround" })
 
-  use({ "raimondi/delimitmate", lock = true })
-  use({ "editorconfig/editorconfig-vim", lock = true })
-  use({ "nelstrom/vim-visual-star-search", lock = true })
+  use({ "raimondi/delimitmate"})
+  use({ "editorconfig/editorconfig-vim"})
+  use({ "nelstrom/vim-visual-star-search"})
 
-  use("dracula/vim", {as = "dracula", lock = true})
-  use({"nvim-treesitter/nvim-treesitter", run = ":TSUpdate", lock = true})
-  use({ "nvim-treesitter/nvim-treesitter-textobjects", lock = true })
-  use({ "neovim/nvim-lspconfig", lock = true })
-  use({"hrsh7th/nvim-cmp", lock = true, requires = {
+  use("dracula/vim", {as = "dracula", })
+  use({"nvim-treesitter/nvim-treesitter", run = ":TSUpdate", })
+  use({ "nvim-treesitter/nvim-treesitter-textobjects",  })
+  use({ "neovim/nvim-lspconfig"})
+  use({"hrsh7th/nvim-cmp", requires = {
     'hrsh7th/cmp-buffer',
     'hrsh7th/cmp-nvim-lsp',
     'hrsh7th/cmp-path',
@@ -33,28 +34,28 @@ return require("packer").startup(function()
     'hrsh7th/cmp-vsnip'
   }})
   use("williamboman/nvim-lsp-installer")
-  use({ "svermeulen/vimpeccable", lock = true })
-  use({ "akinsho/nvim-toggleterm.lua", lock = true })
-  use({ "b3nj5m1n/kommentary", lock = true })
-  use({ "rafcamlet/nvim-luapad", lock = true })
-  use({ "kyazdani42/nvim-web-devicons", lock = true })
-  use({ "hoob3rt/lualine.nvim", lock = true })
-  use({ 'nvim-lua/plenary.nvim', lock = true})
-  use({ 'lewis6991/gitsigns.nvim', lock = true })
-  use({ "kdheepak/lazygit.nvim", lock = true })
-  use({ "vim-test/vim-test", lock = true })
+  use({ "svermeulen/vimpeccable"})
+  use({ "akinsho/nvim-toggleterm.lua"})
+  use({ "b3nj5m1n/kommentary"})
+  use({ "rafcamlet/nvim-luapad"})
+  use({ "kyazdani42/nvim-web-devicons"})
+  use({ "hoob3rt/lualine.nvim"})
+  use({ 'nvim-lua/plenary.nvim'})
+  use({ 'lewis6991/gitsigns.nvim'})
+  use({ "kdheepak/lazygit.nvim"})
+  use({ "vim-test/vim-test"})
 
   -- DAP
 
-  use({ "mfussenegger/nvim-dap", lock = true })
-  use({ "nvim-telescope/telescope-dap.nvim", lock = true })
-  use({ "mfussenegger/nvim-dap-python", lock = true })
-  use({ "rcarriga/nvim-dap-ui", lock = true })
+  use({ "mfussenegger/nvim-dap"})
+  use({ "nvim-telescope/telescope-dap.nvim"})
+  use({ "mfussenegger/nvim-dap-python"})
+  use({ "rcarriga/nvim-dap-ui"})
 
   use({ "francoiscabrol/ranger.vim"})
-  use({ "rbgrouleff/bclose.vim", lock = true })
+  use({ "rbgrouleff/bclose.vim"})
 
-  use("asvetliakov/vim-easymotion", {as = 'vsc-easymotion', lock = true})
+  use("asvetliakov/vim-easymotion", {as = 'vsc-easymotion'})
   use('ggandor/lightspeed.nvim')
 
   use("kassio/neoterm")

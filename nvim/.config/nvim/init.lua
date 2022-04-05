@@ -101,7 +101,7 @@ vim.api.nvim_set_keymap("n", "<C-p>", ":Files!<CR>",
 )
 
 function _G._rg_fzf_search(search) 
-  vim.fn['fzf#vim#grep']('rg --column --line-number --no-heading --color=always --smart-case --no-ignore --hidden -g "!{.git,node_modules,vendor,.idea,.direnv,.vim,dist}" -- ' .. search, 1, vim.fn['fzf#vim#with_preview'](), 1)
+  vim.fn['fzf#vim#grep']('rg --column --line-number --no-heading --color=always --smart-case --no-ignore --hidden -g "!{.git,node_modules,vendor,.idea,.direnv,.vim,dist,target}" -- ' .. search, 1, vim.fn['fzf#vim#with_preview'](), 1)
 end
 
 function _G._rg_fzf_input(use_bang)

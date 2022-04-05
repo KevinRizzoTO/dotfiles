@@ -131,5 +131,4 @@ git clone https://github.com/alexanderjeurissen/ranger_devicons ~/.config/ranger
 # install neovim plugins
 
 nvim --headless -u NONE -c 'autocmd User PackerComplete quitall' -c 'lua require("plugins")'
-nvim --headless -c "TSInstallSync maintained" -c "q"
-nvim --headless -c "LspInstall --sync solargraph tsserver efm" -c "q"
+nvim --headless -c "LspInstall --sync solargraph tsserver efm rust_analyzer" -c "q"
