@@ -25,7 +25,6 @@ if [ $SPIN ]; then
   wget https://github.com/dandavison/delta/releases/download/0.9.1/git-delta-musl_0.9.1_amd64.deb
   wait_for_lock && sudo dpkg -i git-delta-musl_0.9.1_amd64.deb
 
-  wait_for_lock && sudo add-apt-repository ppa:neovim-ppa/unstable -y
   wait_for_lock && sudo add-apt-repository ppa:longsleep/golang-backports -y
 
   wget https://github.com/sharkdp/bat/releases/download/v0.18.3/bat_0.18.3_amd64.deb
@@ -131,4 +130,5 @@ git clone https://github.com/alexanderjeurissen/ranger_devicons ~/.config/ranger
 # install neovim plugins
 
 nvim --headless -u NONE -c 'autocmd User PackerComplete quitall' -c 'lua require("plugins")'
+nvim --headless -c "TSInstallSync maintained" -c "q"
 nvim --headless -c "LspInstall --sync solargraph tsserver efm rust_analyzer" -c "q"
