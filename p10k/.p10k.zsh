@@ -47,7 +47,7 @@
   local white='7'
 
   function prompt_my_spin() {
-    if [ $SPIN ]; then
+    if [[ "$SPIN" -eq "1" && "$USER" == "spin" ]]; then
       p10k segment -i '🌀' -f yellow -t ${SPIN_INSTANCE_FQDN:-"SPIN"}
     fi
   }
