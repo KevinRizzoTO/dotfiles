@@ -123,7 +123,7 @@ export BAT_THEME="Dracula"
 alias shopify-dev='~/src/github.com/Shopify/shopify-cli/bin/shopify'
 
 # Default to nvim for vim
-if type nvim > /dev/null 2>&1; then
+if ! command -v nvim &> /dev/null; then
   alias vim='nvim'
 fi
 
@@ -180,6 +180,7 @@ if [ -e /Users/kevinrizzo/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/kev
 [[ -f /opt/dev/sh/chruby/chruby.sh ]] && type chruby >/dev/null 2>&1 || chruby () { source /opt/dev/sh/chruby/chruby.sh; chruby "$@"; }
 
 [[ -x /usr/local/bin/brew ]] && eval $(/usr/local/bin/brew shellenv)
+[[ -x /opt/homebrew/bin/brew ]] && eval $(/opt/homebrew/bin/brew shellenv)
 
 export WASMTIME_HOME="$HOME/.wasmtime"
 
