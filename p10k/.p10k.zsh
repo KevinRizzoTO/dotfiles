@@ -46,9 +46,15 @@
   local cyan='6'
   local white='7'
 
-  function prompt_my_spin() {
+  function prompt_my_spin_icon() {
     if [[ "$SPIN" -eq "1" && "$USER" == "spin" ]]; then
-      p10k segment -i '🌀' -f yellow -t ${SPIN_INSTANCE_FQDN:-"SPIN"}
+      p10k segment -i '🌀' 
+    fi
+  }
+
+  function prompt_my_spin_fqdn() {
+    if [[ "$SPIN" -eq "1" && "$USER" == "spin" ]]; then
+      p10k segment -f yellow -t ${SPIN_INSTANCE_FQDN:-"SPIN"}
     fi
   }
 
@@ -61,6 +67,7 @@
     # =========================[ Line #2 ]=========================
     newline                   # \n
     # virtualenv              # python virtual environment
+    my_spin_icon
     prompt_char               # prompt symbol
   )
 
@@ -73,7 +80,7 @@
     time                      # current time
     # =========================[ Line #2 ]=========================
     newline                   # \n
-    my_spin                   # show my FDQN for Spin if in a session
+    my_spin_fqdn              # show my FDQN for Spin if in a session
   )
 
   # Basic style options that define the overall prompt look.
