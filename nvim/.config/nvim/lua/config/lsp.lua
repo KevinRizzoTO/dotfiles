@@ -144,7 +144,6 @@ lsp_installer.on_server_ready(function(server)
     vim.cmd [[ do User LspAttachBuffers ]]
 end)
 
-lspconfig.rust_analyzer.setup(server_configs.rust_analyzer)
 lspconfig.sorbet.setup(server_configs.sorbet)
 
 vim.lsp.set_log_level("debug")
