@@ -63,11 +63,11 @@
     # =========================[ Line #1 ]=========================
     dir                       # current directory
     vcs                       # git status
+    my_spin_icon
     # command_execution_time  # previous command duration
     # =========================[ Line #2 ]=========================
     newline                   # \n
     # virtualenv              # python virtual environment
-    my_spin_icon
     prompt_char               # prompt symbol
   )
 

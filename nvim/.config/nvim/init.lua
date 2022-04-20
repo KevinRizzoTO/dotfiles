@@ -329,16 +329,14 @@ vim.cmd([[
 vimp.nnoremap([[<C-\>]], ":vsp<CR>")
 vimp.nnoremap("|", ":sp<CR>")
 
+-- change t bindings in unimpaired to tabs instead of tags
+
+vim.keymap.set('n', "[t", ":tabp<CR>", { noremap = true, silent = true })
+vim.keymap.set('n', "]t", ":tabn<CR>", { noremap = true, silent = true })
+
 -- buffers
 
 vim.api.nvim_set_keymap('n', '<Leader>b', ':Buffers<CR>', { noremap = true, silent = true })
-
--- quickfix
-
-vimp.nnoremap(']q', ':cnext<CR>')
-vimp.nnoremap('[q', ':cprev<CR>')
-vimp.nnoremap('[Q', ':first<CR>')
-vimp.nnoremap(']Q', ':clast<CR>')
 
 -- clipboard
 

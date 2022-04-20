@@ -17,6 +17,7 @@ return require("packer").startup(function()
   use({ "tpope/vim-rhubarb" })
   use({ "tpope/vim-repeat" })
   use({ "tpope/vim-surround" })
+  use({ "tpope/vim-unimpaired" })
 
   use({ "raimondi/delimitmate"})
   use({ "editorconfig/editorconfig-vim"})
