@@ -48,7 +48,7 @@
 
   function prompt_my_spin_icon() {
     if [[ "$SPIN" -eq "1" && "$USER" == "spin" ]]; then
-      p10k segment -i '🌀' 
+      p10k segment -f yellow -t "SPIN"
     fi
   }
 
