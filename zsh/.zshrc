@@ -64,7 +64,6 @@ export NVM_COMPLETION=true
 plugins=(
   git
   aws
-  tmux
   zsh-autosuggestions
   zsh-syntax-highlighting
   nvm
@@ -122,29 +121,13 @@ export BAT_THEME="Dracula"
 
 alias shopify-dev='~/src/github.com/Shopify/shopify-cli/bin/shopify'
 
-# Default to nvim for vim
-if ! command -v nvim &> /dev/null; then
-  alias vim='nvim'
-fi
-
 # Add homebrew ruby to path
 export PATH="/usr/local/opt/ruby/bin:$PATH"
 
 # Add gems executables to PATH
 export PATH="/Users/krizzo/.local/share/gem/ruby/3.0.0/bin:$PATH"
 
-
-# Ensure colors are correct for tmux (and possibly others)
-export TERM="xterm-256color"
-
 export EDITOR="nvim"
-
-
-# Setup direnv hook
-
-if ! command -v direnv &> /dev/null; then
-  eval "$(direnv hook zsh)"
-fi
 
 # https://github.com/ranger/ranger/wiki/Integration-with-other-programs#changing-directories
 function ra {
@@ -163,11 +146,6 @@ function ra {
     command rm -f -- "$tempfile" 2>/dev/null
 }
 
-if ! command -v kitty &> /dev/null; then
-  kitty + complete setup zsh | source /dev/stdin
-fi
-
-
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
@@ -185,3 +163,20 @@ if [ -e /Users/kevinrizzo/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/kev
 export WASMTIME_HOME="$HOME/.wasmtime"
 
 export PATH="$WASMTIME_HOME/bin:$PATH"
+
+# Default to nvim for vim
+if command -v nvim &> /dev/null; then
+  alias vim='nvim'
+fi
+
+# Setup direnv hook
+
+if command -v direnv &> /dev/null; then
+  eval "$(direnv hook zsh)"
+fi
+
+if command -v kitty &> /dev/null; then
+  kitty + complete setup zsh | source /dev/stdin
+fi
+
+alias ss="kitty +kitten $(spin shell -s) -Y --kitten share_connections=yes"
