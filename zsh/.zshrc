@@ -180,3 +180,7 @@ if command -v kitty &> /dev/null; then
 fi
 
 alias ss="kitty +kitten $(spin shell -s) -Y --kitten share_connections=yes"
+
+ssc() {
+  systemctl list-units --no-pager --all | awk '/^[^●].*\@/ { print($1, " ", $3 == "active" ? "\033[32m" : "\033[33m", $3, "\033[0m")  } /^●.*\@/ { print($2, " ", "\033[31m", $4, "\033[0m")  }' | fzf --ansi | awk '{ print($1) }'
+}
