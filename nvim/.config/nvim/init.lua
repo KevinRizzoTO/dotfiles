@@ -51,6 +51,8 @@ require('config.nvim-cmp')
 local ts = require("nvim-treesitter.configs")
 ts.setup({
   ensure_installed = "all",
+  -- phpdoc tries to install some binary that doesn't work in ARM
+  ignore_install = { "phpdoc" },
   highlight = {enable = true},
   indent = {enable = true},
   textobjects = {
