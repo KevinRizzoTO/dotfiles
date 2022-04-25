@@ -51,7 +51,7 @@ namespace 'packages' do
     sh_swallow("wget #{deb_url} -P /tmp && sudo apt -o DPkg::Lock::Timeout=10000 install /tmp/#{deb_url.split('/').last}")
   end
 
-  task all: %i[delta bat fzf add_apt_repos apt_get_install nvim golang]
+  task all: %i[lazygit delta bat fzf add_apt_repos apt_get_install nvim golang]
 
   task :delta do
     deb('https://github.com/dandavison/delta/releases/download/0.9.1/git-delta-musl_0.9.1_amd64.deb')
@@ -59,6 +59,10 @@ namespace 'packages' do
 
   task :bat do
     deb('https://github.com/sharkdp/bat/releases/download/v0.18.3/bat_0.18.3_amd64.deb')
+  end
+
+  task :lazygit do
+    sh_swallow('wget https://github.com/jesseduffield/lazygit/releases/download/v0.30.1/lazygit_0.30.1_Linux_x86_64.tar.gz && mkdir /tmp/lazygit && tar -xzvf lazygit_0.30.1_Linux_x86_64.tar.gz -C /tmp/lazygit/ && sudo mv /tmp/lazygit/lazygit /usr/bin/lazygit')
   end
 
   task :fzf do
