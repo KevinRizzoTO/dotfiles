@@ -145,6 +145,7 @@ lsp_installer.on_server_ready(function(server)
 end)
 
 lspconfig.sorbet.setup(server_configs.sorbet)
+lspconfig.solargraph.setup(server_configs.solargraph)
 
 vim.lsp.set_log_level("debug")
 
