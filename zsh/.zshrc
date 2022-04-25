@@ -180,7 +180,7 @@ if command -v kitty &> /dev/null; then
 fi
 
 ss() {
-  kitty +kitten $(spin shell -s) -Y --kitten share_connections=yes
+  kitty +kitten $(spin shell -s) --kitten share_connections=yes
 }
 
 ssc() {

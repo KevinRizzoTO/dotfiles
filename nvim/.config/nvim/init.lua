@@ -344,6 +344,21 @@ vim.api.nvim_set_keymap('n', '<Leader>b', ':Buffers<CR>', { noremap = true, sile
 
 opt.clipboard = 'unnamedplus'
 
+if vim.env.SPIN then
+  g.clipboard = {
+    name = 'pbpaste',
+    copy = {
+      ['+'] = 'pbcopy',
+      ['*'] = 'pbcopy',
+    },
+    paste = {
+      ['+'] = 'pbpaste',
+      ['*'] = 'pbpaste',
+    },
+    cache_enabled = 1,
+  }
+end
+
 vimp.vnoremap('d', '"_d')
 vimp.vnoremap('<Leader>d', '"+d')
 vimp.vnoremap('D', '"_D')
