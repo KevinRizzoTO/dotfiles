@@ -78,7 +78,7 @@ namespace 'packages' do
   end
 
   task :add_apt_repos do
-    sh_swallow('sudo add-apt-repository ppa:neovim-ppa/stable -y && sudo add-apt-repository ppa:longsleep/golang-backports -y && sudo apt-get -o DPkg::Lock::Timeout=10000 -y update')
+    sh_swallow('sudo add-apt-repository ppa:neovim-ppa/unstable -y && sudo add-apt-repository ppa:longsleep/golang-backports -y && sudo apt-get -o DPkg::Lock::Timeout=10000 -y update')
   end
 
   task apt_get_install: :nvim do
