@@ -135,15 +135,15 @@ end
 namespace 'nvim' do
   task all: %i[install_plugins install_ts_parsers install_lsps]
 
-  task install_plugins: 'packages:nvim' do
+  task install_plugins: %w[packages:nvim symlink:nvim] do
     sh_swallow(%q[nvim --headless -u NONE -c 'autocmd User PackerComplete quitall' -c 'lua require("plugins")' -c 'PackerSync'])
   end
 
-  task install_ts_parsers: %w[packages:nvim install_plugins] do
+  task install_ts_parsers: %w[install_plugins] do
     sh_swallow('nvim --headless -c "TSInstallSync all" -c "quitall"')
   end
 
-  task install_lsps: %w[packages:nvim packages:golang install_plugins] do
+  task install_lsps: %w[packages:golang install_plugins] do
     sh_swallow('nvim --headless -c "LspInstall --sync solargraph tsserver efm rust_analyzer" -c "quitall"')
   end
 end
