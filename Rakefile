@@ -145,7 +145,10 @@ namespace 'nvim' do
   task all: %i[install_plugins install_ts_parsers install_lsps]
 
   task install_plugins: %w[packages:nvim symlink:nvim] do
-    sh_swallow(%q[nvim --headless -u NONE -c 'autocmd User PackerComplete quitall' -c 'lua require("plugins")' -c 'PackerSync'])
+    (1..3).each do
+      # better results after running this a few times for some reason
+      sh_swallow(%q[nvim --headless -u NONE -c 'autocmd User PackerComplete quitall' -c 'lua require("plugins")' -c 'PackerSync'])
+    end
   end
 
   task install_ts_parsers: %w[install_plugins] do
