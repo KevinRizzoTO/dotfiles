@@ -1,11 +1,17 @@
 # frozen_string_literal: true
 
 require 'rbconfig'
+require 'open3'
 
 def sh_swallow(cmd)
-  sh(cmd) do |ok, res|
-    return [ok, res]
-  end
+  p "Running: #{cmd}"
+  stdout, stderr, status = Open3.capture3(cmd)
+
+  return if status.success?
+
+  p "Error running #{cmd}"
+  p "Stderr: #{stderr}"
+  p "Stdout: #{stdout}"
 end
 
 task default: 'all'
