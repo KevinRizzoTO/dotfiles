@@ -344,21 +344,6 @@ vim.api.nvim_set_keymap('n', '<Leader>b', ':Buffers<CR>', { noremap = true, sile
 
 opt.clipboard = 'unnamedplus'
 
-if vim.env.SPIN then
-  g.clipboard = {
-    name = 'pbpaste',
-    copy = {
-      ['+'] = 'pbcopy',
-      ['*'] = 'pbcopy',
-    },
-    paste = {
-      ['+'] = 'pbpaste',
-      ['*'] = 'pbpaste',
-    },
-    cache_enabled = 1,
-  }
-end
-
 vimp.vnoremap('d', '"_d')
 vimp.vnoremap('<Leader>d', '"+d')
 vimp.vnoremap('D', '"_D')
@@ -381,3 +366,9 @@ vim.api.nvim_set_keymap('v', 'cc', '"_cc', { noremap = true, silent = true })
 vimp.nnoremap('c', '"_c')
 vimp.nnoremap('C', '"_C')
 vim.api.nvim_set_keymap('n', 'cc', '"_cc', { noremap = true, silent = true })
+
+print(vim.env.USER)
+
+if vim.env.SPIN == "1" and vim.env.USER == "spin" then
+  require('spin')
+end
