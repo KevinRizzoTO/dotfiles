@@ -77,12 +77,16 @@ namespace 'packages' do
     sh_swallow('sudo apt-get -o DPkg::Lock::Timeout=10000 install -y golang-go')
   end
 
+  task :stow do
+    sh_swallow('sudo apt-get -o DPkg::Lock::Timeout=10000 install -y stow')
+  end
+
   task :add_apt_repos do
     sh_swallow('sudo add-apt-repository ppa:neovim-ppa/unstable -y && sudo add-apt-repository ppa:longsleep/golang-backports -y && sudo apt-get -o DPkg::Lock::Timeout=10000 -y update')
   end
 
   task apt_get_install: :nvim do
-    sh_swallow('sudo apt-get -o DPkg::Lock::Timeout=10000 install -y ranger caca-utils highlight atool poppler-utils mediainfo ripgrep stow --fix-missing')
+    sh_swallow('sudo apt-get -o DPkg::Lock::Timeout=10000 install -y ranger caca-utils highlight atool poppler-utils mediainfo ripgrep --fix-missing')
   end
 end
 
@@ -93,29 +97,28 @@ namespace 'symlink' do
 
   task all: %i[nvim p10k zsh tmux ranger lazygit]
 
-  task :nvim do
+  task nvim: "packages:stow" do
     stow('nvim')
   end
 
-  task :p10k do
+  task p10k: "packages:stow" do
     stow('p10k')
   end
 
-  task :zsh do
+  task zsh: "packages:stow" do
     sh_swallow('rm ~/.zshrc')
     stow('zsh')
   end
 
-  task :tmux do
+  task tmux: "packages:stow" do
     stow('tmux')
   end
 
-  task :ranger do
+  task ranger: "packages:stow" do
     stow('ranger')
   end
 
-
-  task :lazygit do
+  task lazygit: "packages:stow" do
     stow('lazygit')
   end
 end
