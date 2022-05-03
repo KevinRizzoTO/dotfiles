@@ -367,8 +367,6 @@ vimp.nnoremap('c', '"_c')
 vimp.nnoremap('C', '"_C')
 vim.api.nvim_set_keymap('n', 'cc', '"_cc', { noremap = true, silent = true })
 
-print(vim.env.USER)
-
 if vim.env.SPIN == "1" and vim.env.USER == "spin" then
   require('spin')
 end
