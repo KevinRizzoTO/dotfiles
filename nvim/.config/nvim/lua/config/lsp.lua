@@ -32,7 +32,7 @@ local function attach_lsp_to_buffer(client, bufnr)
   buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
   buf_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.setqflist()<CR>', opts)
-  buf_set_keymap('n', '<space>=', '<cmd>lua vim.lsp.buf.format({ timeout_ms = 5000 })<CR>', opts)
+  buf_set_keymap('n', '<space>=', '<cmd>lua vim.lsp.buf.formatting_sync(nil, 5000)<CR>', opts)
 
   -- if client.resolved_capabilities.document_formatting then
     -- vim.cmd([[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()]])
@@ -111,7 +111,18 @@ local server_configs = {
     autostart = false
   },
   rust_analyzer = {
-    on_attach = attach_lsp_to_buffer
+    on_attach = attach_lsp_to_buffer,
+    settings = {
+      ['rust-analyzer'] = {
+        checkOnSave = {
+          allFeatures = true,
+          overrideCommand = {
+            'cargo', 'clippy', '--workspace', '--message-format=json',
+            '--all-targets', '--all-features'
+          }
+        }
+      }
+    }
   }
 }
 
