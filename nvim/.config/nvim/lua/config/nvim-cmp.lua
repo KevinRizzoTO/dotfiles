@@ -9,6 +9,8 @@ vim.cmd[[set shortmess+=c]]
 cmp.setup({
   -- You can set mapping if you want.
   mapping = {
+    ['<Down>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 's' }),
+    ['<Up>'] = cmp.mapping(cmp.mapping.select_prev_item(), { 'i', 's' }),
     ['<Tab>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 's' }),
     ['<S-Tab>'] = cmp.mapping(cmp.mapping.select_prev_item(), { 'i', 's' }),
     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
