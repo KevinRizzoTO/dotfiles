@@ -61,6 +61,12 @@ local efm_language_configs = {
       formatStdin = true,
       rootMarkers = { 'Gemfile', 'Rakefile', '.rubocop.yml' }
     }
+  },
+  markdown = {
+    {
+      lintCommand = "npx write-good --parse ${INPUT}",
+      lintFormats = { '%f:%l:%c:%m' },
+    }
   }
 }
 
