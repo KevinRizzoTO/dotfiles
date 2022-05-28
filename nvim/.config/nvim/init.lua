@@ -54,7 +54,7 @@ ts.setup({
   -- phpdoc tries to install some binary that doesn't work in ARM
   ignore_install = { "phpdoc" },
   highlight = {enable = true},
-  indent = {enable = true},
+  indent = {enable = false},
   textobjects = {
     select = {
       enable = true,
@@ -80,6 +80,9 @@ ts.setup({
       scope_incremental = ";",
       node_decremental = ",",
     },
+  },
+  endwise = {
+    enable = true,
   }
 })
 
@@ -207,6 +210,39 @@ require('lualine').setup({
   }
 })
 
+-- iron.nvim
+local iron = require("iron.core")
+
+iron.setup({
+  config = {
+    -- If iron should expose `<plug>(...)` mappings for the plugins
+    should_map_plug = false,
+    -- Whether a repl should be discarded or not
+    scratch_repl = true,
+    -- Your repl definitions come here
+    repl_definition = {
+      sh = {
+        command = {"zsh"}
+      },
+      javascript = {
+        command = {"node", "--experimental-wasi-unstable-preview1"}
+      }
+    },
+    repl_open_cmd = "vertical botright 80 split",
+  },
+  -- Iron doesn't set keymaps by default anymore. Set them here
+  -- or use `should_map_plug = true` and map from you vim files
+  keymaps = {
+    send_motion = "<space>sc",
+    visual_send = "<space>sc",
+    send_line = "<space>sl",
+    repeat_cmd = "<space>s.",
+    cr = "<space>s<cr>",
+    interrupt = "<space>s<space>",
+    exit = "<space>sq",
+    clear = "<space>cl",
+  }
+})
 -- toggle term
 
 require('toggleterm').setup({

@@ -46,6 +46,8 @@ return require("packer").startup(function()
   use({ "kdheepak/lazygit.nvim"})
   use({ "vim-test/vim-test"})
 
+  use({ "RRethy/nvim-treesitter-endwise" })
+
   -- DAP
 
   use({ "mfussenegger/nvim-dap"})
@@ -53,11 +55,13 @@ return require("packer").startup(function()
   use({ "mfussenegger/nvim-dap-python"})
   use({ "rcarriga/nvim-dap-ui"})
 
+  use({ "hkupty/iron.nvim" })
+
   use({ "francoiscabrol/ranger.vim"})
   use({ "rbgrouleff/bclose.vim"})
 
   use("asvetliakov/vim-easymotion", {as = 'vsc-easymotion'})
-  use('ggandor/lightspeed.nvim')
+  use({'ggandor/lightspeed.nvim', disable = vim.g.vscode == 1})
 
   use("kassio/neoterm")
 

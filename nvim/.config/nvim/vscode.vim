@@ -7,7 +7,10 @@ require('plugins')
 local ts = require("nvim-treesitter.configs")
 
 ts.setup({
-  ensure_installed = 'maintained',
+  ensure_installed = 'all',
+  indent = {enable = false},
+  -- phpdoc tries to install some binary that doesn't work in ARM
+  ignore_install = { "phpdoc" },
   textobjects = {
     select = {
       enable = true,
