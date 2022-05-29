@@ -57,7 +57,7 @@ namespace 'packages' do
     sh_swallow("wget #{deb_url} -P /tmp && sudo apt -o DPkg::Lock::Timeout=10000 install /tmp/#{deb_url.split('/').last}")
   end
 
-  task all: %i[lazygit delta bat fzf add_apt_repos apt_get_install nvim golang]
+  task all: %i[vale lazygit delta bat fzf add_apt_repos apt_get_install nvim golang]
 
   task :delta do
     deb('https://github.com/dandavison/delta/releases/download/0.9.1/git-delta-musl_0.9.1_amd64.deb')
@@ -69,6 +69,10 @@ namespace 'packages' do
 
   task :lazygit do
     sh_swallow('wget -P /tmp https://github.com/jesseduffield/lazygit/releases/download/v0.30.1/lazygit_0.30.1_Linux_x86_64.tar.gz && mkdir /tmp/lazygit && tar -xzvf /tmp/lazygit_0.30.1_Linux_x86_64.tar.gz -C /tmp/lazygit/ && sudo mv /tmp/lazygit/lazygit /usr/bin/lazygit')
+  end
+
+  task :vale do
+    sh_swallow('wget -P /tmp https://github.com/errata-ai/vale/releases/download/v2.17.0/vale_2.17.0_Linux_64-bit.tar.gz && mkdir /tmp/vale && tar -xzvf vale_2.17.0_Linux_64-bit.tar.gz -C /tmp/vale/ && sudo mv /tmp/vale/vale /usr/bin/vale')
   end
 
   task :fzf do
@@ -101,7 +105,7 @@ namespace 'symlink' do
     sh_swallow("stow -t $HOME #{folder}")
   end
 
-  task all: %i[nvim p10k zsh tmux ranger lazygit]
+  task all: %i[vale nvim p10k zsh tmux ranger lazygit]
 
   task nvim: "packages:stow" do
     stow('nvim')
@@ -126,6 +130,10 @@ namespace 'symlink' do
 
   task lazygit: "packages:stow" do
     stow('lazygit')
+  end
+
+  task vale: "packages:stow" do
+    stow('vale')
   end
 end
 
