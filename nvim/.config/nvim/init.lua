@@ -35,7 +35,6 @@ opt.exrc = true
 
 opt.shell = "/bin/zsh"
 
-
 g.mapleader = ' '
 
 -- LSP
@@ -97,6 +96,14 @@ parser_config.embedded_template = {
     requires_generate_from_grammar  = true,
   },
   used_by = { 'eruby' }
+}
+
+parser_config.markdown = {
+  install_info = {
+    url = "https://github.com/MDeiml/tree-sitter-markdown",
+    files = { "src/parser.c", "src/scanner.cc" },
+  },
+  filetype = "markdown",
 }
 
 -- fzf
