@@ -57,6 +57,23 @@ return require("packer").startup(function()
 
   use({ "hkupty/iron.nvim" })
 
+  use({
+    "folke/zen-mode.nvim",
+    config = function() 
+      require('zen-mode').setup({
+        plugins = {
+          twilight = { enabled = true }
+        }
+      })
+    end
+  })
+  use({
+    "folke/twilight.nvim",
+    config = function() 
+      require('twilight').setup()
+    end
+  })
+
   use({ "francoiscabrol/ranger.vim"})
   use({ "rbgrouleff/bclose.vim"})
 

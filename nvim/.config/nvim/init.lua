@@ -243,6 +243,7 @@ iron.setup({
     clear = "<space>cl",
   }
 })
+
 -- toggle term
 
 require('toggleterm').setup({
@@ -250,6 +251,7 @@ require('toggleterm').setup({
   direction = 'float',
   shade_terminals = false
 })
+
 
 -- highlighted yank
 
