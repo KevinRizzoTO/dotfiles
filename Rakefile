@@ -57,7 +57,7 @@ namespace 'packages' do
     sh_swallow("wget #{deb_url} -P /tmp && sudo apt -o DPkg::Lock::Timeout=10000 install /tmp/#{deb_url.split('/').last}")
   end
 
-  task all: %i[vale lazygit delta bat fzf add_apt_repos apt_get_install nvim golang]
+  task all: %i[vale lazygit delta bat fzf add_apt_repos apt_get_install nvim]
 
   task :delta do
     deb('https://github.com/dandavison/delta/releases/download/0.9.1/git-delta-musl_0.9.1_amd64.deb')
@@ -83,16 +83,12 @@ namespace 'packages' do
     sh_swallow('sudo apt-get -o DPkg::Lock::Timeout=10000 install -y neovim')
   end
 
-  task golang: :add_apt_repos do
-    sh_swallow('sudo apt-get -o DPkg::Lock::Timeout=10000 install -y golang-go')
-  end
-
   task :stow do
     sh_swallow('sudo apt-get -o DPkg::Lock::Timeout=10000 install -y stow')
   end
 
   task :add_apt_repos do
-    sh_swallow('sudo add-apt-repository ppa:neovim-ppa/unstable -y && sudo add-apt-repository ppa:longsleep/golang-backports -y && sudo apt-get -o DPkg::Lock::Timeout=10000 -y update')
+    sh_swallow('sudo add-apt-repository ppa:neovim-ppa/unstable -y && sudo apt-get -o DPkg::Lock::Timeout=10000 -y update')
   end
 
   task apt_get_install: :nvim do
@@ -163,7 +159,7 @@ namespace 'nvim' do
     sh_swallow('nvim --headless -c "TSInstallSync all" -c "quitall"')
   end
 
-  task install_lsps: %w[packages:golang install_plugins] do
+  task install_lsps: %w[install_plugins] do
     sh_swallow('nvim --headless -c "LspInstall --sync solargraph tsserver efm rust_analyzer" -c "quitall"')
   end
 end
