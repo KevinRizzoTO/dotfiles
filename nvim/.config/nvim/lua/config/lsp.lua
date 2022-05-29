@@ -39,58 +39,33 @@ local function attach_lsp_to_buffer(client, bufnr)
   -- end
 end
 
+local null_ls = require('null-ls')
+
+null_ls.setup({
+    sources = {
+        null_ls.builtins.formatting.stylua,
+        null_ls.builtins.diagnostics.eslint,
+        null_ls.builtins.formatting.prettier,
+        null_ls.builtins.completion.spell.with({
+          filetypes = { "markdown" },
+        }),
+        -- https://phuctm92.github.io/posts/rubocop-parser-current-is-loading/ to suppress warnings from "parser"
+        null_ls.builtins.formatting.rubocop.with({
+          command = 'ruby',
+          args = {'-W0', '-S', 'bundle', 'exec', 'rubocop', '-A', '-f', 'quiet', '--stderr', '-s', '$FILENAME'}
+        }),
+        null_ls.builtins.diagnostics.rubocop.with({
+          command = 'ruby',
+          args = {'-W0', '-S', 'bundle', 'exec', 'rubocop', '-f', 'json', '--stdin', '$FILENAME'}
+        }),
+        null_ls.builtins.diagnostics.vale
+    },
+    on_attach = attach_lsp_to_buffer
+})
+
 local attach_fns = apply_on_attaches({ attach_lsp_to_buffer })
 
-local efm_language_configs = {
-  python = {
-    {
-      formatCommand = "autopep8 -",
-      formatStdin = true
-    }
-  },
-  ruby = {
-    {
-      lintCommand = 'bundle exec rubocop --format emacs --force-exclusion --stdin ${INPUT}',
-      lintIgnoreExitCode = true,
-      lintStdin = true,
-      lintFormats = { '%f:%l:%c: %m' },
-      rootMarkers = { 'Gemfile', 'Rakefile', '.rubocop.yml' }
-    },
-    {
-      formatCommand = 'bundle exec rubocop -A -f quiet --stderr -s ${INPUT}',
-      formatStdin = true,
-      rootMarkers = { 'Gemfile', 'Rakefile', '.rubocop.yml' }
-    }
-  },
-  markdown = {
-    {
-      lintCommand = "npx write-good --parse ${INPUT}",
-      lintFormats = { '%f:%l:%c:%m' },
-    }
-  }
-}
-
-local prettier = { formatCommand = './node_modules/.bin/prettier --stdin-filepath ${INPUT}', formatStdin = true }
-
--- add prettier to all the JS filetypes
-for _, ftype in pairs({'typescriptreact', 'typescript', 'javascript', 'javascriptreact'}) do
-  efm_language_configs[ftype] = { prettier }
-end
-
-
 local server_configs = {
-  efm = {
-    root_dir = lspconfig.util.root_pattern(".git"),
-    filetypes = vim.tbl_keys(efm_language_configs),
-    init_options = {documentFormatting = true},
-    settings = {
-      languages = efm_language_configs,
-      rootMarkers = { ".git/" },
-      log_level = 1,
-      log_file = '~/efm.log'
-    },
-    on_attach = attach_lsp_to_buffer,
-  },
   solargraph =  {
     autostart = false,
     on_attach = function(client, bufnr)
