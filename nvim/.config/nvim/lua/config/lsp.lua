@@ -142,14 +142,7 @@ lspconfig.solargraph.setup(server_configs.solargraph)
 
 vim.lsp.set_log_level("debug")
 
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-  vim.lsp.diagnostic.on_publish_diagnostics, {
-    virtual_text = false,
-    signs = true,
-    underline = true,
-    update_in_insert = false,
-  }
-)
+require('toggle_lsp_diagnostics').init({ virtual_text = false, update_in_insert = false })
 
 vim.cmd([[
  command LspLogs :lua vim.cmd('e'..vim.lsp.get_log_path())

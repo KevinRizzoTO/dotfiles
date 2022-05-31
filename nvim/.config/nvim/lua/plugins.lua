@@ -24,6 +24,7 @@ return require("packer").startup(function()
   use({ "nelstrom/vim-visual-star-search"})
 
   use("dracula/vim", {as = "dracula", })
+  use({ "ellisonleao/gruvbox.nvim" })
   use({"nvim-treesitter/nvim-treesitter", run = ":TSUpdate", })
   use({ "nvim-treesitter/nvim-treesitter-textobjects",  })
   use({ "neovim/nvim-lspconfig"})
@@ -61,16 +62,13 @@ return require("packer").startup(function()
 
   use({ "hkupty/iron.nvim" })
 
-  use({
-    "folke/zen-mode.nvim",
-    config = function() 
-      require('zen-mode').setup({
-        plugins = {
-          twilight = { enabled = true }
-        }
-      })
-    end
-  })
+  -- snippets
+
+  use("rafamadriz/friendly-snippets")
+  use("L3MON4D3/LuaSnip")
+  use("saadparwaiz1/cmp_luasnip")
+
+  use({ "folke/zen-mode.nvim" })
   use({
     "folke/twilight.nvim",
     config = function() 
@@ -78,11 +76,20 @@ return require("packer").startup(function()
     end
   })
 
+  use({
+    "iamcco/markdown-preview.nvim",
+    run = "cd app && npm install",
+  })
+
   use({ "francoiscabrol/ranger.vim"})
   use({ "rbgrouleff/bclose.vim"})
 
+  use({ "SidOfc/mkdx" })
+
   use("asvetliakov/vim-easymotion", {as = 'vsc-easymotion'})
   use({'ggandor/lightspeed.nvim', disable = vim.g.vscode == 1})
+
+  use({'WhoIsSethDaniel/toggle-lsp-diagnostics.nvim'})
 
   use("kassio/neoterm")
 

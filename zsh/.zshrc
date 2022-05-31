@@ -112,13 +112,6 @@ bindkey "jj" vi-cmd-mode
 export FZF_DEFAULT_COMMAND='rg --hidden --no-ignore -l "" -g "!{.git,node_modules,vendor,.idea,.direnv,.vim,dist,target,sorbet}"'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
-# Alias for lazygit
-alias lg='CONFIG_DIR=$HOME/.config/lazygit lazygit'
-
-# Cat alias/bat config
-alias cat='bat'
-export BAT_THEME="Dracula"
-
 alias shopify-dev='~/src/github.com/Shopify/shopify-cli/bin/shopify'
 
 # Add homebrew ruby to path
@@ -187,3 +180,56 @@ ssc() {
   systemctl list-units --no-pager --all | awk '/^[^●].*\@/ { print($1, " ", $3 == "active" ? "\033[32m" : "\033[33m", $3, "\033[0m")  } /^●.*\@/ { print($2, " ", "\033[31m", $4, "\033[0m")  }' | fzf --ansi | awk '{ print($1) }'
 }
 export PATH="/opt/homebrew/opt/openssl@3/bin:$PATH"
+
+function mdd {
+  local file_path="~/Documents/markdown_drafts/$(date +%m-%d-%Y)_$1.md"
+
+  nvim -c "e $file_path"
+}
+
+# Alias for lazygit
+alias lg="lazygit -ucf $HOME/.config/lazygit/config.yml"
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  # Mac OSX, read background from defaults
+  local background=$(defaults read -globalDomain AppleInterfaceStyle &> /dev/null && echo "dark" || echo "light")
+elif [[ "$OSTYPE" == "linux-gnu"* ]] then
+  # Default to dark if no other ENV VAR is present
+  local background=${BACKGROUND_OVERRIDE:-dark}
+fi
+
+# Cat alias/bat config
+
+alias cat="bat"
+
+function set_theme {
+  if [[ "$1" == "dark" ]]; then
+    local bat_theme="gruvbox-dark"
+    local kitty_conf_name="gruvbox_dark"
+  else
+    local bat_theme="gruvbox-light"
+    local kitty_conf_name="gruvbox_light"
+  fi
+  
+  export BAT_THEME=$bat_theme
+
+  kitty @ --to unix:/tmp/mykitty set-colors --all --configured ~/.config/kitty/$kitty_conf_name.conf
+
+  export BACKGROUND_OVERRIDE=$1
+
+  # TODO: how to reload bat theme in SSH sessions?
+}
+
+set_theme $background
+
+function tdm {
+  dark-mode
+
+  local dm_status=$(dark-mode status)
+
+  if [[ "$dm_status" == "on"* ]]; then
+    set_theme "dark"
+  else
+    set_theme "light"
+  fi
+}

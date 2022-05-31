@@ -10,7 +10,8 @@ local vimp = require('vimp')
 
 -- colorscheme
 
-vim.cmd[[colorscheme dracula]]
+vim.opt.background = vim.env.BACKGROUND_OVERRIDE
+vim.cmd[[colorscheme gruvbox]]
 
 -- options
 
@@ -25,6 +26,7 @@ opt.hidden = true
 
 opt.relativenumber = true
 opt.number = true
+opt.linebreak = true
 
 opt.timeoutlen = 250
 opt.termguicolors = true
@@ -157,6 +159,21 @@ let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all'
 
 command! -bang -nargs=* Rg :lua _rg_fzf_input(<q-args>, <bang>0)<CR>
 
+let g:fzf_colors = {
+      \ 'fg':      ['fg', 'GruvboxFg1'],
+      \ 'bg':      ['fg', 'GruvboxBg0'],
+      \ 'hl':      ['fg', 'GruvboxYellow'],
+      \ 'fg+':     ['fg', 'GruvboxFg1'],
+      \ 'bg+':     ['fg', 'GruvboxBg1'],
+      \ 'hl+':     ['fg', 'GruvboxYellow'],
+      \ 'info':    ['fg', 'GruvboxBlue'],
+      \ 'prompt':  ['fg', 'GruvboxFg4'],
+      \ 'pointer': ['fg', 'GruvboxBlue'],
+      \ 'marker':  ['fg', 'GruvboxOrange'],
+      \ 'spinner': ['fg', 'GruvboxYellow'],
+      \ 'header':  ['fg', 'GruvboxBg3']
+      \ }
+
 ]])
 
 -- nvim-dap
@@ -213,7 +230,7 @@ require('dapui').setup()
 
 require('lualine').setup({
   options = {
-    theme = 'dracula'
+    theme = 'gruvbox'
   }
 })
 
@@ -254,11 +271,26 @@ iron.setup({
 -- toggle term
 
 require('toggleterm').setup({
-  open_mapping = '<Leader>`',
+  open_mapping = '<Leader>`1',
   direction = 'float',
   shade_terminals = false
 })
 
+-- mkdx
+
+vim.cmd[[
+let g:mkdx#settings     = { 'highlight': { 'enable': 1 },
+                        \ 'enter': { 'shift': 1 },
+                        \ 'links': { 'external': { 'enable': 1 } },
+                        \ 'toc': { 'text': 'Table of Contents', 'update_on_write': 1 },
+                        \ 'fold': { 'enable': 1 } }
+let g:polyglot_disabled = ['markdown'] " for vim-polyglot users, it loads Plasticboy's markdown
+                                       " plugin which unfortunately interferes with mkdx list indentation.
+]]
+
+-- luasnip
+
+require("luasnip.loaders.from_vscode").lazy_load()
 
 -- highlighted yank
 
@@ -269,7 +301,32 @@ vim.cmd[[
   augroup END
 ]]
 
--- vim-sneak
+-- zen mode
+
+require('zen-mode').setup()
+
+-- for some reason, this is the only way I can get the "option" key to work
+-- using the default :ZenMode command won't have the flags be applied
+function _G.toggle_zen_mode()
+  require('zen-mode').toggle({
+    window = {
+      options = {
+        signcolumn = "no", -- disable signcolumn
+        number = false, -- disable number column
+        relativenumber = false, -- disable relative numbers
+        cursorline = false, -- disable cursorline
+        cursorcolumn = false, -- disable cursor column
+        foldcolumn = "0", -- disable fold column
+        list = false, -- disable whitespace characters
+      }
+    },
+    plugins = {
+      twilight = { enabled = true }
+    }
+  })
+end
+
+vimp.nnoremap('<Leader>zm', ':lua toggle_zen_mode()<CR>')
 
 -- toggle between relative and absolute numbers
 
