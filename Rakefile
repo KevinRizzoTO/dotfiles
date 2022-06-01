@@ -80,7 +80,7 @@ namespace 'packages' do
   end
 
   task :nvim do
-    deb('https://github.com/neovim/neovim/releases/download/v0.7.0/nvim-linux64.deb')
+    sh_swallow('wget -P /tmp https://github.com/neovim/neovim/releases/download/v0.7.0/nvim-linux64.tar.gz && mkdir /tmp/nvim && tar -xzvf /tmp/nvim-linux64.tar.gz -C /tmp/nvim/ && sudo mv /tmp/nvim/nvim-linux64/bin/nvim /usr/bin/nvim')
   end
 
   task :stow do
