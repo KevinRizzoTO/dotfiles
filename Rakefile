@@ -72,7 +72,7 @@ namespace 'packages' do
   end
 
   task :vale do
-    sh_swallow('wget -P /tmp https://github.com/errata-ai/vale/releases/download/v2.17.0/vale_2.17.0_Linux_64-bit.tar.gz && mkdir /tmp/vale && tar -xzvf vale_2.17.0_Linux_64-bit.tar.gz -C /tmp/vale/ && sudo mv /tmp/vale/vale /usr/bin/vale')
+    sh_swallow('wget -P /tmp https://github.com/errata-ai/vale/releases/download/v2.17.0/vale_2.17.0_Linux_64-bit.tar.gz && mkdir /tmp/vale && tar -xzvf /tmp/vale_2.17.0_Linux_64-bit.tar.gz -C /tmp/vale/ && sudo mv /tmp/vale/vale /usr/bin/vale')
   end
 
   task :fzf do
