@@ -57,7 +57,7 @@ namespace 'packages' do
     sh_swallow("wget #{deb_url} -P /tmp && sudo apt -o DPkg::Lock::Timeout=10000 install /tmp/#{deb_url.split('/').last}")
   end
 
-  task all: %i[vale lazygit delta bat fzf add_apt_repos apt_get_install nvim]
+  task all: %i[vale lazygit delta bat fzf apt_get_install nvim]
 
   task :delta do
     deb('https://github.com/dandavison/delta/releases/download/0.9.1/git-delta-musl_0.9.1_amd64.deb')
@@ -79,16 +79,12 @@ namespace 'packages' do
     sh_swallow('git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install --all')
   end
 
-  task nvim: :add_apt_repos do
-    sh_swallow('sudo apt-get -o DPkg::Lock::Timeout=10000 install -y neovim')
+  task :nvim do
+    deb('https://github.com/neovim/neovim/releases/download/v0.7.0/nvim-linux64.deb')
   end
 
   task :stow do
     sh_swallow('sudo apt-get -o DPkg::Lock::Timeout=10000 install -y stow')
-  end
-
-  task :add_apt_repos do
-    sh_swallow('sudo add-apt-repository ppa:neovim-ppa/unstable -y && sudo apt-get -o DPkg::Lock::Timeout=10000 -y update')
   end
 
   task apt_get_install: :nvim do
