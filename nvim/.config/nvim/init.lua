@@ -10,7 +10,9 @@ local vimp = require('vimp')
 
 -- colorscheme
 
-vim.opt.background = vim.env.BACKGROUND_OVERRIDE
+local background = vim.fn.system('cat $HOME/.background')
+
+vim.opt.background = background:gsub("\n", "")
 vim.cmd[[colorscheme gruvbox]]
 
 -- options

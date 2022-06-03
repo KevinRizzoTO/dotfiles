@@ -215,7 +215,7 @@ function set_theme {
 
   kitty @ --to unix:/tmp/mykitty set-colors --all --configured ~/.config/kitty/$kitty_conf_name.conf
 
-  export BACKGROUND_OVERRIDE=$1
+  echo $1 >| $HOME/.background
 
   # TODO: how to reload bat theme in SSH sessions?
 }
