@@ -212,12 +212,13 @@ function set_theme {
   fi
   
   export BAT_THEME=$bat_theme
+  export FZF_DEFAULT_OPTS="--color=$1"
 
   kitty @ --to unix:/tmp/mykitty set-colors --all --configured ~/.config/kitty/$kitty_conf_name.conf
 
   echo $1 >| $HOME/.background
 
-  # TODO: how to reload bat theme in SSH sessions?
+  scp ~/.background spin@$(spin list --json | jq -r ".[0].fqdn"):/home/spin/.background &>/dev/null
 }
 
 set_theme $background
