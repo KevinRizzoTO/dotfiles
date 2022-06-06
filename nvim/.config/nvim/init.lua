@@ -323,7 +323,7 @@ function _G.toggle_zen_mode()
       }
     },
     plugins = {
-      twilight = { enabled = true }
+      twilight = { enabled = false }
     }
   })
 end
