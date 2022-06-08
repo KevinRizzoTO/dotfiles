@@ -111,6 +111,7 @@ bindkey "jj" vi-cmd-mode
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND='rg --hidden --no-ignore -l "" -g "!{.git,node_modules,vendor,.idea,.direnv,.vim,dist,target,sorbet}"'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_DEFAULT_OPTS='--bind ctrl-a:select-all'
 
 alias shopify-dev='~/src/github.com/Shopify/shopify-cli/bin/shopify'
 
@@ -194,8 +195,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
   # Mac OSX, read background from defaults
   local background=$(defaults read -globalDomain AppleInterfaceStyle &> /dev/null && echo "dark" || echo "light")
 elif [[ "$OSTYPE" == "linux-gnu"* ]] then
-  # Default to dark if no other ENV VAR is present
-  local background=${BACKGROUND_OVERRIDE:-dark}
+  local background=$(cat $HOME/.background)
 fi
 
 # Cat alias/bat config
@@ -216,9 +216,10 @@ function set_theme {
 
   kitty @ --to unix:/tmp/mykitty set-colors --all --configured ~/.config/kitty/$kitty_conf_name.conf
 
-  echo $1 >| $HOME/.background
+  echo $1 >| ~/.background
 
-  scp ~/.background spin@$(spin list --json | jq -r ".[0].fqdn"):/home/spin/.background &>/dev/null
+  # https://stackoverflow.com/a/11111042
+  (scp ~/.background spin@$(spin list --json | jq -r ".[0].fqdn"):/home/spin/ &>/dev/null & )
 }
 
 set_theme $background
