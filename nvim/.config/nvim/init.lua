@@ -112,31 +112,15 @@ parser_config.markdown = {
 
 -- fzf
 
-vim.api.nvim_set_keymap("n", "<C-p>", ":Files!<CR>",
+vim.api.nvim_set_keymap("n", "<C-p>", ":Files<CR>",
   {silent = true, noremap = true}
 )
 
-function _G._rg_fzf_search(search) 
-  vim.fn['fzf#vim#grep']('rg --column --line-number --no-heading --color=always --smart-case --no-ignore --hidden -g "!{.git,node_modules,vendor,.idea,.direnv,.vim,dist,target,sorbet}" -- ' .. search, 1, vim.fn['fzf#vim#with_preview'](), 1)
-end
-
-function _G._rg_fzf_input(use_bang)
-  local search = vim.fn.input("Search: ", "")
-
-  if search == "" then
-    return
-  end
-
-  _rg_fzf_search(search, use_bang)
-end
-
-vim.api.nvim_set_keymap("n", "<C-f>", ":lua _rg_fzf_input()<CR>",
+vim.api.nvim_set_keymap("n", "<C-f>", ":Rg<Space>",
   {silent = true, noremap = true}
 )
 
-vim.api.nvim_set_keymap("n", "<Leader>p", ":Commands<CR>",
-  {silent = true, noremap = true}
-)
+vim.api.nvim_set_keymap("n", "<Leader>p", ":Commands<CR>", {silent = true, noremap = true})
 
 
 vim.api.nvim_set_keymap("n", "<leader>a", ":LspDiagnostics 0<cr>",
@@ -157,10 +141,6 @@ let g:fzf_action = {
   \ 'ctrl-x': 'split',
   \ 'ctrl-v': 'vsplit' }
 
-let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all'
-
-command! -bang -nargs=* Rg :lua _rg_fzf_input(<q-args>, <bang>0)<CR>
-
 let g:fzf_colors = {
       \ 'fg':      ['fg', 'GruvboxFg1'],
       \ 'bg':      ['fg', 'GruvboxBg0'],
@@ -176,7 +156,15 @@ let g:fzf_colors = {
       \ 'header':  ['fg', 'GruvboxBg3']
       \ }
 
+let g:fzf_layout = { 'window': '-tabnew' }
+
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always --smart-case --no-ignore --hidden -g "!{.git,node_modules,vendor,.idea,.direnv,.vim,dist,target,sorbet}" -- '.shellescape(<q-args>), 1,
+  \   fzf#vim#with_preview(), <bang>0)
+
 ]])
+
 
 -- nvim-dap
 
@@ -185,7 +173,7 @@ require('dapui').setup()
 
 -- gitsigns
 
-  require('gitsigns').setup({
+require('gitsigns').setup({
   on_attach = function(bufnr)
     -- https://github.com/lewis6991/gitsigns.nvim#keymaps
     
