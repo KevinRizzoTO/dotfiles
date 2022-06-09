@@ -158,6 +158,8 @@ let g:fzf_colors = {
 
 let g:fzf_layout = { 'window': '-tabnew' }
 
+let $FZF_DEFAULT_OPTS='--bind ctrl-a:select-all'
+
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
   \   'rg --column --line-number --no-heading --color=always --smart-case --no-ignore --hidden -g "!{.git,node_modules,vendor,.idea,.direnv,.vim,dist,target,sorbet}" -- '.shellescape(<q-args>), 1,
