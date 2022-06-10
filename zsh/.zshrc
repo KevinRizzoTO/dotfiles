@@ -111,7 +111,6 @@ bindkey "jj" vi-cmd-mode
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND='rg --hidden --no-ignore -l "" -g "!{.git,node_modules,vendor,.idea,.direnv,.vim,dist,target,sorbet}"'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_DEFAULT_OPTS='--bind ctrl-a:select-all'
 
 alias shopify-dev='~/src/github.com/Shopify/shopify-cli/bin/shopify'
 
@@ -212,7 +211,7 @@ function set_theme {
   fi
   
   export BAT_THEME=$bat_theme
-  export FZF_DEFAULT_OPTS="--color=$1"
+  export FZF_DEFAULT_OPTS="--color=$1 --bind ctrl-a:select-all"
 
   kitty @ --to unix:/tmp/mykitty set-colors --all --configured ~/.config/kitty/$kitty_conf_name.conf
 
