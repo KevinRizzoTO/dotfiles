@@ -67,9 +67,6 @@ ts.setup({
         ["if"] = "@function.inner",
         ["ac"] = "@conditional.outer",
         ["ic"] = "@conditional.inner",
-        -- I don't think I've ever actually used the paragraph text object :P so why not
-        ["ap"] = "@parameter.outer",
-        ["ip"] = "@parameter.inner",
         ["al"] = "@loop.outer",
         ["il"] = "@loop.inner"
       },
@@ -305,7 +302,11 @@ vim.cmd[[
 
 -- zen mode
 
-require('zen-mode').setup()
+require('zen-mode').setup({
+  plugins = {
+    twilight = { enabled = false }
+  }
+})
 
 -- for some reason, this is the only way I can get the "option" key to work
 -- using the default :ZenMode command won't have the flags be applied
@@ -321,9 +322,6 @@ function _G.toggle_zen_mode()
         foldcolumn = "0", -- disable fold column
         list = false, -- disable whitespace characters
       }
-    },
-    plugins = {
-      twilight = { enabled = false }
     }
   })
 end

@@ -155,6 +155,10 @@ namespace 'nvim' do
   task install_lsps: %w[install_plugins] do
     sh_swallow('nvim --headless -c "LspInstall --sync solargraph tsserver efm rust_analyzer" -c "quitall"')
   end
+
+  task setup_copilot: %w[install_plugins] do
+    sh_swallow('nvim --headless -c "Copilot setup" -c "quitall"')
+  end
 end
 
 task all: %w[zsh:all packages:all symlink:all ranger_plugins:all nvim:all]

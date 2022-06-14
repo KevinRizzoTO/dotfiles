@@ -53,6 +53,8 @@ return require("packer").startup(function()
 
   use({ "RRethy/nvim-treesitter-endwise" })
 
+  use({ "github/copilot.vim" })
+
   -- DAP
 
   use({ "mfussenegger/nvim-dap"})
