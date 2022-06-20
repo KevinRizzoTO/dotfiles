@@ -90,6 +90,10 @@ namespace 'packages' do
   task apt_get_install: :nvim do
     sh_swallow('sudo apt-get -o DPkg::Lock::Timeout=10000 install -y ranger caca-utils highlight atool poppler-utils mediainfo ripgrep --fix-missing')
   end
+
+  task sysz: :fzf do
+    sh_swallow('sudo wget -O /usr/bin/sysz https://github.com/joehillen/sysz/releases/latest/download/sysz && sudo chmod +x /usr/bin/sysz') 
+  end
 end
 
 namespace 'symlink' do
