@@ -57,7 +57,7 @@ namespace 'packages' do
     sh_swallow("wget #{deb_url} -P /tmp && sudo apt -o DPkg::Lock::Timeout=10000 install /tmp/#{deb_url.split('/').last}")
   end
 
-  task all: %i[vale lazygit delta bat fzf apt_get_install nvim]
+  task all: %i[delta bat lazygit vale fzf nvim stow apt_get_install sysz]
 
   task :delta do
     deb('https://github.com/dandavison/delta/releases/download/0.9.1/git-delta-musl_0.9.1_amd64.deb')
