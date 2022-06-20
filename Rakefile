@@ -153,7 +153,7 @@ namespace 'nvim' do
   end
 
   task install_lsps: %w[install_plugins] do
-    sh_swallow('nvim --headless -c "LspInstall --sync solargraph tsserver efm rust_analyzer" -c "quitall"')
+    sh_swallow('nvim --headless -c "LspInstall --sync solargraph tsserver rust_analyzer" -c "quitall"')
   end
 end
 
