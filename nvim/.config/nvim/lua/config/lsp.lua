@@ -87,7 +87,7 @@ local server_configs = {
   sorbet = {
     cmd = { 'bundle', 'exec', 'srb', 'tc', '--lsp' },
     filetypes = { 'ruby' },
-    root_dir = lspconfig.util.root_pattern("Gemfile", ".git"),
+    root_dir = lspconfig.util.root_pattern(".git"),
     on_attach = attach_lsp_to_buffer,
     autostart = false
   },
