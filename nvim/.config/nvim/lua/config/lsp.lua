@@ -11,6 +11,20 @@ end
 
 local lspconfig = require('lspconfig')
 
+local configs = require('lspconfig.configs')
+if not configs.ruby_lsp then
+ configs.ruby_lsp = {
+   default_config = {
+     cmd = {'bundle', 'exec', 'ruby-lsp'};
+     filetypes = {'ruby'};
+     root_dir = function(fname)
+       return lspconfig.util.find_git_ancestor(fname)
+     end;
+     settings = {};
+   };
+ }
+end
+
 local function attach_lsp_to_buffer(client, bufnr)
 
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
@@ -104,6 +118,15 @@ local server_configs = {
         }
       }
     }
+  },
+  ruby_lsp = {
+   cmd = {'bundle', 'exec', 'ruby-lsp'};
+   filetypes = {'ruby'};
+   root_dir = function(fname)
+     return lspconfig.util.find_git_ancestor(fname)
+   end;
+   settings = {};
+   on_attach = attach_lsp_to_buffer,
   }
 }
 
@@ -139,6 +162,7 @@ end)
 
 lspconfig.sorbet.setup(server_configs.sorbet)
 lspconfig.solargraph.setup(server_configs.solargraph)
+lspconfig.ruby_lsp.setup(server_configs.ruby_lsp)
 
 vim.lsp.set_log_level("debug")
 
