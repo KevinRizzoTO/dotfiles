@@ -34,9 +34,9 @@ local function attach_lsp_to_buffer(client, bufnr)
   buf_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.setqflist()<CR>', opts)
   buf_set_keymap('n', '<space>=', '<cmd>lua vim.lsp.buf.formatting_sync(nil, 5000)<CR>', opts)
 
-  -- if client.resolved_capabilities.document_formatting then
-    -- vim.cmd([[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()]])
-  -- end
+  if client.resolved_capabilities.document_formatting then
+    vim.cmd([[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync(nil, 5000)]])
+  end
 end
 
 local null_ls = require('null-ls')
