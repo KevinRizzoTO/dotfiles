@@ -230,3 +230,9 @@ function tdm {
     set_theme "light"
   fi
 }
+
+function pdf2lq {
+  node /Users/kevinrizzo/dev/link_to_logseq_pdf/index.js $1
+}
+
+alias lvim="~/.local/bin/lvim"
