@@ -4,7 +4,7 @@ local vim = vim
 local opt = vim.opt
 
 opt.completeopt = 'menuone,noinsert,noselect'
-vim.cmd[[set shortmess+=c]]
+vim.cmd [[set shortmess+=c]]
 
 cmp.setup({
   -- You can set mapping if you want.
@@ -33,8 +33,7 @@ cmp.setup({
 
   snippet = {
     expand = function(args)
-        require('luasnip').lsp_expand(args.body)
+      require('luasnip').lsp_expand(args.body)
     end
   },
 })
-

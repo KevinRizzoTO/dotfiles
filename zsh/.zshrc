@@ -232,7 +232,11 @@ function tdm {
 }
 
 function pdf2lq {
-  node /Users/kevinrizzo/dev/link_to_logseq_pdf/index.js $1
+  node /Users/kevinrizzo/dev/link_to_logseq_pdf/index.js $@
 }
 
 alias lvim="~/.local/bin/lvim"
+
+# Wasmer
+export WASMER_DIR="/Users/kevinrizzo/.wasmer"
+[ -s "$WASMER_DIR/wasmer.sh" ] && source "$WASMER_DIR/wasmer.sh"
