@@ -204,12 +204,16 @@ alias cat="bat"
 function set_theme {
   if [[ "$1" == "dark" ]]; then
     local bat_theme="gruvbox-dark"
+    local kitty_conf_name="gruvbox_dark"
   else
     local bat_theme="gruvbox-light"
+    local kitty_conf_name="gruvbox_light"
   fi
   
   export BAT_THEME=$bat_theme
   export FZF_DEFAULT_OPTS="--color=$1 --bind ctrl-a:select-all"
+
+  kitty @ --to unix:/tmp/mykitty set-colors --all --configured ~/.config/kitty/$kitty_conf_name.conf
 
   echo $1 >| ~/.background
 
