@@ -1,5 +1,3 @@
-require('plugins')
-
 -- alias
 
 local vim = vim
@@ -13,11 +11,11 @@ local vimp = require('vimp')
 local background = vim.fn.system('cat $HOME/.background')
 
 vim.opt.background = background:gsub("\n", "")
-vim.cmd[[colorscheme gruvbox]]
+vim.cmd [[colorscheme gruvbox]]
 
 -- options
 
-vim.cmd[[filetype plugin indent on]]
+vim.cmd [[filetype plugin indent on]]
 opt.expandtab = true
 
 opt.tabstop = 2
@@ -33,7 +31,7 @@ opt.linebreak = true
 opt.timeoutlen = 250
 opt.termguicolors = true
 
-vim.cmd[[set noshowmode]]
+vim.cmd [[set noshowmode]]
 
 opt.exrc = true
 
@@ -56,8 +54,8 @@ ts.setup({
   ensure_installed = "all",
   -- phpdoc tries to install some binary that doesn't work in ARM
   ignore_install = { "phpdoc" },
-  highlight = {enable = true},
-  indent = {enable = false},
+  highlight = { enable = true },
+  indent = { enable = false },
   textobjects = {
     select = {
       enable = true,
@@ -92,9 +90,9 @@ local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
 
 parser_config.embedded_template = {
   install_info = {
-    url = 'https://github.com/tree-sitter/tree-sitter-embedded-template',
-    files =  { 'src/parser.c' },
-    requires_generate_from_grammar  = true,
+    url                            = 'https://github.com/tree-sitter/tree-sitter-embedded-template',
+    files                          = { 'src/parser.c' },
+    requires_generate_from_grammar = true,
   },
   used_by = { 'eruby' }
 }
@@ -110,11 +108,12 @@ parser_config.markdown = {
 -- fzf
 
 vim.api.nvim_set_keymap("n", "<C-p>", ":Files!<CR>",
-  {silent = true, noremap = true}
+  { silent = true, noremap = true }
 )
 
-function _G._rg_fzf_search(search) 
-  vim.fn['fzf#vim#grep']('rg --column --line-number --no-heading --color=always --smart-case --no-ignore --hidden -g "!{.git,node_modules,vendor,.idea,.direnv,.vim,dist,target,sorbet}" -- ' .. search, 1, vim.fn['fzf#vim#with_preview'](), 1)
+function _G._rg_fzf_search(search)
+  vim.fn['fzf#vim#grep']('rg --column --line-number --no-heading --color=always --smart-case --no-ignore --hidden -g "!{.git,node_modules,vendor,.idea,.direnv,.vim,dist,target,sorbet}" -- '
+    .. search, 1, vim.fn['fzf#vim#with_preview'](), 1)
 end
 
 function _G._rg_fzf_input(use_bang)
@@ -128,16 +127,16 @@ function _G._rg_fzf_input(use_bang)
 end
 
 vim.api.nvim_set_keymap("n", "<C-f>", ":lua _rg_fzf_input()<CR>",
-  {silent = true, noremap = true}
+  { silent = true, noremap = true }
 )
 
 vim.api.nvim_set_keymap("n", "<Leader>p", ":Commands<CR>",
-  {silent = true, noremap = true}
+  { silent = true, noremap = true }
 )
 
 
 vim.api.nvim_set_keymap("n", "<leader>a", ":LspDiagnostics 0<cr>",
-  {silent = true, noremap = true}
+  { silent = true, noremap = true }
 )
 
 vim.cmd([[
@@ -182,10 +181,10 @@ require('dapui').setup()
 
 -- gitsigns
 
-  require('gitsigns').setup({
+require('gitsigns').setup({
   on_attach = function(bufnr)
     -- https://github.com/lewis6991/gitsigns.nvim#keymaps
-    
+
     local gs = package.loaded.gitsigns
 
     local function map(mode, l, r, opts)
@@ -199,29 +198,29 @@ require('dapui').setup()
       if vim.wo.diff then return ']c' end
       vim.schedule(function() gs.next_hunk() end)
       return '<Ignore>'
-    end, {expr=true})
+    end, { expr = true })
 
     map('n', '[c', function()
       if vim.wo.diff then return '[c' end
       vim.schedule(function() gs.prev_hunk() end)
       return '<Ignore>'
-    end, {expr=true})
+    end, { expr = true })
 
     -- Actions
-    map({'n', 'v'}, '<leader>hs', ':Gitsigns stage_hunk<CR>')
-    map({'n', 'v'}, '<leader>hr', ':Gitsigns reset_hunk<CR>')
+    map({ 'n', 'v' }, '<leader>hs', ':Gitsigns stage_hunk<CR>')
+    map({ 'n', 'v' }, '<leader>hr', ':Gitsigns reset_hunk<CR>')
     map('n', '<leader>hS', gs.stage_buffer)
     map('n', '<leader>hu', gs.undo_stage_hunk)
     map('n', '<leader>hR', gs.reset_buffer)
     map('n', '<leader>hp', gs.preview_hunk)
-    map('n', '<leader>hb', function() gs.blame_line{full=true} end)
+    map('n', '<leader>hb', function() gs.blame_line { full = true } end)
     map('n', '<leader>tb', gs.toggle_current_line_blame)
     map('n', '<leader>hd', gs.diffthis)
     map('n', '<leader>hD', function() gs.diffthis('~') end)
     map('n', '<leader>td', gs.toggle_deleted)
 
     -- Text object
-    map({'o', 'x'}, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
+    map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
   end
 })
 
@@ -254,10 +253,10 @@ iron.setup({
     -- Your repl definitions come here
     repl_definition = {
       sh = {
-        command = {"zsh"}
+        command = { "zsh" }
       },
       javascript = {
-        command = {"node", "--experimental-wasi-unstable-preview1"}
+        command = { "node", "--experimental-wasi-unstable-preview1" }
       }
     },
     repl_open_cmd = "vertical botright 80 split",
@@ -286,7 +285,7 @@ require('toggleterm').setup({
 
 -- mkdx
 
-vim.cmd[[
+vim.cmd [[
 let g:mkdx#settings     = { 'highlight': { 'enable': 1 },
                         \ 'enter': { 'shift': 1 },
                         \ 'links': { 'external': { 'enable': 1 } },
@@ -302,7 +301,7 @@ require("luasnip.loaders.from_vscode").lazy_load()
 
 -- highlighted yank
 
-vim.cmd[[
+vim.cmd [[
   augroup highlight_yank
     autocmd!
     au TextYankPost * silent! lua vim.highlight.on_yank { higroup='IncSearch', timeout=200 }
@@ -349,7 +348,7 @@ vim.cmd([[
   autocmd BufReadPost fugitive://* set bufhidden=delete
 ]])
 
-vim.api.nvim_set_keymap("n", "<leader>g", ":tab G<CR>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<leader>g", ":tab G<CR>", { noremap = true, silent = true })
 
 -- ranger.vim
 
@@ -372,7 +371,7 @@ require('bqf').setup({
 
       return true
     end
-  }  
+  }
 })
 
 -- neoterm

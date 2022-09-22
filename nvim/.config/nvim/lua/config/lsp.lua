@@ -8,27 +8,27 @@ local function apply_on_attaches(fns)
   end
 end
 
-
 local lspconfig = require('lspconfig')
 
 local configs = require('lspconfig.configs')
 if not configs.ruby_lsp then
- configs.ruby_lsp = {
-   default_config = {
-     cmd = {'bundle', 'exec', 'ruby-lsp'};
-     filetypes = {'ruby'};
-     root_dir = function(fname)
-       return lspconfig.util.find_git_ancestor(fname)
-     end;
-     settings = {};
-   };
- }
+  configs.ruby_lsp = {
+    default_config = {
+      cmd = { 'bundle', 'exec', 'ruby-lsp' };
+      filetypes = { 'ruby' };
+      root_dir = function(fname)
+        return lspconfig.util.find_git_ancestor(fname)
+      end;
+      settings = {};
+    };
+  }
 end
 
 local function attach_lsp_to_buffer(client, bufnr)
 
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  local opts = { noremap=true, silent=true }
+
+  local opts = { noremap = true, silent = true }
 
   buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
   buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
@@ -56,52 +56,42 @@ end
 local null_ls = require('null-ls')
 
 null_ls.setup({
-    sources = {
-        null_ls.builtins.formatting.stylua,
-        null_ls.builtins.diagnostics.eslint,
-        null_ls.builtins.formatting.prettier,
-        null_ls.builtins.completion.spell.with({
-          filetypes = { "markdown" },
-        }),
-        -- https://phuctm92.github.io/posts/rubocop-parser-current-is-loading/ to suppress warnings from "parser"
-        null_ls.builtins.formatting.rubocop.with({
-          command = 'ruby',
-          args = {'-W0', '-S', 'bundle', 'exec', 'rubocop', '-A', '-f', 'quiet', '--stderr', '-s', '$FILENAME'}
-        }),
-        null_ls.builtins.diagnostics.rubocop.with({
-          command = 'ruby',
-          args = {'-W0', '-S', 'bundle', 'exec', 'rubocop', '-f', 'json', '--stdin', '$FILENAME'}
-        }),
-        null_ls.builtins.diagnostics.vale
-    },
-    on_attach = attach_lsp_to_buffer
+  sources = {
+    null_ls.builtins.diagnostics.eslint,
+    null_ls.builtins.formatting.prettier,
+    null_ls.builtins.completion.spell.with({
+      filetypes = { "markdown" },
+    }),
+    null_ls.builtins.diagnostics.vale
+  },
+  on_attach = attach_lsp_to_buffer
 })
 
 local attach_fns = apply_on_attaches({ attach_lsp_to_buffer })
 
 local server_configs = {
-  solargraph =  {
+  solargraph = {
     autostart = false,
     on_attach = function(client, bufnr)
-        -- prefer rubocop through EFM over solargraph for formatting (it seems faster)
-        client.resolved_capabilities.document_formatting = false
+      -- prefer rubocop through EFM over solargraph for formatting (it seems faster)
+      client.resolved_capabilities.document_formatting = false
 
-        attach_lsp_to_buffer(client, bufnr)
+      attach_lsp_to_buffer(client, bufnr)
     end
   },
   tsserver = {
     settings = { documentFormatting = false },
     on_attach = function(client, bufnr)
-        -- prefer prettier over tsserver for formatting 
-        client.resolved_capabilities.document_formatting = false
+      -- prefer prettier over tsserver for formatting
+      client.resolved_capabilities.document_formatting = false
 
-        attach_lsp_to_buffer(client, bufnr)
+      attach_lsp_to_buffer(client, bufnr)
     end
   },
   sorbet = {
     cmd = { 'bundle', 'exec', 'srb', 'tc', '--lsp' },
     filetypes = { 'ruby' },
-    root_dir = lspconfig.util.root_pattern(".git"),
+    root_dir = lspconfig.util.root_pattern('Gemfile', '.git'),
     on_attach = attach_lsp_to_buffer,
     autostart = false
   },
@@ -120,13 +110,13 @@ local server_configs = {
     }
   },
   ruby_lsp = {
-   cmd = {'bundle', 'exec', 'ruby-lsp'};
-   filetypes = {'ruby'};
-   root_dir = function(fname)
-     return lspconfig.util.find_git_ancestor(fname)
-   end;
-   settings = {};
-   on_attach = attach_lsp_to_buffer,
+    cmd = { 'bundle', 'exec', 'ruby-lsp' };
+    filetypes = { 'ruby' };
+    root_dir = function(fname)
+      return lspconfig.util.find_git_ancestor(fname)
+    end;
+    settings = {};
+    on_attach = attach_lsp_to_buffer,
   }
 }
 
@@ -149,15 +139,15 @@ Job:new({
 local lsp_installer = require("nvim-lsp-installer")
 
 lsp_installer.on_server_ready(function(server)
-    local opts = {}
+  local opts = {}
 
-    if server_configs[server.name] ~= nil then
-      opts = server_configs[server.name]
-    end
+  if server_configs[server.name] ~= nil then
+    opts = server_configs[server.name]
+  end
 
-    -- This setup() function is exactly the same as lspconfig's setup function (:help lspconfig-quickstart)
-    server:setup(opts)
-    vim.cmd [[ do User LspAttachBuffers ]]
+  -- This setup() function is exactly the same as lspconfig's setup function (:help lspconfig-quickstart)
+  server:setup(opts)
+  vim.cmd [[ do User LspAttachBuffers ]]
 end)
 
 lspconfig.sorbet.setup(server_configs.sorbet)
@@ -175,10 +165,10 @@ vim.cmd([[
 -- diagnostics sign definitons
 
 vim.fn.sign_define("DiagnosticSignError",
-    {text = "", texthl = "GruvboxRed", numhl = ""})
+  { text = "", texthl = "GruvboxRed", numhl = "" })
 vim.fn.sign_define("DiagnosticSignWarn",
-    {text = "", texthl = "GruvboxYellow", numhl = ""})
+  { text = "", texthl = "GruvboxYellow", numhl = "" })
 vim.fn.sign_define("DiagnosticSignInfo",
-    {text = "", texthl = "GruvboxAqua", numhl = ""})
+  { text = "", texthl = "GruvboxAqua", numhl = "" })
 vim.fn.sign_define("DiagnosticSignHint",
-    {text = "", texthl = "GruvboxGray", numhl = ""})
+  { text = "", texthl = "GruvboxGray", numhl = "" })
