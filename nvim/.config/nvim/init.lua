@@ -1,3 +1,5 @@
+require('plugins')
+
 -- alias
 
 local vim = vim
@@ -39,13 +41,13 @@ opt.shell = "/bin/zsh"
 
 g.mapleader = ' '
 
--- LSP
-
-require('config.lsp')
-
 -- nvim-cmp
 
 require('config.nvim-cmp')
+
+-- LSP
+
+require('config.lsp')
 
 -- treesitter
 
@@ -382,26 +384,6 @@ g.neoterm_autoscroll = 1
 
 vim.api.nvim_set_keymap('i', 'jj', '<Esc>', { noremap = true, silent = true })
 
--- movement helpers
-
-vimp.nnoremap('J', "5j")
-vimp.nnoremap('K', "5k")
-vimp.nnoremap('L', "w")
-vimp.nnoremap('H', "b")
-vimp.nnoremap('<C-j>', '<C-d>')
-vimp.nnoremap('<C-k>', '<C-u>')
-vim.api.nvim_set_keymap('n', '<C-l>', '$', { noremap = true, silent = true })
-vimp.nnoremap('<C-h>', '^')
-
-vimp.vnoremap('J', "5j")
-vimp.vnoremap('K', "5k")
-vimp.vnoremap('L', "w")
-vimp.vnoremap('H', "b")
-vimp.vnoremap('<C-j>', '<C-d>')
-vimp.vnoremap('<C-k>', '<C-u>')
-vimp.vnoremap('<C-l>', '$')
-vimp.vnoremap('<C-h>', '^')
-
 -- add extra lines in normal mode
 
 vimp.nnoremap('<Leader>o', 'o<ESC>')
@@ -412,11 +394,6 @@ vimp.nnoremap('<Leader>O', 'O<ESC>')
 vimp.nnoremap('<C-A>', 'ggVG')
 
 -- Move across panes
-
-vimp.nnoremap('<Leader>h', '<C-w>h')
-vimp.nnoremap('<Leader>l', '<C-w>l')
-vimp.nnoremap('<Leader>j', '<C-w>j')
-vimp.nnoremap('<Leader>k', '<C-w>k')
 
 vimp.nnoremap('<Leader>/', ':noh<CR>')
 vimp.nnoremap('<Leader>f', ':%s//g<LEFT><LEFT>')
