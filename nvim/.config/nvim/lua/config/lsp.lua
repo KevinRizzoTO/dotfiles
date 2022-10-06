@@ -10,20 +10,6 @@ end
 
 local lspconfig = require('lspconfig')
 
-local configs = require('lspconfig.configs')
-if not configs.ruby_lsp then
-  configs.ruby_lsp = {
-    default_config = {
-      cmd = { 'bundle', 'exec', 'ruby-lsp' };
-      filetypes = { 'ruby' };
-      root_dir = function(fname)
-        return lspconfig.util.find_git_ancestor(fname)
-      end;
-      settings = {};
-    };
-  }
-end
-
 local function attach_lsp_to_buffer(client, bufnr)
 
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
@@ -47,10 +33,6 @@ local function attach_lsp_to_buffer(client, bufnr)
   buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
   buf_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.setqflist()<CR>', opts)
   buf_set_keymap('n', '<space>=', '<cmd>lua vim.lsp.buf.formatting_sync(nil, 5000)<CR>', opts)
-
-  if client.resolved_capabilities.document_formatting then
-    vim.cmd([[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync(nil, 5000)]])
-  end
 end
 
 local null_ls = require('null-ls')
@@ -62,7 +44,15 @@ null_ls.setup({
     null_ls.builtins.completion.spell.with({
       filetypes = { "markdown" },
     }),
-    null_ls.builtins.diagnostics.vale
+    null_ls.builtins.diagnostics.vale,
+    null_ls.builtins.diagnostics.rubocop.with({
+      command = "bundle",
+      args = { "exec", "rubocop", '-f', 'json', '--stdin', '$FILENAME' }
+    }),
+    null_ls.builtins.formatting.rubocop.with({
+      command = "bundle",
+      args = { "exec", "rubocop", '-A', '-f', 'quiet', '--stderr', '-s', '$FILENAME' }
+    })
   },
   on_attach = attach_lsp_to_buffer
 })
@@ -108,20 +98,12 @@ local server_configs = {
         }
       }
     }
-  },
-  ruby_lsp = {
-    cmd = { 'bundle', 'exec', 'ruby-lsp' };
-    filetypes = { 'ruby' };
-    root_dir = function(fname)
-      return lspconfig.util.find_git_ancestor(fname)
-    end;
-    settings = {};
-    on_attach = attach_lsp_to_buffer,
   }
 }
 
 local Job = require('plenary.job')
 
+-- TODO: use the default system API
 Job:new({
   command = 'bundle',
   args = { 'exec', 'which', 'srb' },
@@ -152,7 +134,6 @@ end)
 
 lspconfig.sorbet.setup(server_configs.sorbet)
 lspconfig.solargraph.setup(server_configs.solargraph)
-lspconfig.ruby_lsp.setup(server_configs.ruby_lsp)
 
 vim.lsp.set_log_level("debug")
 
