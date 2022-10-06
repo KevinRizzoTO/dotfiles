@@ -1,13 +1,5 @@
 local vim = vim
 
-local function apply_on_attaches(fns)
-  return function(...)
-    for _, fn in pairs(fns) do
-      fn(...)
-    end
-  end
-end
-
 local lspconfig = require('lspconfig')
 
 local function attach_lsp_to_buffer(client, bufnr)
@@ -51,8 +43,6 @@ null_ls.setup({
   on_attach = attach_lsp_to_buffer
 })
 
-local attach_fns = apply_on_attaches({ attach_lsp_to_buffer })
-
 local server_configs = {
   solargraph = {
     autostart = false,
@@ -76,11 +66,9 @@ local server_configs = {
     cmd = { 'bundle', 'exec', 'srb', 'tc', '--lsp' },
     filetypes = { 'ruby' },
     root_dir = lspconfig.util.root_pattern('Gemfile', '.git'),
-    on_attach = attach_lsp_to_buffer,
     autostart = false
   },
   rust_analyzer = {
-    on_attach = attach_lsp_to_buffer,
     settings = {
       ['rust-analyzer'] = {
         checkOnSave = {
@@ -115,10 +103,12 @@ Job:new({
 local lsp_installer = require("nvim-lsp-installer")
 
 lsp_installer.on_server_ready(function(server)
-  local opts = {}
+  local opts = {
+    on_attach = attach_lsp_to_buffer
+  }
 
   if server_configs[server.name] ~= nil then
-    opts = server_configs[server.name]
+    opts = vim.tbl_extend("force", opts, server_configs[server.name])
   end
 
   -- This setup() function is exactly the same as lspconfig's setup function (:help lspconfig-quickstart)
