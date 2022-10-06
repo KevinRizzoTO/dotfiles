@@ -140,10 +140,10 @@ vim.cmd([[
 -- diagnostics sign definitons
 
 vim.fn.sign_define("DiagnosticSignError",
-  { text = "", texthl = "GruvboxRed", numhl = "" })
+  { text = "E", texthl = "GruvboxRed", numhl = "" })
 vim.fn.sign_define("DiagnosticSignWarn",
-  { text = "", texthl = "GruvboxYellow", numhl = "" })
+  { text = "W", texthl = "GruvboxYellow", numhl = "" })
 vim.fn.sign_define("DiagnosticSignInfo",
-  { text = "", texthl = "GruvboxAqua", numhl = "" })
+  { text = "I", texthl = "GruvboxAqua", numhl = "" })
 vim.fn.sign_define("DiagnosticSignHint",
-  { text = "", texthl = "GruvboxGray", numhl = "" })
+  { text = "H", texthl = "GruvboxGray", numhl = "" })
