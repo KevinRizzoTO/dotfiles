@@ -37,8 +37,14 @@ null_ls.setup({
       filetypes = { "markdown" },
     }),
     null_ls.builtins.diagnostics.vale,
-    null_ls.builtins.diagnostics.rubocop,
-    null_ls.builtins.formatting.rubocop
+    null_ls.builtins.diagnostics.rubocop.with({
+      command = "bundle",
+      args = { "exec", "rubocop", '-f', 'json', '--stdin', '$FILENAME' }
+    }),
+    null_ls.builtins.formatting.rubocop.with({
+      command = "bundle",
+      args = { "exec", "rubocop", '-A', '-f', 'quiet', '--stderr', '-s', '$FILENAME' }
+    })
   },
   on_attach = attach_lsp_to_buffer
 })
