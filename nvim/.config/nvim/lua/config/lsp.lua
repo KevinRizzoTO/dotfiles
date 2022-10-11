@@ -36,15 +36,7 @@ null_ls.setup({
     null_ls.builtins.completion.spell.with({
       filetypes = { "markdown" },
     }),
-    null_ls.builtins.diagnostics.vale,
-    null_ls.builtins.diagnostics.rubocop.with({
-      command = "bundle",
-      args = { "exec", "rubocop", '-f', 'json', '--stdin', '$FILENAME' }
-    }),
-    null_ls.builtins.formatting.rubocop.with({
-      command = "bundle",
-      args = { "exec", "rubocop", '-A', '-f', 'quiet', '--stderr', '-s', '$FILENAME' }
-    })
+    null_ls.builtins.diagnostics.vale
   },
   on_attach = attach_lsp_to_buffer
 })
@@ -86,6 +78,36 @@ local server_configs = {
         }
       }
     }
+  },
+  ruby_ls = {
+    autostart = true,
+    cmd = {"bundle", "exec", "ruby-lsp"},
+    root_dir = lspconfig.util.root_pattern('.git'),
+    on_attach = function(client, bufnr)
+      attach_lsp_to_buffer(client, bufnr)
+
+      vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePre', 'CursorHold' }, {
+        buffer = bufnr,
+
+        callback = function()
+          local params = vim.lsp.util.make_text_document_params(bufnr)
+
+          client.request(
+            'textDocument/diagnostic',
+            { textDocument = params },
+            function(err, result)
+              if err then return end
+
+              vim.lsp.diagnostic.on_publish_diagnostics(
+                nil,
+                vim.tbl_extend('keep', params, { diagnostics = result.items }),
+                { bufnr = bufnr, client_id = client.id }
+              )
+            end
+          )
+        end,
+      })
+    end
   }
 }
 
@@ -124,6 +146,7 @@ end)
 
 lspconfig.sorbet.setup(server_configs.sorbet)
 lspconfig.solargraph.setup(server_configs.solargraph)
+lspconfig.ruby_ls.setup(server_configs.ruby_ls)
 
 vim.lsp.set_log_level("debug")
 
