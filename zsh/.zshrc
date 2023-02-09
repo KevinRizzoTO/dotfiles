@@ -113,6 +113,8 @@ export FZF_DEFAULT_COMMAND='rg --hidden --no-ignore -l "" -g "!{.git,node_module
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 alias shopify-dev='~/src/github.com/Shopify/shopify-cli/bin/shopify'
+# Don't show any message from dev when signing commits, it can break some UIs in the terminal
+export DEV_NO_GPG_MESSAGE=1
 
 # Add homebrew ruby to path
 export PATH="/usr/local/opt/ruby/bin:$PATH"
@@ -179,7 +181,7 @@ ss() {
 ssc() {
   systemctl list-units --no-pager --all | awk '/^[^●].*\@/ { print($1, " ", $3 == "active" ? "\033[32m" : "\033[33m", $3, "\033[0m")  } /^●.*\@/ { print($2, " ", "\033[31m", $4, "\033[0m")  }' | fzf --ansi | awk '{ print($1) }'
 }
-export PATH="/opt/homebrew/opt/openssl@3/bin:$PATH"
+export PATH="/opt/homebrew/opt/openssl@1.1/bin:$PATH"
 
 function mdd {
   local file_path="~/Documents/markdown_drafts/$(date +%m-%d-%Y)_$1.md"
