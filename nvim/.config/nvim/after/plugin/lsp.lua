@@ -4,12 +4,12 @@ lsp.preset('lsp-compe')
 
 lsp.ensure_installed({
   'tsserver',
-  'sumneko_lua',
+  'lua_ls',
   'rust_analyzer',
 })
 
 -- Fix Undefined global 'vim'
-local lua_options = lsp.build_options('sumneko_lua', {
+lsp.configure('lua_ls', {
     settings = {
         Lua = {
             diagnostics = {
@@ -78,10 +78,6 @@ lsp.setup()
 
 -- Initialize rust_analyzer with rust-tools
 require('rust-tools').setup({server = rust_lsp})
-
--- Weird errors coming from how Mason tries to setup the lua language server
--- It seems like it's using the wrong name (sumneko_lua instead of lua_ls), so just configure it manually
-require('lspconfig').lua_ls.setup(lua_options)
 
 vim.diagnostic.config({
     virtual_text = true
