@@ -45,8 +45,11 @@ return require('packer').startup(function(use)
 	  }
   }
 
-  use("folke/zen-mode.nvim")
   use("github/copilot.vim")
   use("akinsho/toggleterm.nvim")
   use('j-hui/fidget.nvim')
+
+  use("vim-test/vim-test")
+  use("nvim-orgmode/orgmode")
+  use('joaomsa/telescope-orgmode.nvim')
 end)

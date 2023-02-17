@@ -28,11 +28,14 @@ local cmp_mappings = lsp.defaults.cmp_mappings({
   ['<C-y>'] = cmp.mapping.confirm({ select = true }),
   ["<C-Space>"] = cmp.mapping.complete(),
 })
+local cmp_sources = lsp.defaults.cmp_sources()
+table.insert(cmp_sources, {name = 'orgmode'})
 
 cmp_mappings['<Tab>'] = nil
 cmp_mappings['<S-Tab>'] = nil
 
 cmp_config.mapping = cmp_mappings
+cmp_config.sources = cmp_sources
 
 -- Disable cmp in comments
 cmp_config.enabled = function()
