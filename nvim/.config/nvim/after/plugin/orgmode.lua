@@ -6,7 +6,7 @@ require('orgmode').setup {
     t = "Todo",
     tt = {
       description = 'Blank',
-      template = '* TODO %?\n  %t',
+      template = '* TODO %?',
       target = '~/org/todo.org'
     },
     ts = {
