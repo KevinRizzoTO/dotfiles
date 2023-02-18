@@ -30,12 +30,18 @@ local cmp_mappings = lsp.defaults.cmp_mappings({
 })
 local cmp_sources = lsp.defaults.cmp_sources()
 table.insert(cmp_sources, {name = 'orgmode'})
+table.insert(cmp_sources, {name = 'snippy'})
 
 cmp_mappings['<Tab>'] = nil
 cmp_mappings['<S-Tab>'] = nil
 
 cmp_config.mapping = cmp_mappings
 cmp_config.sources = cmp_sources
+cmp_config.snippet = {
+  expand = function(args)
+   require('snippy').expand_snippet(args.body)
+  end
+}
 
 -- Disable cmp in comments
 cmp_config.enabled = function()
