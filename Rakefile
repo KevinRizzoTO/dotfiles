@@ -92,7 +92,7 @@ namespace 'packages' do
   end
 
   task sysz: :fzf do
-    sh_swallow('sudo wget -O /usr/bin/sysz https://github.com/joehillen/sysz/releases/latest/download/sysz && sudo chmod +x /usr/bin/sysz') 
+    sh_swallow('sudo wget -O /usr/bin/sysz https://github.com/joehillen/sysz/releases/latest/download/sysz && sudo chmod +x /usr/bin/sysz')
   end
 end
 
@@ -145,20 +145,4 @@ namespace 'ranger_plugins' do
   end
 end
 
-namespace 'nvim' do
-  task all: %i[install_plugins install_ts_parsers install_lsps]
-
-  task install_plugins: %w[packages:nvim symlink:nvim] do
-    sh_swallow(%q[nvim --headless -u NONE -c 'autocmd User PackerComplete quitall' -c 'lua require("plugins")' -c 'PackerSync'])
-  end
-
-  task install_ts_parsers: %w[install_plugins] do
-    sh_swallow('nvim --headless -c "TSInstallSync all" -c "quitall"')
-  end
-
-  task install_lsps: %w[install_plugins] do
-    sh_swallow('nvim --headless -c "LspInstall --sync solargraph tsserver rust_analyzer" -c "quitall"')
-  end
-end
-
-task all: %w[zsh:all packages:all symlink:all ranger_plugins:all nvim:all]
+task all: %w[zsh:all packages:all symlink:all ranger_plugins:all]
