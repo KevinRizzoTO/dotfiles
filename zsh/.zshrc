@@ -175,7 +175,7 @@ if command -v kitty &> /dev/null; then
 fi
 
 ss() {
-  kitty +kitten $(spin shell -s) --kitten
+  kitty +kitten $(spin shell -s | sed 's/\\//g')
 }
 
 ssc() {
@@ -211,7 +211,7 @@ function set_theme {
     local bat_theme="gruvbox-light"
     local kitty_conf_name="gruvbox_light"
   fi
-  
+
   export BAT_THEME=$bat_theme
   export FZF_DEFAULT_OPTS="--color=$1 --bind ctrl-a:select-all"
 
