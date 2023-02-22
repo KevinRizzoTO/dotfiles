@@ -1,7 +1,7 @@
 require('orgmode').setup {
   org_agenda_files = {'~/org/**/*'},
   org_default_notes_file = '~/org/refile.org',
-  org_indent_mode = 'ident',
+  org_todo_keywords = {'TODO', 'NEXT', 'NOW', 'WAIT', '|', 'DONE'},
   org_capture_templates = {
     t = "Todo",
     tt = {

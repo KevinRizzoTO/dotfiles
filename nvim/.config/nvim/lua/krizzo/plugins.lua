@@ -52,4 +52,6 @@ return require('packer').startup(function(use)
   use("vim-test/vim-test")
   use("nvim-orgmode/orgmode")
   use('joaomsa/telescope-orgmode.nvim')
+
+  use('preservim/vim-markdown')
 end)
