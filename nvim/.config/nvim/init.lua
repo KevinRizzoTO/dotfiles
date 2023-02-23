@@ -30,3 +30,7 @@ autocmd({"BufWritePre"}, {
 vim.g.netrw_browse_split = 0
 vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 25
+
+if vim.env.SPIN == "1" and vim.env.USER == "spin" then
+  require('spin')
+end
