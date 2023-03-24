@@ -191,6 +191,7 @@ function mdd {
 
 # Alias for lazygit
 alias lg="lazygit -ucf $HOME/.config/lazygit/config.yml"
+alias tt="taskwarrior-tui"
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
   # Mac OSX, read background from defaults

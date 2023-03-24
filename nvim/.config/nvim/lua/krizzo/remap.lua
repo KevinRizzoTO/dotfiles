@@ -19,7 +19,7 @@ vim.keymap.set({"n", "v"}, "<leader>d", "\"+d")
 vim.keymap.set({"n", "v"}, "<leader>D", "\"+D")
 vim.keymap.set({"n", "v"}, "<leader>dd", "\"+dd")
 
-vim.keymap.set('t', [[<C-\>]], [[<C-\><C-n>]])
+vim.keymap.set('t', "jk", [[<C-\><C-n>]])
 
 vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
 

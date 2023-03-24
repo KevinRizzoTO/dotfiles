@@ -1,3 +1,5 @@
+require('telescope').load_extension('vw')
+
 local builtin = require('telescope.builtin')
 vim.keymap.set('n', '<C-p>', function () builtin.find_files({ find_command = {'rg', '--hidden', '--no-ignore', '--files', '-g', '!{.git,node_modules,vendor,.idea,.direnv,.vim,dist,target,sorbet}'}}) end)
 
@@ -7,9 +9,6 @@ vim.keymap.set('n', '<C-f>', function()
 	builtin.grep_string({ search = vim.fn.input("Grep > ") });
 end)
 
-vim.keymap.set('n', '<leader>osf', require('telescope').extensions.orgmode.search_headings, {})
-vim.keymap.set('n', '<leader>osw', function ()
-  builtin.grep_string({ search = vim.fn.input("Grep > "), search_dirs = {'~/org'} })
-end)
+vim.keymap.set('n', '<leader>p', builtin.commands, {})
 
-require('telescope').load_extension('orgmode')
+vim.keymap.set('n', '<leader>vw', function() builtin.find_files({ search_dirs = { "~/notes" } }) end)
