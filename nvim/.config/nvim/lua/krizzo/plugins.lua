@@ -21,6 +21,7 @@ return require('packer').startup(function(use)
   use('tpope/vim-rhubarb')
   use("tpope/vim-surround")
   use("tpope/vim-commentary")
+  use("tpope/vim-vinegar")
 
   use('simrat39/rust-tools.nvim')
 
@@ -56,4 +57,8 @@ return require('packer').startup(function(use)
   use('vimwiki/vimwiki')
   use('tools-life/taskwiki')
   use('ElPiloto/telescope-vimwiki.nvim')
+
+  use('nvim-lualine/lualine.nvim')
+
+  use('lewis6991/gitsigns.nvim')
 end)
