@@ -64,17 +64,14 @@ export NVM_COMPLETION=true
 plugins=(
   git
   aws
-  zsh-autosuggestions
   zsh-syntax-highlighting
   nvm
   zsh-z
-  zsh-vim-mode
+  zsh-vi-mode
   fzf-tab
 )
 
 source $ZSH/oh-my-zsh.sh
-
-bindkey "jj" vi-cmd-mode
 
 # User configuration
 
