@@ -112,10 +112,6 @@ bindkey "jj" vi-cmd-mode
 export FZF_DEFAULT_COMMAND='rg --hidden --no-ignore -l "" -g "!{.git,node_modules,vendor,.idea,.direnv,.vim,dist,target,sorbet}"'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
-alias shopify-dev='~/src/github.com/Shopify/shopify-cli/bin/shopify'
-# Don't show any message from dev when signing commits, it can break some UIs in the terminal
-export DEV_NO_GPG_MESSAGE=1
-
 # Add homebrew ruby to path
 export PATH="/usr/local/opt/ruby/bin:$PATH"
 
@@ -174,21 +170,6 @@ if command -v kitty &> /dev/null; then
   kitty + complete setup zsh | source /dev/stdin
 fi
 
-ss() {
-  kitty +kitten $(spin shell -s | sed 's/\\//g')
-}
-
-ssc() {
-  systemctl list-units --no-pager --all | awk '/^[^●].*\@/ { print($1, " ", $3 == "active" ? "\033[32m" : "\033[33m", $3, "\033[0m")  } /^●.*\@/ { print($2, " ", "\033[31m", $4, "\033[0m")  }' | fzf --ansi | awk '{ print($1) }'
-}
-export PATH="/opt/homebrew/opt/openssl@1.1/bin:$PATH"
-
-function mdd {
-  local file_path="~/Documents/markdown_drafts/$(date +%m-%d-%Y)_$1.md"
-
-  nvim -c "e $file_path"
-}
-
 # Alias for lazygit
 alias lg="lazygit -ucf $HOME/.config/lazygit/config.yml"
 alias tt="taskwarrior-tui"
@@ -219,9 +200,6 @@ function set_theme {
   kitty @ --to unix:/tmp/mykitty set-colors --all --configured ~/.config/kitty/$kitty_conf_name.conf
 
   echo $1 >| ~/.background
-
-  # https://stackoverflow.com/a/11111042
-  (scp ~/.background spin@$(spin list --json | jq -r ".[0].fqdn"):/home/spin/ &>/dev/null & )
 }
 
 set_theme $background
@@ -237,13 +215,3 @@ function tdm {
     set_theme "light"
   fi
 }
-
-function pdf2lq {
-  node /Users/kevinrizzo/dev/link_to_logseq_pdf/index.js $@
-}
-
-alias lvim="~/.local/bin/lvim"
-
-# Wasmer
-export WASMER_DIR="/Users/kevinrizzo/.wasmer"
-[ -s "$WASMER_DIR/wasmer.sh" ] && source "$WASMER_DIR/wasmer.sh"
