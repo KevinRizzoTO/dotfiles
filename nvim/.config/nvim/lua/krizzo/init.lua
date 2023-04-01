@@ -5,6 +5,7 @@ vim.g.vimwiki_list = {
     syntax = 'markdown',
     ext = '.md',
     links_space_char = '_',
+    diary_rel_path = "daily/"
   }
 }
 
