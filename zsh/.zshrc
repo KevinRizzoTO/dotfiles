@@ -103,17 +103,8 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-# FZF
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-export FZF_DEFAULT_COMMAND='rg --hidden --no-ignore -l "" -g "!{.git,node_modules,vendor,.idea,.direnv,.vim,dist,target,sorbet}"'
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-
 # Add homebrew ruby to path
 export PATH="/usr/local/opt/ruby/bin:$PATH"
-
-# Add gems executables to PATH
-export PATH="/Users/krizzo/.local/share/gem/ruby/3.0.0/bin:$PATH"
 
 export EDITOR="nvim"
 
@@ -157,19 +148,11 @@ if command -v nvim &> /dev/null; then
   alias vim='nvim'
 fi
 
-# Setup direnv hook
-
-if command -v direnv &> /dev/null; then
-  eval "$(direnv hook zsh)"
-fi
-
 if command -v kitty &> /dev/null; then
   kitty + complete setup zsh | source /dev/stdin
 fi
 
-# Alias for lazygit
 alias lg="lazygit -ucf $HOME/.config/lazygit/config.yml"
-alias tt="taskwarrior-tui"
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
   # Mac OSX, read background from defaults
@@ -213,6 +196,32 @@ function tdm {
   fi
 }
 
+# nvm bootstrapping
+
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# pipenv bootstrapping
+
+export PIPENV_PYTHON=$PYENV_ROOT/shims/python
+export PATH="/opt/homebrew/opt/postgresql@13/bin:$PATH"
+
+# openssl
+
+export PATH="$(brew --prefix openssl)/bin:$PATH"
+export LIBRARY_PATH=$LIBRARY_PATH:$(brew --prefix openssl)/lib/
+
+# FZF
+
+export FZF_DEFAULT_COMMAND='rg --hidden --no-ignore -l "" -g "!{.git,node_modules,vendor,.idea,.direnv,.vim,dist,target,sorbet}"'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+
+# Define an init function and append to zvm_after_init_commands
+# https://github.com/jeffreytse/zsh-vi-mode#execute-extra-commands
+function my_init() {
+  [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+}
+
+zvm_after_init_commands+=(my_init)
+
