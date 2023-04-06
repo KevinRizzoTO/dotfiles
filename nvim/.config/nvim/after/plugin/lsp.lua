@@ -10,36 +10,50 @@ lsp.ensure_installed({
 
 -- Fix Undefined global 'vim'
 lsp.configure('lua_ls', {
-    settings = {
-        Lua = {
-            diagnostics = {
-                globals = { 'vim' }
-            }
-        }
+  settings = {
+    Lua = {
+      diagnostics = {
+        globals = { 'vim' }
+      }
     }
+  }
 })
 
 local cmp = require('cmp')
 local cmp_config = lsp.defaults.cmp_config({})
-local cmp_select = {behavior = cmp.SelectBehavior.Select}
-local cmp_mappings = lsp.defaults.cmp_mappings({
-  ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
-  ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
-  ['<C-y>'] = cmp.mapping.confirm({ select = true }),
-  ["<C-Space>"] = cmp.mapping.complete(),
-})
-local cmp_sources = lsp.defaults.cmp_sources()
-table.insert(cmp_sources, {name = 'orgmode'})
-table.insert(cmp_sources, {name = 'snippy'})
 
-cmp_mappings['<Tab>'] = nil
-cmp_mappings['<S-Tab>'] = nil
+local cmp_sources = lsp.defaults.cmp_sources()
+table.insert(cmp_sources, { name = 'snippy' })
+
+local cmp_mappings = lsp.defaults.cmp_mappings({
+  ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+  ['<C-f>'] = cmp.mapping.scroll_docs(4),
+  ['<C-Space>'] = cmp.mapping.complete({}),
+  ['<CR>'] = cmp.mapping.confirm {
+    behavior = cmp.ConfirmBehavior.Replace,
+    select = true,
+  },
+  ['<Tab>'] = cmp.mapping(function(fallback)
+    if cmp.visible() then
+      cmp.select_next_item()
+    else
+      fallback()
+    end
+  end, { 'i', 's' }),
+  ['<S-Tab>'] = cmp.mapping(function(fallback)
+    if cmp.visible() then
+      cmp.select_prev_item()
+    else
+      fallback()
+    end
+  end, { 'i', 's' }),
+})
 
 cmp_config.mapping = cmp_mappings
 cmp_config.sources = cmp_sources
 cmp_config.snippet = {
   expand = function(args)
-   require('snippy').expand_snippet(args.body)
+    require('snippy').expand_snippet(args.body)
   end
 }
 
@@ -48,7 +62,7 @@ cmp_config.enabled = function()
   local is_prompt = vim.api.nvim_buf_get_option(0, "buftype") == "prompt"
 
   local is_comment = require('cmp.config.context').in_treesitter_capture('comment') == true
-    or require('cmp.config.context').in_syntax_group('Comment')
+      or require('cmp.config.context').in_syntax_group('Comment')
 
   if is_prompt or is_comment then
     return false
@@ -66,20 +80,20 @@ cmp.setup.filetype("markdown", {
 })
 
 lsp.set_preferences({
-    suggest_lsp_servers = false,
-    sign_icons = {
-        error = 'E',
-        warn = 'W',
-        hint = 'H',
-        info = 'I'
-    }
+  suggest_lsp_servers = false,
+  sign_icons = {
+    error = 'E',
+    warn = 'W',
+    hint = 'H',
+    info = 'I'
+  }
 })
 
 -- setup rust-tools
 local rust_lsp = lsp.build_options('rust_analyzer', {})
 
 lsp.on_attach(function(client, bufnr)
-  local opts = {buffer = bufnr, remap = false}
+  local opts = { buffer = bufnr, remap = false }
 
   vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
   vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
@@ -96,10 +110,10 @@ end)
 lsp.setup()
 
 -- Initialize rust_analyzer with rust-tools
-require('rust-tools').setup({server = rust_lsp})
+require('rust-tools').setup({ server = rust_lsp })
 
 vim.diagnostic.config({
-    virtual_text = true
+  virtual_text = true
 })
 
-require"fidget".setup({})
+require "fidget".setup({})
