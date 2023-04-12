@@ -19,6 +19,14 @@ lsp.configure('lua_ls', {
   }
 })
 
+lsp.configure('pyright', {
+  settings = {
+    python = {
+      analysis = { typeCheckingMode = "off" },
+    },
+  }
+})
+
 local cmp = require('cmp')
 local cmp_config = lsp.defaults.cmp_config({})
 
