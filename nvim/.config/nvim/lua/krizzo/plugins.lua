@@ -21,7 +21,6 @@ return require('packer').startup(function(use)
   use('tpope/vim-rhubarb')
   use("tpope/vim-surround")
   use("tpope/vim-commentary")
-  use("tpope/vim-vinegar")
 
   use('simrat39/rust-tools.nvim')
 
@@ -52,11 +51,9 @@ return require('packer').startup(function(use)
   use('j-hui/fidget.nvim')
 
   use("vim-test/vim-test")
-  use('joaomsa/telescope-orgmode.nvim')
 
-  use('vimwiki/vimwiki')
-  use('tools-life/taskwiki')
-  use('ElPiloto/telescope-vimwiki.nvim')
+  use('francoiscabrol/ranger.vim')
+  use('rbgrouleff/bclose.vim')
 
   use('nvim-lualine/lualine.nvim')
 
