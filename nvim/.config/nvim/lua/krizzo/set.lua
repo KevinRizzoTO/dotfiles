@@ -25,6 +25,3 @@ vim.opt.termguicolors = true
 vim.cmd [[set noshowmode]]
 
 vim.opt.clipboard = "unnamedplus"
-
--- conceal links for orgmode (and possibility other files)
-vim.opt.conceallevel = 2

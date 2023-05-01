@@ -46,7 +46,6 @@ return require('packer').startup(function(use)
     }
   }
 
-  use("github/copilot.vim")
   use("akinsho/toggleterm.nvim")
   use('j-hui/fidget.nvim')
 
@@ -58,4 +57,13 @@ return require('packer').startup(function(use)
   use('nvim-lualine/lualine.nvim')
 
   use('lewis6991/gitsigns.nvim')
+
+  use {
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    event = "InsertEnter",
+    config = function()
+      require("copilot").setup({})
+    end,
+  }
 end)

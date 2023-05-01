@@ -33,24 +33,30 @@ local cmp_config = lsp.defaults.cmp_config({})
 local cmp_sources = lsp.defaults.cmp_sources()
 table.insert(cmp_sources, { name = 'snippy' })
 
+local has_words_before = function()
+  if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then return false end
+  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+  return col ~= 0 and vim.api.nvim_buf_get_text(0, line-1, 0, line-1, col, {})[1]:match("^%s*$") == nil
+end
+
 local cmp_mappings = lsp.defaults.cmp_mappings({
   ['<C-d>'] = cmp.mapping.scroll_docs(-4),
   ['<C-f>'] = cmp.mapping.scroll_docs(4),
   ['<C-Space>'] = cmp.mapping.complete({}),
   ['<CR>'] = cmp.mapping.confirm {
     behavior = cmp.ConfirmBehavior.Replace,
-    select = true,
+    select = false,
   },
   ['<Tab>'] = cmp.mapping(function(fallback)
-    if cmp.visible() then
-      cmp.select_next_item()
+    if cmp.visible() and has_words_before() then
+      cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
     else
       fallback()
     end
   end, { 'i', 's' }),
   ['<S-Tab>'] = cmp.mapping(function(fallback)
-    if cmp.visible() then
-      cmp.select_prev_item()
+    if cmp.visible() and has_words_before() then
+      cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
     else
       fallback()
     end
@@ -80,6 +86,14 @@ cmp_config.enabled = function()
 end
 
 cmp.setup(cmp_config)
+
+cmp.event:on("menu_opened", function()
+  vim.b.copilot_suggestion_hidden = true
+end)
+
+cmp.event:on("menu_closed", function()
+  vim.b.copilot_suggestion_hidden = false
+end)
 
 cmp.setup.filetype("markdown", {
   sources = {
