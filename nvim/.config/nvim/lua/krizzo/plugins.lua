@@ -51,6 +51,9 @@ return require('packer').startup(function(use)
 
   use("vim-test/vim-test")
 
+  use("jose-elias-alvarez/null-ls.nvim")
+  use("lukas-reineke/lsp-format.nvim")
+
   use('francoiscabrol/ranger.vim')
   use('rbgrouleff/bclose.vim')
 

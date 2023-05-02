@@ -27,6 +27,31 @@ lsp.configure('pyright', {
   }
 })
 
+lsp.on_attach(function(client, bufnr)
+  lsp.default_keymaps({buffer = bufnr})
+end)
+
+lsp.format_on_save({
+  format_opts = {
+    timeout_ms = 10000,
+  },
+  servers = {
+    ['null-ls'] = {'javascript', 'typescript', 'lua', 'typescriptreact', 'javascriptreact'},
+  }
+})
+
+lsp.format_mapping('<Leader>f', {
+  format_opts = {
+    async = false,
+    timeout_ms = 10000,
+  },
+  servers = {
+    ['lua_ls'] = {'lua'},
+    ['rust_analyzer'] = {'rust'},
+    ['null-ls'] = {'javascript', 'typescript', 'lua', 'typescriptreact', 'javascriptreact'},
+  }
+})
+
 local cmp = require('cmp')
 local cmp_config = lsp.defaults.cmp_config({})
 
@@ -139,3 +164,14 @@ vim.diagnostic.config({
 })
 
 require "fidget".setup({})
+
+local null_ls = require("null-ls")
+
+null_ls.setup({
+    sources = {
+        null_ls.builtins.formatting.stylua,
+        null_ls.builtins.formatting.prettier,
+        null_ls.builtins.diagnostics.eslint,
+        null_ls.builtins.completion.spell,
+    },
+})
