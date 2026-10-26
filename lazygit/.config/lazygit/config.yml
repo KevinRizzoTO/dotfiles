@@ -1,9 +1,108 @@
 gui:
   scrollHeight: 5
 git:
-  paging:
-    colorArg: always
-    pager: delta --dark --paging=never --24-bit-color=never --line-numbers
+  pagers:
+    - colorArg: always
+      pager: delta --dark --paging=never --24-bit-color=never --line-numbers
   overrideGpg: true
 os:
   openCommand: "ttab 'vim {{filename}}'"
+customCommands:
+  - key: '<c-g>'
+    description: 'GitTown: manage stacked branches'
+    commandMenu:
+      - key: 'b'
+        context: 'localBranches'
+        description: 'Branch: show branch hierarchy'
+        command: 'git town branch'
+        output: 'popup'
+        outputTitle: 'Git Town branch hierarchy'
+      - key: 'a'
+        context: 'localBranches'
+        description: 'Append: create a child branch'
+        prompts:
+          - type: 'input'
+            title: 'New child branch name'
+            key: 'BranchName'
+            condition: '{{ eq .SelectedLocalBranch.Name .CheckedOutBranch.Name }}'
+        command: "{{if eq .SelectedLocalBranch.Name .CheckedOutBranch.Name}}git town append {{.Form.BranchName | quote}}{{else}}echo 'Check out the selected branch first'; exit 1{{end}}"
+        output: 'terminal'
+      - key: 'p'
+        context: 'localBranches'
+        description: 'Prepend: create a parent branch'
+        prompts:
+          - type: 'input'
+            title: 'New parent branch name'
+            key: 'BranchName'
+            condition: '{{ eq .SelectedLocalBranch.Name .CheckedOutBranch.Name }}'
+        command: "{{if eq .SelectedLocalBranch.Name .CheckedOutBranch.Name}}git town prepend {{.Form.BranchName | quote}}{{else}}echo 'Check out the selected branch first'; exit 1{{end}}"
+        output: 'terminal'
+      - key: 'i'
+        context: 'localBranches'
+        description: 'Commit: save staged changes to another branch'
+        command: "{{if eq .SelectedLocalBranch.Name .CheckedOutBranch.Name}}git town commit{{else}}echo 'Check out the selected branch first'; exit 1{{end}}"
+        output: 'terminal'
+      - key: 't'
+        context: 'localBranches'
+        description: 'Detach: remove selected branch from its stack'
+        command: "{{if eq .SelectedLocalBranch.Name .CheckedOutBranch.Name}}git town detach{{else}}echo 'Check out the selected branch first'; exit 1{{end}}"
+        output: 'terminal'
+      - key: 'm'
+        context: 'localBranches'
+        description: 'Merge: combine selected branch with its parent'
+        command: "{{if eq .SelectedLocalBranch.Name .CheckedOutBranch.Name}}git town merge{{else}}echo 'Check out the selected branch first'; exit 1{{end}}"
+        output: 'terminal'
+      - key: 'r'
+        context: 'localBranches'
+        description: 'Reparent: change the selected branch parent'
+        prompts:
+          - type: 'menuFromCommand'
+            title: 'New parent branch'
+            key: 'BranchName'
+            command: "git for-each-ref --sort=refname --format='%(refname:short)' refs/heads"
+            filter: '^(?P<branch>.+)$'
+            valueFormat: '{{ .branch }}'
+            labelFormat: '{{ .branch }}'
+            condition: '{{ eq .SelectedLocalBranch.Name .CheckedOutBranch.Name }}'
+        command: "{{if eq .SelectedLocalBranch.Name .CheckedOutBranch.Name}}git town set-parent {{.Form.BranchName | quote}}{{else}}echo 'Check out the selected branch first'; exit 1{{end}}"
+        output: 'terminal'
+      - key: 'x'
+        context: 'localBranches'
+        description: 'Swap: exchange selected branch with its parent'
+        command: "{{if eq .SelectedLocalBranch.Name .CheckedOutBranch.Name}}git town swap{{else}}echo 'Check out the selected branch first'; exit 1{{end}}"
+        output: 'terminal'
+      - key: 'u'
+        context: 'localBranches'
+        description: 'Up: switch to the parent branch'
+        command: "{{if eq .SelectedLocalBranch.Name .CheckedOutBranch.Name}}git town up{{else}}echo 'Check out the selected branch first'; exit 1{{end}}"
+        output: 'terminal'
+      - key: 'd'
+        context: 'localBranches'
+        description: 'Down: switch to a child branch'
+        command: "{{if eq .SelectedLocalBranch.Name .CheckedOutBranch.Name}}git town down{{else}}echo 'Check out the selected branch first'; exit 1{{end}}"
+        output: 'terminal'
+      - key: 's'
+        context: 'localBranches'
+        description: 'Sync: update the entire stack'
+        command: "{{if eq .SelectedLocalBranch.Name .CheckedOutBranch.Name}}git town sync --stack{{else}}echo 'Check out the selected branch first'; exit 1{{end}}"
+        output: 'terminal'
+      - key: 'c'
+        context: 'localBranches'
+        description: 'Compress: squash each branch in the stack'
+        prompts:
+          - type: 'confirm'
+            title: 'Compress stack'
+            body: 'Squash the commits on every branch in the current stack?'
+            condition: '{{ eq .SelectedLocalBranch.Name .CheckedOutBranch.Name }}'
+        command: "{{if eq .SelectedLocalBranch.Name .CheckedOutBranch.Name}}git town compress --stack{{else}}echo 'Check out the selected branch first'; exit 1{{end}}"
+        output: 'terminal'
+      - key: 'w'
+        context: 'localBranches'
+        description: 'Walk: run a command across the stack'
+        prompts:
+          - type: 'input'
+            title: 'Command to run on each stack branch'
+            key: 'Command'
+            condition: '{{ eq .SelectedLocalBranch.Name .CheckedOutBranch.Name }}'
+        command: "{{if eq .SelectedLocalBranch.Name .CheckedOutBranch.Name}}git town walk --stack {{.Form.Command}}{{else}}echo 'Check out the selected branch first'; exit 1{{end}}"
+        output: 'terminal'

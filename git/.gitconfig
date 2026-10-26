@@ -1,51 +1,33 @@
-[user]
-	name = Kevin Rizzo
-	email = kevin.rizzo@shopify.com
-	signingkey = 001E87AF10BA92ECDA92D35EC83E82114BBC857B
-[core]
-	filemode = false
-	pager = delta --line-numbers --dark
-	commitGraph = true
-[filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
-[url "git@github.com:"]
-	insteadOf = https://github.com/
-[color]
-	ui = true
-[color "diff-highlight"]
-	oldNormal = red bold
-	oldHighlight = red bold 52
-	newNormal = green bold
-	newHighlight = green bold 22
-[color "diff"]
-	meta = yellow
-	frag = magenta bold
-	commit = yellow bold
-	old = red bold
-	new = green bold
-	whitespace = red reverse
-[pull]
-	rebase = true
-[branch]
-	autosetuprebase = always
-[credential]
-	helper = 
-	helper = store --file /opt/dev/var/private/git_credential_store
-[diff]
-	algorithm = patience
-[gc]
-	writeCommitGraph = true
-[protocol]
-	version = 2
-[url "https://github.com/Shopify/"]
-	insteadOf = git@github.com:Shopify/
-	insteadOf = git@github.com:shopify/
-	insteadOf = ssh://git@github.com/Shopify/
-	insteadOf = ssh://git@github.com/shopify/
 [gpg]
-	program = /nix/var/nix/gcroots/dev-profiles/dev-support-dev-profile/bin/gpg-auto-pin
+	format = ssh
 [commit]
-	gpgSign = true
+	gpgsign = true
+[user]
+	signingkey = /Users/kevinrizzo/.ssh/id_ed25519_github.pub
+	email = contact@kevinrizzo.com
+	name = Kevin Rizzo
+[core]
+	hooksPath = /Users/kevinrizzo/.config/git/hooks
+	pager = delta
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	side-by-side = true
+	syntax-theme = gruvbox-dark
+	true-color = auto
+[diff]
+	tool = delta
+[difftool]
+	prompt = false
+[pager]
+	difftool = less -FRX
+[difftool "delta"]
+	cmd = delta "$LOCAL" "$REMOTE"
+[git-town]
+	sync-feature-strategy = rebase
+	offline = false
+[rerere]
+	enabled = true
+	autoupdate = true
+[gpg "ssh"]
+	allowedSignersFile = /Users/kevinrizzo/.ssh/allowed_signers

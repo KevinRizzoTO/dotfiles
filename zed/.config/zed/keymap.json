@@ -1,0 +1,124 @@
+// Zed keymap
+//
+// For information on binding keys, see the Zed
+// documentation: https://zed.dev/docs/key-bindings
+//
+// To see the default key bindings run `zed: open default keymap`
+// from the command palette.
+[
+  {
+    "context": "Workspace",
+    "bindings": {
+      // "shift shift": "file_finder::Toggle"
+    },
+  },
+  {
+    "context": "Editor && vim_mode == insert",
+    "bindings": {
+      // "j k": "vim::NormalBefore"
+    },
+  },
+  {
+    "context": "RecentProjects || RecentProjects > Picker > Editor",
+    "unbind": {
+      "cmd-shift-a": "workspace::AddFolderToProject",
+    },
+  },
+  {
+    "context": "Picker > Editor",
+    "unbind": {
+      "cmd-shift-a": "picker::ToggleActionsMenu",
+    },
+  },
+  {
+    "context": "ToolchainSelector",
+    "unbind": {
+      "cmd-shift-a": "toolchain::AddToolchain",
+    },
+  },
+  {
+    "context": "RecentProjects || RecentProjects > Picker > Editor",
+    "unbind": {
+      "cmd-shift-a": "workspace::AddFolderToProject",
+    },
+  },
+  {
+    "context": "RecentProjects || RecentProjects > Picker > Editor",
+    "unbind": {
+      "cmd-shift-a": "workspace::AddFolderToProject",
+    },
+  },
+  {
+    "context": "RecentProjects || RecentProjects > Picker > Editor",
+    "unbind": {
+      "cmd-shift-a": "workspace::AddFolderToProject",
+    },
+  },
+  // ==========================================
+  // NORMAL MODE KEYBINDINGS
+  // ==========================================
+  {
+    "context": "Editor && vim_mode == normal",
+    "bindings": {
+      // Internal delete operator
+      "ctrl-shift-d": "vim::PushDelete",
+
+      // Black-hole register defaults
+      "x": ["workspace::SendKeystrokes", "\" _ x"],
+      "X": ["workspace::SendKeystrokes", "\" _ X"],
+      "s": ["workspace::SendKeystrokes", "\" _ s"],
+      "S": ["workspace::SendKeystrokes", "\" _ S"],
+      "c": ["workspace::SendKeystrokes", "\" _ c"],
+      "C": ["workspace::SendKeystrokes", "\" _ C"],
+      "d": ["workspace::SendKeystrokes", "\" _ d"],
+      "D": ["workspace::SendKeystrokes", "\" _ D"],
+
+      // Regular deletion/cutting using Space
+      "space d": ["workspace::SendKeystrokes", "ctrl-shift-d"],
+      "space d d": ["workspace::SendKeystrokes", "ctrl-shift-d d"],
+      "space D": ["workspace::SendKeystrokes", "ctrl-shift-d $"],
+
+      // Insert an empty line without remaining in Insert mode
+      "space o": ["workspace::SendKeystrokes", "o escape"],
+      "space O": ["workspace::SendKeystrokes", "O escape"],
+
+      // Search
+      "space /": "buffer_search::Dismiss",
+
+      // Workspace
+      "space p": "command_palette::Toggle",
+      "space s": "outline::Toggle",
+
+      // LSP/navigation
+      "K": "editor::Hover",
+      "g d": "editor::GoToDefinition",
+      "g r": "editor::FindAllReferences",
+    },
+  },
+
+  // ==========================================
+  // VISUAL MODE KEYBINDINGS
+  // ==========================================
+  {
+    "context": "Editor && vim_mode == visual",
+    "bindings": {
+      // Black-hole register defaults
+      "x": ["workspace::SendKeystrokes", "\" _ x"],
+      "s": ["workspace::SendKeystrokes", "\" _ s"],
+
+      // Regular deletion/cutting
+      "space d": "vim::VisualDelete",
+      "space D": "vim::VisualDelete",
+    },
+  },
+
+  // ==========================================
+  // INSERT MODE KEYBINDINGS
+  // ==========================================
+  {
+    "context": "Editor && vim_mode == insert",
+    "bindings": {
+      "j j": ["workspace::SendKeystrokes", "escape"],
+    },
+  },
+]

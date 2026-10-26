@@ -1,19 +1,14 @@
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
-
 # Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="powerlevel10k/powerlevel10k"
+ZSH_THEME=""
+
+# Skip checks that add latency to every interactive shell.
+DISABLE_AUTO_UPDATE=true
+ZSH_DISABLE_COMPFIX=true
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -55,6 +50,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 
 export NVM_LAZY_LOAD=true
 export NVM_COMPLETION=true
+export NVM_DIR="$HOME/.nvm"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
@@ -62,12 +58,14 @@ export NVM_COMPLETION=true
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
   git
-  nvm
   zsh-z
   zsh-vi-mode
   fzf-tab
   fast-syntax-highlighting
   zsh-autosuggestions
+  evalcache
+  docker
+  docker-compose
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -107,6 +105,16 @@ export PATH="/usr/local/opt/ruby/bin:$PATH"
 
 export EDITOR="nvim"
 
+if [[ -x /opt/homebrew/bin/brew ]]; then
+  export HOMEBREW_PREFIX=/opt/homebrew
+elif [[ -x /usr/local/bin/brew ]]; then
+  export HOMEBREW_PREFIX=/usr/local
+fi
+
+oh_my_posh_theme_path="$HOMEBREW_PREFIX/opt/oh-my-posh/themes/gruvbox.omp.json"
+
+eval "$(oh-my-posh --init --shell zsh --config $oh_my_posh_theme_path)"
+
 # https://github.com/ranger/ranger/wiki/Integration-with-other-programs#changing-directories
 function ra {
     local IFS=$'\t\n'
@@ -124,19 +132,14 @@ function ra {
     command rm -f -- "$tempfile" 2>/dev/null
 }
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-[[ -s "/Users/kevinrizzo/.gvm/scripts/gvm" ]] && source "/Users/kevinrizzo/.gvm/scripts/gvm"
 test -e /Users/krizzo/.iterm2_shell_integration.zsh && source /Users/krizzo/.iterm2_shell_integration.zsh || true
 
 [ -f /opt/dev/dev.sh ] && source /opt/dev/dev.sh
-if [ -e /Users/kevinrizzo/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/kevinrizzo/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
 
 [[ -f /opt/dev/sh/chruby/chruby.sh ]] && type chruby >/dev/null 2>&1 || chruby () { source /opt/dev/sh/chruby/chruby.sh; chruby "$@"; }
 
-[[ -x /usr/local/bin/brew ]] && eval $(/usr/local/bin/brew shellenv)
-[[ -x /opt/homebrew/bin/brew ]] && eval $(/opt/homebrew/bin/brew shellenv)
+[[ -x /usr/local/bin/brew ]] && _evalcache /usr/local/bin/brew shellenv
+[[ -x /opt/homebrew/bin/brew ]] && _evalcache /opt/homebrew/bin/brew shellenv
 
 export WASMTIME_HOME="$HOME/.wasmtime"
 
@@ -147,73 +150,40 @@ if command -v nvim &> /dev/null; then
   alias vim='nvim'
 fi
 
-if command -v kitty &> /dev/null; then
-  kitty + complete setup zsh | source /dev/stdin
-fi
 
 alias lg="lazygit -ucf $HOME/.config/lazygit/config.yml"
 
-if [[ "$OSTYPE" == "darwin"* ]]; then
-  # Mac OSX, read background from defaults
-  local background=$(defaults read -globalDomain AppleInterfaceStyle &> /dev/null && echo "dark" || echo "light")
-elif [[ "$OSTYPE" == "linux-gnu"* ]] then
-  local background=$(cat $HOME/.background)
+is_dark_mode=$(defaults read -g AppleInterfaceStyle 2> /dev/null)
+if [ "$is_dark_mode" = "Dark" ]; then
+  bat_theme='gruvbox-dark'
+  fzf_theme='dark'
+else
+  bat_theme='gruvbox-light'
+  fzf_theme='light'
 fi
 
-# Cat alias/bat config
+export BAT_THEME="$bat_theme"
+export FZF_DEFAULT_OPTS="--color=$fzf_theme"
 
 alias cat="bat"
 
-function set_theme {
-  if [[ "$1" == "dark" ]]; then
-    local bat_theme="gruvbox-dark"
-    local kitty_conf_name="gruvbox_dark"
-  else
-    local bat_theme="gruvbox-light"
-    local kitty_conf_name="gruvbox_light"
-  fi
-
-  export BAT_THEME=$bat_theme
-  export FZF_DEFAULT_OPTS="--color=$1 --bind ctrl-a:select-all"
-
-  kitty @ --to unix:/tmp/mykitty set-colors --all --configured ~/.config/kitty/$kitty_conf_name.conf
-
-  echo $1 >| ~/.background
-}
-
-set_theme $background
-
-function tdm {
-  dark-mode
-
-  local dm_status=$(dark-mode status)
-
-  if [[ "$dm_status" == "on"* ]]; then
-    set_theme "dark"
-  else
-    set_theme "light"
-  fi
-}
-
-# nvm bootstrapping
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-#
 #python bootstrapping
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
-if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
+if (( $+commands[pyenv] )); then _evalcache pyenv init -; fi
+
+if (( $+commands[fnm] )); then _evalcache fnm env; fi
 
 export PIPENV_PYTHON=$PYENV_ROOT/shims/python
 export PATH="/opt/homebrew/opt/postgresql@13/bin:$PATH"
 
 # openssl
 
-export PATH="$(brew --prefix openssl)/bin:$PATH"
-export LIBRARY_PATH=$LIBRARY_PATH:$(brew --prefix openssl)/lib/
+export PATH="$HOMEBREW_PREFIX/opt/openssl@3/bin:$PATH"
+export LIBRARY_PATH="${LIBRARY_PATH:+$LIBRARY_PATH:}$HOMEBREW_PREFIX/opt/openssl@3/lib"
+
+# If you come from bash you might have to change your $PATH.
+export PATH="$HOME/bin:$PATH"
 
 # FZF
 
@@ -228,3 +198,20 @@ function my_init() {
 
 zvm_after_init_commands+=(my_init)
 
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/kevinrizzo/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/kevinrizzo/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/kevinrizzo/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/kevinrizzo/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+
+export LESS="-SRXF"
+export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/kevinrizzo/.lmstudio/bin"
+# End of LM Studio CLI section
+
+export PATH="$HOME/.local/bin:$PATH"
+
+# Default notebook for zk commands invoked outside the notes directory.
+export ZK_NOTEBOOK_DIR="$HOME/dev/zk-notes"

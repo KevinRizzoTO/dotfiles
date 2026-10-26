@@ -1,25 +1,40 @@
 # Local Setup
 
-## To Download
+Each top-level directory is a [GNU Stow](https://www.gnu.org/software/stow/) package. Its contents mirror the paths under `$HOME`.
 
-- [stow](https://www.gnu.org/software/stow/) `brew install stow`
-- [Alfred](https://www.alfredapp.com/) `brew install alfred`
-- [kitty](https://sw.kovidgoyal.net/kitty/) `brew install kitty`
-- [Insomnia](https://insomnia.rest/) `brew cask install insomnia`
-- [Rectangle](https://rectangleapp.com) `brew cask install rectangle`
-- [oh my zsh](https://github.com/ohmyzsh/ohmyzsh) `sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"`
-- [fzf](https://github.com/junegunn/fzf) `brew install fzf && $(brew --prefix)/opt/fzf/install`
-- [bat](https://github.com/sharkdp/bat) `brew install bat`
-- [Neovim](https://neovim.io/) `brew install neovim`
-- [rg](https://github.com/BurntSushi/ripgrep) `brew install rg`
-- [Powerline Fonts](https://github.com/powerline/fonts)
-- [yarn](https://classic.yarnpkg.com/en/) `brew install yarn`
-- [powerlevel10k](https://github.com/romkatv/powerlevel10k) `git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k`
-- [delta](https://github.com/dandavison/delta) `brew install git-delta`
-- [lazygit](https://github.com/jesseduffield/lazygit) `brew install lazygit`
-- [taskwarrior](https://taskwarrior.org/) `brew install task`
+## Install
 
-## How-tos
+1. Install [Homebrew](https://brew.sh).
+2. Install the packages: `brew bundle --file=Brewfile`
+3. Install [oh-my-zsh](https://github.com/ohmyzsh/ohmyzsh).
+4. Link the active packages: `stow -t ~ zsh p10k git nvim lazygit zed gh-dash`
 
-- [Setting up git](https://medium.com/@gpp/configuring-ssh-key-for-github-9d2416a377ae)
-- [Setting up `taskwiki`](https://github.com/tools-life/taskwiki)
+To refresh the package list, run `brew bundle dump --file=Brewfile --force`.
+
+## Active packages
+
+| Package   | Tool                                                      | Target                                   |
+| --------- | --------------------------------------------------------- | ---------------------------------------- |
+| `zsh`     | zsh with oh-my-zsh and oh-my-posh                         | `~/.zshrc`                               |
+| `p10k`    | powerlevel10k prompt                                      | `~/.p10k.zsh`                            |
+| `git`     | git with delta, git-town, SSH signing, global hooks       | `~/.gitconfig`, `~/.config/git/hooks`    |
+| `nvim`    | Neovim with lazy.nvim                                     | `~/.config/nvim`                         |
+| `lazygit` | [lazygit](https://github.com/jesseduffield/lazygit) (`lg`) | `~/.config/lazygit`                      |
+| `zed`     | [Zed](https://zed.dev)                                    | `~/.config/zed`                          |
+| `gh-dash` | [gh-dash](https://github.com/dlvhdr/gh-dash)              | `~/.config/gh-dash`                      |
+
+## Apps outside Homebrew
+
+- iTerm2 is the terminal. Its settings are not in this repo.
+- Alfred, 1Password, Docker Desktop, Visual Studio Code, Obsidian and DBeaver.
+
+## Legacy packages
+
+These packages are not in use on the current machine:
+
+- `kitty`
+- `ranger`
+- `tmux`
+- `task`
+- `vale`
+- `vim`

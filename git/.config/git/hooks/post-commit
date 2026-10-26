@@ -1,0 +1,140 @@
+#!/usr/bin/env bash
+# Global post-commit hook: logs commits to the Obsidian daily log
+# and to a per-repo, per-day commit log under logs/commits/<repo>/<YYYY-MM-DD>/commits.md
+# Attempts to link them to a project and goal.
+# Non-blocking -- all failures exit silently.
+
+set -o pipefail
+
+VAULT_DIR="$HOME/dev/cursor_notes"
+PROJECTS_DIR="$VAULT_DIR/projects"
+LOGS_DIR="$VAULT_DIR/logs/daily"
+COMMITS_ROOT="$VAULT_DIR/logs/commits"
+TEMPLATE="$VAULT_DIR/templates/daily-log.md"
+
+main() {
+    [ -d "$VAULT_DIR" ] || return 0
+
+    local today
+    today=$(date +%Y-%m-%d)
+    local time_now
+    time_now=$(date +%H:%M)
+    local log_file="$LOGS_DIR/$today.md"
+
+    local git_root
+    git_root=$(git rev-parse --show-toplevel 2>/dev/null) || return 0
+    local repo_name
+    repo_name=$(basename "$git_root")
+    # Safe directory name (repos at unusual paths)
+    local safe_repo
+    safe_repo=$(printf '%s' "$repo_name" | tr '/:' '__')
+
+    local branch
+    branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "unknown")
+    local commit_msg
+    commit_msg=$(git log -1 --pretty=%s 2>/dev/null || echo "")
+    local diffstat
+    diffstat=$(git diff --stat HEAD~1..HEAD 2>/dev/null | tail -1 || echo "")
+
+    if [ ! -f "$log_file" ]; then
+        if [ -f "$TEMPLATE" ]; then
+            sed "s/{{date}}/$today/g" "$TEMPLATE" > "$log_file"
+        else
+            cat > "$log_file" <<EOF
+---
+date: $today
+tags:
+  - daily-log
+---
+
+# $today
+
+## Sessions
+
+## Commits
+
+## Notes
+EOF
+        fi
+    fi
+
+    local project_link="$repo_name"
+    local goal_link=""
+    local unlinked_tag=""
+
+    if [ -d "$PROJECTS_DIR" ]; then
+        local project_file=""
+        for f in "$PROJECTS_DIR"/*.md; do
+            [ -f "$f" ] || continue
+            if grep -q "^repo:.*$repo_name" "$f" 2>/dev/null; then
+                project_file="$f"
+                break
+            fi
+        done
+
+        if [ -n "$project_file" ]; then
+            local project_name
+            project_name=$(basename "$project_file" .md)
+            project_link="[[${project_name}]]"
+
+            goal_link=$(awk '
+                /^linked-goals:/ { in_goals=1; next }
+                in_goals && /^  - / { gsub(/^  - /, ""); print; exit }
+                in_goals && /^[^ ]/ { exit }
+            ' "$project_file")
+
+            if [ -n "$goal_link" ]; then
+                goal_link="[[${goal_link}]]"
+            fi
+        fi
+    fi
+
+    if [ -z "$goal_link" ]; then
+        goal_link="N/A"
+        unlinked_tag=" #unlinked"
+    fi
+
+    local entry
+    entry=$(cat <<EOF
+
+### Commit ($time_now)${unlinked_tag}
+- **Repo:** $project_link
+- **Branch:** \`$branch\`
+- **Message:** $commit_msg
+- **Diffstat:** $diffstat
+- **Goal:** $goal_link
+EOF
+)
+
+    if grep -q "^## Commits" "$log_file" 2>/dev/null; then
+        local tmp
+        tmp=$(mktemp)
+        awk -v entry="$entry" '
+            /^## Commits/ { print; print entry; next }
+            { print }
+        ' "$log_file" > "$tmp" && mv "$tmp" "$log_file"
+    else
+        printf '%s\n' "$entry" >> "$log_file"
+    fi
+
+    # Per-repo, per-day commit log (namespaced folder)
+    local commit_day_dir="$COMMITS_ROOT/$safe_repo/$today"
+    local commit_file="$commit_day_dir/commits.md"
+    mkdir -p "$commit_day_dir" 2>/dev/null || return 0
+    if [ ! -f "$commit_file" ]; then
+        cat > "$commit_file" <<EOF
+---
+repo: $repo_name
+date: $today
+tags:
+  - git-commits
+---
+
+# Commits — $repo_name — $today
+
+EOF
+    fi
+    printf '%s\n' "$entry" >> "$commit_file"
+}
+
+main "$@" 2>/dev/null || true

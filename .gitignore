@@ -3,3 +3,7 @@ ranger/.config/ranger/plugins/__pycache__
 lazygit/.config/lazygit/state.yml
 nvim/.config/nvim/plugin
 
+*.log
+zed/.config/zed/prompts/
+zed/.config/zed/themes/
+zed/.config/zed/keymap_backup.json

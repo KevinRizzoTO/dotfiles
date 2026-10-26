@@ -1,28 +1,20 @@
-require('krizzo')
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
 
-local augroup = vim.api.nvim_create_augroup
-local KRizzoGroup = augroup('krizzo', {})
+require("config.options")
+require("config.keymaps")
+require("config.typescript")
 
-local autocmd = vim.api.nvim_create_autocmd
-local yank_group = augroup('HighlightYank', {})
-
-function R(name)
-    require("plenary.reload").reload_module(name)
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.uv.fs_stat(lazypath) then
+  vim.fn.system({
+    "git", "clone", "--filter=blob:none", "https://github.com/folke/lazy.nvim.git", "--branch=stable", lazypath,
+  })
 end
+vim.opt.rtp:prepend(lazypath)
 
-autocmd('TextYankPost', {
-    group = yank_group,
-    pattern = '*',
-    callback = function()
-        vim.highlight.on_yank({
-            higroup = 'IncSearch',
-            timeout = 40,
-        })
-    end,
-})
-
-autocmd({"BufWritePre"}, {
-    group = KRizzoGroup,
-    pattern = "*",
-    command = [[%s/\s\+$//e]],
+require("lazy").setup(require("plugins"), {
+  install = { colorscheme = { "gruvbox-material" } },
+  checker = { enabled = false },
+  change_detection = { notify = false },
 })
