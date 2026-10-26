@@ -7,7 +7,7 @@ Each top-level directory is a [GNU Stow](https://www.gnu.org/software/stow/) pac
 1. Install [Homebrew](https://brew.sh).
 2. Install the packages: `brew bundle --file=Brewfile`
 3. Install [oh-my-zsh](https://github.com/ohmyzsh/ohmyzsh).
-4. Link the active packages: `stow -t ~ zsh p10k git nvim lazygit zed gh-dash`
+4. Link the active packages: `stow -t ~ zsh oh-my-posh git nvim lazygit zed gh-dash`
 
 To refresh the package list, run `brew bundle dump --file=Brewfile --force`.
 
@@ -15,8 +15,8 @@ To refresh the package list, run `brew bundle dump --file=Brewfile --force`.
 
 | Package   | Tool                                                      | Target                                   |
 | --------- | --------------------------------------------------------- | ---------------------------------------- |
-| `zsh`     | zsh with oh-my-zsh and oh-my-posh                         | `~/.zshrc`                               |
-| `p10k`    | powerlevel10k prompt                                      | `~/.p10k.zsh`                            |
+| `zsh`     | zsh with oh-my-zsh                         | `~/.zshrc`                               |
+| `oh-my-posh` | [oh-my-posh](https://ohmyposh.dev) prompt theme | `~/.config/oh-my-posh` |
 | `git`     | git with delta, git-town, SSH signing, global hooks       | `~/.gitconfig`, `~/.config/git/hooks`    |
 | `nvim`    | Neovim with lazy.nvim                                     | `~/.config/nvim`                         |
 | `lazygit` | [lazygit](https://github.com/jesseduffield/lazygit) (`lg`) | `~/.config/lazygit`                      |

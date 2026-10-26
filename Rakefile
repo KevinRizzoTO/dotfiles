@@ -17,7 +17,7 @@ end
 task default: 'all'
 
 namespace 'zsh' do
-  task all: %i[oh_my_zsh zsh_autosuggestions zsh_syntax_highlighting zsh_z zsh_vim_mode fzf_tab p10k]
+  task all: %i[oh_my_zsh zsh_autosuggestions zsh_syntax_highlighting zsh_z zsh_vim_mode fzf_tab]
 
   def download_zsh_plugin(clone_args, name)
     sh_swallow("git clone #{clone_args} ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/#{name}")
@@ -47,9 +47,6 @@ namespace 'zsh' do
     download_zsh_plugin('https://github.com/Aloxaf/fzf-tab', 'fzf-tab')
   end
 
-  task p10k: :oh_my_zsh do
-    sh_swallow('git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k')
-  end
 end
 
 namespace 'packages' do
@@ -57,7 +54,7 @@ namespace 'packages' do
     sh_swallow("wget #{deb_url} -P /tmp && sudo apt -o DPkg::Lock::Timeout=10000 install /tmp/#{deb_url.split('/').last}")
   end
 
-  task all: %i[delta bat lazygit fzf nvim stow apt_get_install sysz]
+  task all: %i[delta bat lazygit fzf nvim oh_my_posh stow apt_get_install sysz]
 
   task :delta do
     deb('https://github.com/dandavison/delta/releases/download/0.9.1/git-delta-musl_0.9.1_amd64.deb')
@@ -69,6 +66,10 @@ namespace 'packages' do
 
   task :lazygit do
     sh_swallow('wget -P /tmp https://github.com/jesseduffield/lazygit/releases/download/v0.30.1/lazygit_0.30.1_Linux_x86_64.tar.gz && mkdir /tmp/lazygit && tar -xzvf /tmp/lazygit_0.30.1_Linux_x86_64.tar.gz -C /tmp/lazygit/ && sudo mv /tmp/lazygit/lazygit /usr/bin/lazygit')
+  end
+
+  task :oh_my_posh do
+    sh_swallow('curl -s https://ohmyposh.dev/install.sh | bash -s -- -d ~/.local/bin')
   end
 
   task :fzf do
@@ -97,14 +98,14 @@ namespace 'symlink' do
     sh_swallow("stow -t $HOME #{folder}")
   end
 
-  task all: %i[nvim p10k zsh lazygit git zed gh-dash]
+  task all: %i[nvim oh_my_posh zsh lazygit git zed gh-dash]
 
   task nvim: "packages:stow" do
     stow('nvim')
   end
 
-  task p10k: "packages:stow" do
-    stow('p10k')
+  task oh_my_posh: "packages:stow" do
+    stow('oh-my-posh')
   end
 
   task zsh: "packages:stow" do

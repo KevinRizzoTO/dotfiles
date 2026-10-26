@@ -111,9 +111,7 @@ elif [[ -x /usr/local/bin/brew ]]; then
   export HOMEBREW_PREFIX=/usr/local
 fi
 
-oh_my_posh_theme_path="$HOMEBREW_PREFIX/opt/oh-my-posh/themes/gruvbox.omp.json"
-
-eval "$(oh-my-posh --init --shell zsh --config $oh_my_posh_theme_path)"
+eval "$(oh-my-posh init zsh --config ~/.config/oh-my-posh/gruvbox.omp.json)"
 
 test -e /Users/krizzo/.iterm2_shell_integration.zsh && source /Users/krizzo/.iterm2_shell_integration.zsh || true
 

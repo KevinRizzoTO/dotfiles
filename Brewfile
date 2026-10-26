@@ -4,7 +4,7 @@ tap "cloudflare/cloudflare"
 tap "homebrew/cask-fonts"
 tap "iwe-org/iwe", trusted: true
 tap "jandedobbeleer/oh-my-posh"
-tap "romkatv/powerlevel10k"
+brew "jandedobbeleer/oh-my-posh/oh-my-posh"
 tap "visidata/vd", "https://github.com/visidata/homebrew-vd.git"
 # Cryptography and SSL/TLS Toolkit
 brew "openssl@3", link: true
@@ -118,8 +118,6 @@ brew "pipenv"
 brew "pnpm"
 # Object-relational database system
 brew "postgresql@13"
-# Theme for zsh
-brew "powerlevel10k"
 # Framework for managing multi-language pre-commit hooks
 brew "pre-commit"
 # Interpreted, interactive, object-oriented programming language
