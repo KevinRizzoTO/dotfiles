@@ -57,7 +57,7 @@ namespace 'packages' do
     sh_swallow("wget #{deb_url} -P /tmp && sudo apt -o DPkg::Lock::Timeout=10000 install /tmp/#{deb_url.split('/').last}")
   end
 
-  task all: %i[delta bat lazygit vale fzf nvim stow apt_get_install sysz]
+  task all: %i[delta bat lazygit fzf nvim stow apt_get_install sysz]
 
   task :delta do
     deb('https://github.com/dandavison/delta/releases/download/0.9.1/git-delta-musl_0.9.1_amd64.deb')
@@ -69,10 +69,6 @@ namespace 'packages' do
 
   task :lazygit do
     sh_swallow('wget -P /tmp https://github.com/jesseduffield/lazygit/releases/download/v0.30.1/lazygit_0.30.1_Linux_x86_64.tar.gz && mkdir /tmp/lazygit && tar -xzvf /tmp/lazygit_0.30.1_Linux_x86_64.tar.gz -C /tmp/lazygit/ && sudo mv /tmp/lazygit/lazygit /usr/bin/lazygit')
-  end
-
-  task :vale do
-    sh_swallow('wget -P /tmp https://github.com/errata-ai/vale/releases/download/v2.17.0/vale_2.17.0_Linux_64-bit.tar.gz && mkdir /tmp/vale && tar -xzvf /tmp/vale_2.17.0_Linux_64-bit.tar.gz -C /tmp/vale/ && sudo mv /tmp/vale/vale /usr/bin/vale')
   end
 
   task :fzf do
@@ -88,7 +84,7 @@ namespace 'packages' do
   end
 
   task apt_get_install: :nvim do
-    sh_swallow('sudo apt-get -o DPkg::Lock::Timeout=10000 install -y ranger caca-utils highlight atool poppler-utils mediainfo ripgrep --fix-missing')
+    sh_swallow('sudo apt-get -o DPkg::Lock::Timeout=10000 install -y ripgrep --fix-missing')
   end
 
   task sysz: :fzf do
@@ -101,7 +97,7 @@ namespace 'symlink' do
     sh_swallow("stow -t $HOME #{folder}")
   end
 
-  task all: %i[vale nvim p10k zsh tmux ranger lazygit]
+  task all: %i[nvim p10k zsh lazygit git zed gh-dash]
 
   task nvim: "packages:stow" do
     stow('nvim')
@@ -116,33 +112,22 @@ namespace 'symlink' do
     stow('zsh')
   end
 
-  task tmux: "packages:stow" do
-    stow('tmux')
-  end
-
-  task ranger: "packages:stow" do
-    stow('ranger')
-  end
-
   task lazygit: "packages:stow" do
     stow('lazygit')
   end
 
-  task vale: "packages:stow" do
-    stow('vale')
+  task git: "packages:stow" do
+    stow('git')
   end
+
+  task zed: "packages:stow" do
+    stow('zed')
+  end
+
+  task 'gh-dash': "packages:stow" do
+    stow('gh-dash')
+  end
+
 end
 
-namespace 'ranger_plugins' do
-  def dl_plugin(url)
-    sh_swallow("git clone #{url} ~/.config/ranger/plugins/#{url.split('/').last}")
-  end
-
-  task all: %i[devicons]
-
-  task devicons: 'symlink:ranger' do
-    dl_plugin('https://github.com/alexanderjeurissen/ranger_devicons')
-  end
-end
-
-task all: %w[zsh:all packages:all symlink:all ranger_plugins:all]
+task all: %w[zsh:all packages:all symlink:all]

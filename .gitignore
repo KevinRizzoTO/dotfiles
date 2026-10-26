@@ -1,5 +1,4 @@
 .DS_Store
-ranger/.config/ranger/plugins/__pycache__
 lazygit/.config/lazygit/state.yml
 nvim/.config/nvim/plugin
 

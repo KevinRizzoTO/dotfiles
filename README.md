@@ -27,14 +27,3 @@ To refresh the package list, run `brew bundle dump --file=Brewfile --force`.
 
 - iTerm2 is the terminal. Its settings are not in this repo.
 - Alfred, 1Password, Docker Desktop, Visual Studio Code, Obsidian and DBeaver.
-
-## Legacy packages
-
-These packages are not in use on the current machine:
-
-- `kitty`
-- `ranger`
-- `tmux`
-- `task`
-- `vale`
-- `vim`

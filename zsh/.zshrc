@@ -115,23 +115,6 @@ oh_my_posh_theme_path="$HOMEBREW_PREFIX/opt/oh-my-posh/themes/gruvbox.omp.json"
 
 eval "$(oh-my-posh --init --shell zsh --config $oh_my_posh_theme_path)"
 
-# https://github.com/ranger/ranger/wiki/Integration-with-other-programs#changing-directories
-function ra {
-    local IFS=$'\t\n'
-    local tempfile="$(mktemp -t tmp.XXXXXX)"
-    local ranger_cmd=(
-        command
-        ranger
-        --cmd="map Q chain shell echo %d > "$tempfile"; quitall"
-    )
-
-    ${ranger_cmd[@]} "$@"
-    if [[ -f "$tempfile" ]] && [[ "$(cat -- "$tempfile")" != "$PWD" ]]; then
-        cd -- "$(cat "$tempfile")" || return
-    fi
-    command rm -f -- "$tempfile" 2>/dev/null
-}
-
 test -e /Users/krizzo/.iterm2_shell_integration.zsh && source /Users/krizzo/.iterm2_shell_integration.zsh || true
 
 [ -f /opt/dev/dev.sh ] && source /opt/dev/dev.sh
