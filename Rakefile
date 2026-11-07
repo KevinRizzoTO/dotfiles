@@ -131,4 +131,11 @@ namespace 'symlink' do
 
 end
 
-task all: %w[zsh:all packages:all symlink:all]
+if RbConfig::CONFIG['host_os'].include?('darwin')
+  task :macos_bootstrap do
+    sh 'bash', File.join(__dir__, 'install.sh')
+  end
+  task all: :macos_bootstrap
+else
+  task all: %w[zsh:all packages:all symlink:all]
+end

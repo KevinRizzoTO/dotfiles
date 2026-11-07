@@ -1,3 +1,18 @@
+# Choose the native package manager before loading plugins or the prompt.
+# Rosetta shells on Apple Silicon still use the ARM Homebrew installation.
+if [[ $OSTYPE == darwin* ]]; then
+  if [[ $(uname -m) == arm64 || $(sysctl -in sysctl.proc_translated 2>/dev/null) == 1 ]]; then
+    export HOMEBREW_PREFIX=/opt/homebrew
+    unset MACPORTS_PREFIX
+    export PATH="$HOMEBREW_PREFIX/bin:$HOMEBREW_PREFIX/sbin:$PATH"
+  else
+    unset HOMEBREW_PREFIX
+    export MACPORTS_PREFIX=/opt/local
+    export PATH="$MACPORTS_PREFIX/bin:$MACPORTS_PREFIX/sbin:$PATH"
+  fi
+fi
+export PATH="$HOME/.local/bin:$PATH"
+
 # Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
 
@@ -70,6 +85,10 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 
+if [[ -n ${HOMEBREW_PREFIX:-} && -x $HOMEBREW_PREFIX/bin/brew ]]; then
+  _evalcache "$HOMEBREW_PREFIX/bin/brew" shellenv
+fi
+
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -100,15 +119,10 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-# Add homebrew ruby to path
-export PATH="/usr/local/opt/ruby/bin:$PATH"
-
 export EDITOR="nvim"
 
-if [[ -x /opt/homebrew/bin/brew ]]; then
-  export HOMEBREW_PREFIX=/opt/homebrew
-elif [[ -x /usr/local/bin/brew ]]; then
-  export HOMEBREW_PREFIX=/usr/local
+if [[ -n ${HOMEBREW_PREFIX:-} ]]; then
+  export PATH="$HOMEBREW_PREFIX/opt/ruby/bin:$PATH"
 fi
 
 eval "$(oh-my-posh init zsh --config ~/.config/oh-my-posh/gruvbox.omp.json)"
@@ -118,9 +132,6 @@ test -e /Users/krizzo/.iterm2_shell_integration.zsh && source /Users/krizzo/.ite
 [ -f /opt/dev/dev.sh ] && source /opt/dev/dev.sh
 
 [[ -f /opt/dev/sh/chruby/chruby.sh ]] && type chruby >/dev/null 2>&1 || chruby () { source /opt/dev/sh/chruby/chruby.sh; chruby "$@"; }
-
-[[ -x /usr/local/bin/brew ]] && _evalcache /usr/local/bin/brew shellenv
-[[ -x /opt/homebrew/bin/brew ]] && _evalcache /opt/homebrew/bin/brew shellenv
 
 export WASMTIME_HOME="$HOME/.wasmtime"
 
@@ -155,13 +166,20 @@ if (( $+commands[pyenv] )); then _evalcache pyenv init -; fi
 
 if (( $+commands[fnm] )); then _evalcache fnm env; fi
 
-export PIPENV_PYTHON=$PYENV_ROOT/shims/python
-export PATH="/opt/homebrew/opt/postgresql@13/bin:$PATH"
+if [[ -x $PYENV_ROOT/shims/python ]]; then
+  export PIPENV_PYTHON=$PYENV_ROOT/shims/python
+elif (( $+commands[python3] )); then
+  export PIPENV_PYTHON=${commands[python3]}
+fi
 
 # openssl
 
-export PATH="$HOMEBREW_PREFIX/opt/openssl@3/bin:$PATH"
-export LIBRARY_PATH="${LIBRARY_PATH:+$LIBRARY_PATH:}$HOMEBREW_PREFIX/opt/openssl@3/lib"
+if [[ -n ${HOMEBREW_PREFIX:-} ]]; then
+  export PATH="$HOMEBREW_PREFIX/opt/openssl@3/bin:$PATH"
+  export LIBRARY_PATH="${LIBRARY_PATH:+$LIBRARY_PATH:}$HOMEBREW_PREFIX/opt/openssl@3/lib"
+elif [[ -n ${MACPORTS_PREFIX:-} ]]; then
+  export LIBRARY_PATH="${LIBRARY_PATH:+$LIBRARY_PATH:}$MACPORTS_PREFIX/lib"
+fi
 
 # If you come from bash you might have to change your $PATH.
 export PATH="$HOME/bin:$PATH"
@@ -174,7 +192,11 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 # Define an init function and append to zvm_after_init_commands
 # https://github.com/jeffreytse/zsh-vi-mode#execute-extra-commands
 function my_init() {
-  [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+  if (( $+commands[fzf] )) && fzf --help | command grep -q -- --zsh; then
+    source <(fzf --zsh)
+  elif [[ -f ~/.fzf.zsh ]]; then
+    source ~/.fzf.zsh
+  fi
 }
 
 zvm_after_init_commands+=(my_init)
@@ -186,7 +208,6 @@ if [ -f '/Users/kevinrizzo/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/
 if [ -f '/Users/kevinrizzo/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/kevinrizzo/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
 
 export LESS="-SRXF"
-export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
 
 # Added by LM Studio CLI (lms)
 export PATH="$PATH:/Users/kevinrizzo/.lmstudio/bin"

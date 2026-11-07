@@ -1,7 +1,6 @@
 tap "atlassian/acli", trusted: true
 tap "azure/functions", trusted: { formulae: ["azure-functions-core-tools"] }
 tap "cloudflare/cloudflare"
-tap "homebrew/cask-fonts"
 tap "iwe-org/iwe", trusted: true
 tap "jandedobbeleer/oh-my-posh"
 brew "jandedobbeleer/oh-my-posh/oh-my-posh"
@@ -110,14 +109,13 @@ brew "mole"
 brew "tree-sitter"
 # Ambitious Vim-fork focused on extensibility and agility
 brew "neovim"
-# Cryptography and SSL/TLS Toolkit
-brew "openssl@1.1"
+# OpenSSL 1.1 has been removed from Homebrew; OpenSSL 3 is listed above.
 # Python dependency management tool
 brew "pipenv"
 # Fast, disk space efficient package manager
 brew "pnpm"
-# Object-relational database system
-brew "postgresql@13"
+# PostgreSQL 13 is end-of-life and disabled by Homebrew. Choose a supported
+# major version separately rather than implicitly migrating an existing database.
 # Framework for managing multi-language pre-commit hooks
 brew "pre-commit"
 # Interpreted, interactive, object-oriented programming language
@@ -195,4 +193,4 @@ uv "termaid"
 npm "corepack"
 npm "typescript"
 npm "wrangler"
-npm "yarn"
+# Corepack supplies Yarn; install.sh enables its shim after installing packages.
