@@ -1,7 +1,4 @@
--- This Neovim profile is intentionally for writing and fast text editing.
--- TypeScript and Python use Neovim's built-in LSP client.
--- It does not install a debugger, formatter, file-tree, or project-management
--- plugin.
+-- Writing and coding share the same lightweight editing tools.
 vim.env.ZK_NOTEBOOK_DIR = "/Users/kevinrizzo/dev/zk-notes"
 
 local opt = vim.opt
@@ -9,6 +6,7 @@ opt.clipboard = "unnamedplus"
 opt.cmdheight = 0
 opt.completeopt = { "menu", "menuone", "noselect", "popup" }
 opt.confirm = true
+opt.expandtab = true
 opt.cursorline = true
 opt.cursorlineopt = "number"
 opt.breakindent = true

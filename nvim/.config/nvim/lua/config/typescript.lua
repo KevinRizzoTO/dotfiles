@@ -1,45 +1,56 @@
--- TypeScript 7 provides a native language server through `tsc --lsp`.
--- Keep this on Neovim's built-in client to avoid an LSP plugin dependency.
+local M = {}
 
-vim.lsp.log.set_level("debug")
+-- Prefer the project's engine. Older projects use their own tsserver through
+-- ts_ls; TypeScript 7 projects and standalone files use the native LSP.
+function M.project(path)
+  local root = vim.fs.root(path, { { "tsconfig.json", "jsconfig.json", "package.json", ".git" } })
+    or vim.fs.dirname(path)
+  local package = vim.fs.find("node_modules/typescript/package.json", {
+    path = vim.fs.dirname(path), upward = true,
+  })[1]
+  if package then
+    local ok, metadata = pcall(function()
+      return vim.json.decode(table.concat(vim.fn.readfile(package), "\n"))
+    end)
+    local major = ok and tonumber((metadata.version or ""):match("^(%d+)"))
+    if major then
+      local directory = vim.fs.dirname(package)
+      if major < 7 then
+        return { root = root, server = "ts_ls", tsserver = directory .. "/lib/tsserver.js" }
+      end
+      return { root = root, server = "tsc", cmd = vim.fs.dirname(directory) .. "/.bin/tsc" }
+    end
+  end
+  return { root = root, server = "tsc", cmd = "tsc" }
+end
+
+for _, name in ipairs({ "tsc", "ts_ls" }) do
+  local server_name = name
+  vim.lsp.config(name, {
+    root_dir = function(bufnr, on_dir)
+      local path = vim.api.nvim_buf_get_name(bufnr)
+      local project = M.project(path)
+      local deno = vim.fs.root(path, { "deno.json", "deno.jsonc", "deno.lock" })
+      if deno and #deno >= #project.root then return end
+      if project.server == server_name then on_dir(project.root) end
+    end,
+    before_init = function(_, config)
+      local project = M.project(vim.fs.joinpath(config.root_dir, "index.ts"))
+      if server_name == "ts_ls" then
+        config.init_options = vim.tbl_deep_extend("force", config.init_options or {}, {
+          tsserver = { path = project.tsserver },
+        })
+      end
+    end,
+  })
+end
 
 vim.lsp.config("tsc", {
-  cmd = { "tsc", "--lsp", "--stdio" },
-  filetypes = {
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact",
-  },
-  root_markers = { "tsconfig.json", "jsconfig.json", "package.json", ".git" },
-  on_attach = function(_, bufnr)
-    local options = { buffer = bufnr }
-    local function show_diagnostic_or_hover()
-      local line = vim.api.nvim_win_get_cursor(0)[1] - 1
-      if #vim.diagnostic.get(bufnr, { lnum = line }) > 0 then
-        vim.diagnostic.open_float(bufnr, { scope = "cursor" })
-        return
-      end
-
-      vim.lsp.buf.hover()
-    end
-
-    vim.keymap.set("n", "gd", vim.lsp.buf.definition, vim.tbl_extend("force", options, {
-      desc = "Go to definition",
-    }))
-    vim.keymap.set("n", "gr", vim.lsp.buf.references, vim.tbl_extend("force", options, {
-      desc = "Find references",
-    }))
-    vim.keymap.set("n", "K", show_diagnostic_or_hover, vim.tbl_extend("force", options, {
-      desc = "Show diagnostic or documentation",
-    }))
-    vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, vim.tbl_extend("force", options, {
-      desc = "Rename symbol",
-    }))
-    vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, vim.tbl_extend("force", options, {
-      desc = "Code action",
-    }))
+  cmd = function(dispatchers, config)
+    local project = M.project(vim.fs.joinpath(config.root_dir, "index.ts"))
+    return vim.lsp.rpc.start({ project.cmd, "--lsp", "--stdio" }, dispatchers)
   end,
 })
+vim.lsp.enable({ "tsc", "ts_ls" })
 
-vim.lsp.enable("tsc")
+return M

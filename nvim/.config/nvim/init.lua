@@ -1,9 +1,12 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
+-- Only lazy.nvim manages plugins. Exclude old Packer packages before the
+-- first require, so Neovim cannot cache modules from that installation.
+vim.opt.packpath = vim.env.VIMRUNTIME
+
 require("config.options")
 require("config.keymaps")
-require("config.typescript")
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.uv.fs_stat(lazypath) then

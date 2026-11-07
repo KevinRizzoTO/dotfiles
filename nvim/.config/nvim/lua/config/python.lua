@@ -1,37 +1,8 @@
-local function on_attach(_, bufnr)
-  local options = { buffer = bufnr }
-  local function show_diagnostic_or_hover()
-    local line = vim.api.nvim_win_get_cursor(0)[1] - 1
-    if #vim.diagnostic.get(bufnr, { lnum = line }) > 0 then
-      vim.diagnostic.open_float(bufnr, { scope = "cursor" })
-      return
-    end
+local env = require("config.python_env")
 
-    vim.lsp.buf.hover()
-  end
-
-  vim.keymap.set("n", "gd", vim.lsp.buf.definition, vim.tbl_extend("force", options, {
-    desc = "Go to definition",
-  }))
-  vim.keymap.set("n", "gr", vim.lsp.buf.references, vim.tbl_extend("force", options, {
-    desc = "Find references",
-  }))
-  vim.keymap.set("n", "K", show_diagnostic_or_hover, vim.tbl_extend("force", options, {
-    desc = "Show diagnostic or documentation",
-  }))
-  vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, vim.tbl_extend("force", options, {
-    desc = "Rename symbol",
-  }))
-  vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, vim.tbl_extend("force", options, {
-    desc = "Code action",
-  }))
-  vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, vim.tbl_extend("force", options, {
-    desc = "Previous diagnostic",
-  }))
-  vim.keymap.set("n", "]d", vim.diagnostic.goto_next, vim.tbl_extend("force", options, {
-    desc = "Next diagnostic",
-  }))
-end
+vim.api.nvim_create_user_command("PythonPath", function(command)
+  env.select(command.args)
+end, { nargs = "?", complete = "file", desc = "Show/set Python interpreter; use auto to reset" })
 
 vim.api.nvim_create_autocmd("FileType", {
   group = vim.api.nvim_create_augroup("PythonEditing", { clear = true }),
@@ -45,8 +16,12 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 vim.lsp.config("pyright", {
-  on_attach = on_attach,
+  root_markers = { { "pyrightconfig.json", "pyproject.toml", "Pipfile", "setup.py", ".git" } },
+  before_init = function(_, config)
+    config.settings.python.pythonPath = env.python(config.root_dir)
+  end,
   settings = {
+    pyright = { disableOrganizeImports = true }, -- Ruff owns import actions.
     python = {
       analysis = {
         autoSearchPaths = true,
@@ -58,4 +33,12 @@ vim.lsp.config("pyright", {
   },
 })
 
-vim.lsp.enable("pyright")
+vim.lsp.config("ruff", {
+  cmd = function(dispatchers, config)
+    local local_ruff = vim.fs.joinpath(vim.fs.dirname(env.python(config.root_dir)), "ruff")
+    local command = vim.fn.executable(local_ruff) == 1 and local_ruff or "ruff"
+    return vim.lsp.rpc.start({ command, "server" }, dispatchers)
+  end,
+})
+
+vim.lsp.enable({ "pyright", "ruff" })

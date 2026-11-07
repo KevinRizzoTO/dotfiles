@@ -78,12 +78,52 @@ return {
       "neovim/nvim-lspconfig",
     },
     opts = {
-      ensure_installed = { "pyright" },
+      ensure_installed = { "pyright", "ruff", "eslint", "gopls", "ts_ls" },
       automatic_enable = false,
     },
     config = function(_, opts)
       require("mason-lspconfig").setup(opts)
+      require("config.lsp")
       require("config.python")
+      require("config.typescript")
+      vim.lsp.enable({ "eslint", "gopls" })
+    end,
+  },
+  {
+    "WhoIsSethDaniel/mason-tool-installer.nvim",
+    dependencies = { "mason-org/mason.nvim" },
+    opts = { ensure_installed = { "prettier" }, auto_update = false },
+  },
+  {
+    "stevearc/conform.nvim",
+    event = { "BufWritePre" },
+    cmd = { "ConformInfo", "FormatToggle" },
+    keys = {
+      { "<leader>cf", function() require("conform").format({ timeout_ms = 3000 }) end,
+        mode = { "n", "x" }, desc = "Format buffer or selection" },
+    },
+    config = function() require("config.formatting") end,
+  },
+  {
+    "nvim-neotest/neotest",
+    dependencies = {
+      "nvim-neotest/nvim-nio",
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-neotest/neotest-python",
+      "marilari88/neotest-vitest",
+      "nvim-neotest/neotest-jest",
+    },
+    keys = {
+      { "<leader>tn", function() require("neotest").run.run() end, desc = "Run nearest test" },
+      { "<leader>tf", function() require("neotest").run.run(vim.fn.expand("%:p")) end, desc = "Run test file" },
+      { "<leader>tl", function() require("neotest").run.run_last() end, desc = "Repeat last test" },
+      { "<leader>ts", function() require("neotest").summary.toggle() end, desc = "Toggle test summary" },
+      { "<leader>to", function() require("neotest").output.open({ enter = true }) end, desc = "Show test output" },
+      { "<leader>tx", function() require("neotest").run.stop() end, desc = "Stop test" },
+    },
+    config = function()
+      require("config.testing").setup()
     end,
   },
   {
@@ -211,6 +251,9 @@ return {
         "markdown_inline",
         "bash",
         "graphql",
+        "go",
+        "gomod",
+        "gosum",
         "json",
         "javascript",
         "lua",
@@ -225,6 +268,8 @@ return {
         pattern = {
           "javascript",
           "javascriptreact",
+          "go",
+          "gomod",
           "python",
           "typescript",
           "typescriptreact",
