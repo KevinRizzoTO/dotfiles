@@ -63,10 +63,6 @@ ZSH_DISABLE_COMPFIX=true
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
-export NVM_LAZY_LOAD=true
-export NVM_COMPLETION=true
-export NVM_DIR="$HOME/.nvm"
-
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
@@ -164,7 +160,9 @@ export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 if (( $+commands[pyenv] )); then _evalcache pyenv init -; fi
 
-if (( $+commands[fnm] )); then _evalcache fnm env; fi
+# Node versions: fnm switches automatically on cd from a project's .node-version.
+# Not cached with evalcache: the output embeds a per-shell directory.
+if (( $+commands[fnm] )); then eval "$(fnm env --use-on-cd --version-file-strategy=recursive --shell zsh)"; fi
 
 if [[ -x $PYENV_ROOT/shims/python ]]; then
   export PIPENV_PYTHON=$PYENV_ROOT/shims/python
