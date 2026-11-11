@@ -55,11 +55,24 @@ class BootstrapRouting(unittest.TestCase):
         self.assertIn("stow -t", result.stdout)
         self.assertIn("npm_config_prefix=", result.stdout)
 
+    def test_node_comes_only_from_fnm(self):
+        result = self.invoke()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("fnm install 24", result.stdout)
+        self.assertIn("fnm default 24", result.stdout)
+        # npm globals and Corepack run on fnm's Node, never a port's.
+        self.assertIn("fnm exec --using=default -- env npm_config_prefix=", result.stdout)
+        self.assertIn("fnm exec --using=default -- corepack enable yarn", result.stdout)
+        for package in ("nodejs", "npm11", "pnpm", "tree-sitter-cli"):
+            self.assertNotRegex(result.stdout, rf"port -N -b install {package}\b")
+
     def test_native_arm_uses_homebrew(self):
         result = self.invoke(machine="arm64")
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertIn("arch -arm64 /opt/homebrew/bin/brew bundle", result.stdout)
         self.assertNotIn("/opt/local/bin/port", result.stdout)
+        self.assertIn("fnm default 24", result.stdout)
+        self.assertNotIn('brew "pnpm"', (REPO / "Brewfile").read_text())
 
     def test_rosetta_uses_native_arm_homebrew(self):
         result = self.invoke(machine="x86_64", translated="1")

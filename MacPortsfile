@@ -35,9 +35,6 @@ lazydocker
 lazygit
 mkcert
 neovim
-nodejs24
-npm11
-pnpm
 pre-commit
 python310
 python312
@@ -50,7 +47,6 @@ terraform-1.17
 terragrunt-0.52
 tfenv
 tree-sitter
-tree-sitter-cli
 uv
 py313-virtualenv
 zbar

@@ -112,8 +112,6 @@ brew "neovim"
 # OpenSSL 1.1 has been removed from Homebrew; OpenSSL 3 is listed above.
 # Python dependency management tool
 brew "pipenv"
-# Fast, disk space efficient package manager
-brew "pnpm"
 # PostgreSQL 13 is end-of-life and disabled by Homebrew. Choose a supported
 # major version separately rather than implicitly migrating an existing database.
 # Framework for managing multi-language pre-commit hooks

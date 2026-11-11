@@ -40,16 +40,18 @@ require your administrator password.
 
 `MacPortsfile` lists CLI tools rather than Homebrew's exported dependency libraries;
 MacPorts resolves its own libraries. Port versions can differ from Homebrew's.
-Python 3.13 and Ruby 3.4 are selected as defaults, and Node 24 provides the Node
-runtime. Python CLI tools use `uv tool install`; npm tools use `~/.local` and
-Corepack supplies Yarn. These language package managers have their own download
-and build behavior; MacPorts' binary-only flag applies to the ports themselves.
+Python 3.13 and Ruby 3.4 are selected as defaults. Node is not a package: `fnm`
+provides it (below). Python CLI tools use `uv tool install`; npm tools, including
+the tree-sitter CLI, install globally into `~/.local`, and Corepack supplies Yarn.
+These language package managers have their own download and build behavior; MacPorts' binary-only flag applies to the ports themselves.
 
-Per-project Node versions use `fnm`. A project pins its version in a `.node-version`
-file, and `.zshrc` runs `fnm env --use-on-cd`, so entering the directory switches
-Node. Run `fnm install` once in a project to download its version. Shells that skip
-`.zshrc` (scripts) use the MacPorts `nodejs24` on `PATH`; keep its major version
-equal to the one projects pin. Scheduled jobs call `fnm exec` themselves.
+Node is managed only by `fnm`; no MacPorts or Homebrew package provides it. A project
+pins its version in a `.node-version` file, and `.zshrc` runs `fnm env --use-on-cd`, so
+entering the directory switches Node. Run `fnm install` once in a project to download
+its version. `install.sh` installs Node 24 and makes it fnm's default for directories
+without a pin; keep that major equal to the one projects pin. Shells that skip
+`.zshrc` (scripts, launchd, editor-launched tools) have no `node` on `PATH`; they call
+`fnm exec --using=default -- <command>`, or plain `fnm exec` inside a pinned project.
 
 The following Brewfile tools have no equivalent port in this manifest and need
 separate installation if you use them: `tgenv`, Atlassian CLI (`acli`), Azure

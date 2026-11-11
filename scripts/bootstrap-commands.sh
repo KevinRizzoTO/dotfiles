@@ -14,6 +14,12 @@ attempt() {
   fi
 }
 
+# fnm owns every Node version; keep this major equal to personal-data/.node-version.
+install_default_node() {
+  attempt fnm install 24
+  attempt fnm default 24
+}
+
 install_macports_packages() {
   local port_name
   # MacPorts -p can return success even when individual ports failed. Separate

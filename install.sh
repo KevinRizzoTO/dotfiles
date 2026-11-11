@@ -41,8 +41,9 @@ case $machine in
     fi
     # A shell started under Rosetta must still run the ARM Homebrew installation.
     run arch -arm64 /opt/homebrew/bin/brew bundle --file="$repo_dir/Brewfile"
+    install_default_node
     run mkdir -p "$HOME/.local/bin"
-    run corepack enable yarn --install-directory "$HOME/.local/bin"
+    run fnm exec --using=default -- corepack enable yarn --install-directory "$HOME/.local/bin"
     ;;
   x86_64)
     echo 'Intel Mac: installing packages with MacPorts in binary-only mode.'
@@ -76,9 +77,12 @@ case $machine in
     attempt uv tool install --with dbt-duckdb dbt-core
     attempt uv tool install termaid
     run mkdir -p "$HOME/.local/bin"
-    attempt env npm_config_prefix="$HOME/.local" npm install --global corepack typescript wrangler
+    install_default_node
+    # No port provides Node or npm: fnm does. The tree-sitter CLI is an npm package
+    # because its port depends on a MacPorts nodejs.
+    attempt fnm exec --using=default -- env npm_config_prefix="$HOME/.local" npm install --global corepack typescript wrangler tree-sitter-cli
     # Corepack supplies the yarn command; installing yarn separately collides.
-    attempt corepack enable yarn --install-directory "$HOME/.local/bin"
+    attempt fnm exec --using=default -- corepack enable yarn --install-directory "$HOME/.local/bin"
     ;;
   *) echo "Unsupported macOS architecture: $machine" >&2; exit 1 ;;
 esac
