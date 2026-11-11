@@ -49,9 +49,11 @@ Node is managed only by `fnm`; no MacPorts or Homebrew package provides it. A pr
 pins its version in a `.node-version` file, and `.zshrc` runs `fnm env --use-on-cd`, so
 entering the directory switches Node. Run `fnm install` once in a project to download
 its version. `install.sh` installs Node 24 and makes it fnm's default for directories
-without a pin; keep that major equal to the one projects pin. Shells that skip
-`.zshrc` (scripts, launchd, editor-launched tools) have no `node` on `PATH`; they call
-`fnm exec --using=default -- <command>`, or plain `fnm exec` inside a pinned project.
+without a pin; keep that major equal to the one projects pin. `zsh/.zshenv` puts fnm's
+default Node on `PATH` for every zsh, including scripts and tools that skip `.zshrc`;
+interactive shells then switch to a project's pin on `cd`. Programs that do not start
+zsh, such as launchd jobs and MCP servers, call `fnm exec` themselves. The `fx`
+function runs a command on the nearest `.node-version`, or the default without one.
 
 The following Brewfile tools have no equivalent port in this manifest and need
 separate installation if you use them: `tgenv`, Atlassian CLI (`acli`), Azure

@@ -164,6 +164,21 @@ if (( $+commands[pyenv] )); then _evalcache pyenv init -; fi
 # Not cached with evalcache: the output embeds a per-shell directory.
 if (( $+commands[fnm] )); then eval "$(fnm env --use-on-cd --version-file-strategy=recursive --shell zsh)"; fi
 
+# Run a command on the right Node from anywhere: the nearest .node-version if there
+# is one, otherwise fnm's default. Plain `node` and `npm` already resolve this way
+# in an interactive shell; use fx where the shell hook has not run.
+fx() {
+  local dir=$PWD
+  while [[ $dir != / ]]; do
+    if [[ -f $dir/.node-version || -f $dir/.nvmrc ]]; then
+      fnm exec --version-file-strategy=recursive -- "$@"
+      return
+    fi
+    dir=${dir:h}
+  done
+  fnm exec --using=default -- "$@"
+}
+
 if [[ -x $PYENV_ROOT/shims/python ]]; then
   export PIPENV_PYTHON=$PYENV_ROOT/shims/python
 elif (( $+commands[python3] )); then
