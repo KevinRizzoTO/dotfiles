@@ -48,8 +48,8 @@ and build behavior; MacPorts' binary-only flag applies to the ports themselves.
 Per-project Node versions use `fnm`. A project pins its version in a `.node-version`
 file, and `.zshrc` runs `fnm env --use-on-cd`, so entering the directory switches
 Node. Run `fnm install` once in a project to download its version. Shells that skip
-`.zshrc` (scripts, launchd) use the MacPorts `nodejs24` on `PATH`; keep its major
-version equal to the one projects pin.
+`.zshrc` (scripts) use the MacPorts `nodejs24` on `PATH`; keep its major version
+equal to the one projects pin. Scheduled jobs call `fnm exec` themselves.
 
 The following Brewfile tools have no equivalent port in this manifest and need
 separate installation if you use them: `tgenv`, Atlassian CLI (`acli`), Azure
