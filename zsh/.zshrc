@@ -155,6 +155,25 @@ export FZF_DEFAULT_OPTS="--color=$fzf_theme"
 
 alias cat="bat"
 
+# Claude desktop Terminal panel: use the iTerm2 gruvbox palette.
+# OSC 4 sets ANSI 0-15, OSC 10/11/12 set foreground, background and cursor.
+if [[ "$TERM_PROGRAM" == "claude-desktop" ]]; then
+  if [ "$is_dark_mode" = "Dark" ]; then
+    _claude_palette=('#282828' '#cc241d' '#98971a' '#d79921' '#458588' '#b16286' '#689d6a' '#a89984'
+                     '#928374' '#fb4934' '#b8bb26' '#fabd2f' '#83a598' '#d3869b' '#8ec07c' '#ebdbb2')
+    _claude_fg='#ebdbb2'; _claude_bg='#282828'; _claude_cursor='#ebdbb2'
+  else
+    _claude_palette=('#faefbb' '#be0f17' '#868715' '#cc881a' '#377375' '#a04b73' '#578e57' '#685c51'
+                     '#7f7061' '#890009' '#66620d' '#a56311' '#0e5365' '#7b2b5e' '#356a46' '#2e2a29')
+    _claude_fg='#2e2a29'; _claude_bg='#faefbb'; _claude_cursor='#2e2a29'
+  fi
+  for _i in {1..16}; do
+    printf '\e]4;%d;%s\a' $(( _i - 1 )) "$_claude_palette[$_i]"
+  done
+  printf '\e]10;%s\a\e]11;%s\a\e]12;%s\a' "$_claude_fg" "$_claude_bg" "$_claude_cursor"
+  unset _i _claude_palette _claude_fg _claude_bg _claude_cursor
+fi
+
 #python bootstrapping
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
