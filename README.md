@@ -15,9 +15,24 @@ package manager for your Mac:
 From the repository, run:
 
 ```sh
-./install.sh --dry-run  # Preview commands without changing the machine
-./install.sh
+./install.sh --dry-run --profile work  # Preview commands without changing the machine
+./install.sh --profile work
 ```
+
+### Profiles
+
+A profile selects the settings that apply to one machine only. Use `personal` or
+`work`. The first run needs `--profile`; the installer saves the choice in
+`~/.config/dotfiles/profile`, and later runs read it from there.
+
+| Profile | fnm default Node | Extra Stow packages |
+| --- | --- | --- |
+| `personal` | Installs Node 24 and makes it the default | `zsh-personal` (`~/.zshenv`) |
+| `work` | Keeps the default the machine already has | None |
+
+A top-level directory named `<package>-<profile>`, such as `zsh-personal`, is a
+Stow package for that profile only. The installer stows it after the shared
+packages.
 
 The installer installs packages, missing oh-my-zsh plugins, and the active Stow
 packages. `rake` and `rake all` use the same installer on macOS. Linux keeps the
@@ -48,10 +63,11 @@ These language package managers have their own download and build behavior; MacP
 Node is managed only by `fnm`; no MacPorts or Homebrew package provides it. A project
 pins its version in a `.node-version` file, and `.zshrc` runs `fnm env --use-on-cd`, so
 entering the directory switches Node. Run `fnm install` once in a project to download
-its version. `install.sh` installs Node 24 and makes it fnm's default for directories
-without a pin; keep that major equal to the one projects pin. `zsh/.zshenv` puts fnm's
-default Node on `PATH` for every zsh, including scripts and tools that skip `.zshrc`;
-interactive shells then switch to a project's pin on `cd`. Programs that do not start
+its version. On the `personal` profile, `install.sh` installs Node 24 and makes it
+fnm's default for directories without a pin; keep that major equal to the one projects
+pin. `zsh-personal/.zshenv` puts fnm's default Node on `PATH` for every zsh, including
+scripts and tools that skip `.zshrc`; interactive shells then switch to a project's
+pin on `cd`. The `work` profile changes neither. Programs that do not start
 zsh, such as launchd jobs and MCP servers, call `fnm exec` themselves. The `fx`
 function runs a command on the nearest `.node-version`, or the default without one.
 
@@ -91,6 +107,7 @@ zsh -n zsh/.zshrc
 | Package   | Tool                                                      | Target                                   |
 | --------- | --------------------------------------------------------- | ---------------------------------------- |
 | `zsh`     | zsh with oh-my-zsh                         | `~/.zshrc`                               |
+| `zsh-personal` | `personal` profile only: fnm's default Node for every zsh | `~/.zshenv` |
 | `oh-my-posh` | [oh-my-posh](https://ohmyposh.dev) prompt theme | `~/.config/oh-my-posh` |
 | `git`     | git with delta, git-town, SSH signing, global hooks       | `~/.gitconfig`, `~/.config/git/hooks`    |
 | `nvim`    | Neovim with lazy.nvim                                     | `~/.config/nvim`                         |

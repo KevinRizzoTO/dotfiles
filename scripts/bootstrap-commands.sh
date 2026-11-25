@@ -14,8 +14,15 @@ attempt() {
   fi
 }
 
-# fnm owns every Node version; keep this major equal to personal-data/.node-version.
+# fnm owns every Node version. Only the personal profile sets fnm's default; keep
+# its major equal to personal-data/.node-version. Other profiles keep the default
+# they already have.
 install_default_node() {
+  local profile=$1
+  if [[ $profile != personal ]]; then
+    echo "Profile $profile: fnm's default Node is not changed."
+    return 0
+  fi
   attempt fnm install 24
   attempt fnm default 24
 }

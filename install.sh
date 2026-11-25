@@ -8,19 +8,43 @@ if [[ $(uname -s) != Darwin ]]; then
   exec rake -m "$@"
 fi
 
+usage='Usage: ./install.sh [--dry-run] [--profile personal|work]'
+profile_file=$HOME/.config/dotfiles/profile
 dry_run=false
-case ${1:-} in
-  --dry-run) dry_run=true ;;
-  --help|-h)
-    echo 'Usage: ./install.sh [--dry-run]'
-    echo 'Intel macOS: MacPorts binaries. Apple Silicon: Homebrew (including Rosetta).'
-    exit 0 ;;
-  '') ;;
-  *) echo "Unknown option: $1" >&2; exit 2 ;;
+profile=
+while (( $# > 0 )); do
+  case $1 in
+    --dry-run) dry_run=true ;;
+    --profile)
+      if (( $# < 2 )); then
+        echo "$usage" >&2
+        exit 2
+      fi
+      profile=$2
+      shift ;;
+    --help|-h)
+      echo "$usage"
+      echo 'Intel macOS: MacPorts binaries. Apple Silicon: Homebrew (including Rosetta).'
+      echo "The profile selects per-machine settings. It is saved in $profile_file."
+      exit 0 ;;
+    *) echo "Unknown option: $1" >&2; echo "$usage" >&2; exit 2 ;;
+  esac
+  shift
+done
+
+# The profile comes from --profile, or from the file a previous run saved.
+if [[ -z $profile && -f $profile_file ]]; then
+  read -r profile < "$profile_file" || true
+fi
+case $profile in
+  personal|work) ;;
+  '') echo "No profile is set. Rerun with --profile personal or --profile work." >&2; exit 2 ;;
+  *) echo "Unknown profile: $profile" >&2; echo "$usage" >&2; exit 2 ;;
 esac
-if (( $# > 1 )); then
-  echo 'Usage: ./install.sh [--dry-run]' >&2
-  exit 2
+echo "Profile: $profile"
+if [[ $dry_run == false ]]; then
+  mkdir -p "${profile_file%/*}"
+  printf '%s\n' "$profile" > "$profile_file"
 fi
 
 failures=()
@@ -41,7 +65,7 @@ case $machine in
     fi
     # A shell started under Rosetta must still run the ARM Homebrew installation.
     run arch -arm64 /opt/homebrew/bin/brew bundle --file="$repo_dir/Brewfile"
-    install_default_node
+    install_default_node "$profile"
     run mkdir -p "$HOME/.local/bin"
     run fnm exec --using=default -- corepack enable yarn --install-directory "$HOME/.local/bin"
     ;;
@@ -77,7 +101,7 @@ case $machine in
     attempt uv tool install --with dbt-duckdb dbt-core
     attempt uv tool install termaid
     run mkdir -p "$HOME/.local/bin"
-    install_default_node
+    install_default_node "$profile"
     # No port provides Node or npm: fnm does. The tree-sitter CLI is an npm package
     # because its port depends on a MacPorts nodejs.
     attempt fnm exec --using=default -- env npm_config_prefix="$HOME/.local" npm install --global corepack typescript wrangler tree-sitter-cli
@@ -108,7 +132,14 @@ evalcache https://github.com/mroth/evalcache.git
 PLUGINS
 
 # Stow refuses conflicting regular files rather than adopting local contents.
-run stow -t "$HOME" zsh oh-my-posh git nvim lazygit zed gh-dash
+# A package named <package>-<profile>, such as zsh-personal, adds files for one profile.
+packages=(zsh oh-my-posh git nvim lazygit zed gh-dash)
+for package in "${packages[@]}"; do
+  if [[ -d $repo_dir/$package-$profile ]]; then
+    packages+=("$package-$profile")
+  fi
+done
+run stow -t "$HOME" "${packages[@]}"
 if [[ $dry_run == true ]]; then
   echo 'Preview complete. No changes made.'
 elif (( ${#failures[@]} > 0 )); then

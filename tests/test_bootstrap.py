@@ -11,7 +11,10 @@ REPO = Path(__file__).resolve().parents[1]
 
 
 class BootstrapRouting(unittest.TestCase):
-    def invoke(self, system="Darwin", machine="x86_64", translated="0", args=None):
+    def invoke(self, system="Darwin", machine="x86_64", translated="0", args=None,
+               profile="personal"):
+        if args is None:
+            args = ["--dry-run", "--profile", profile]
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             bin_dir = root / "bin"
@@ -39,7 +42,7 @@ class BootstrapRouting(unittest.TestCase):
             env.pop("ZSH", None)
             env.pop("ZSH_CUSTOM", None)
             result = subprocess.run(["/bin/bash", str(REPO / "install.sh"),
-                                     *(args if args is not None else ["--dry-run"])],
+                                     *args],
                                     env=env, text=True, capture_output=True)
             self.assertEqual(list(home.iterdir()), [], "Preview wrote to the home directory")
             self.assertNotIn("UNEXPECTED_", result.stderr)
@@ -73,6 +76,34 @@ class BootstrapRouting(unittest.TestCase):
         self.assertNotIn("/opt/local/bin/port", result.stdout)
         self.assertIn("fnm default 24", result.stdout)
         self.assertNotIn('brew "pnpm"', (REPO / "Brewfile").read_text())
+
+    def test_work_profile_keeps_fnm_default(self):
+        result = self.invoke(machine="arm64", profile="work")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("Profile: work", result.stdout)
+        self.assertNotIn("fnm install 24", result.stdout)
+        self.assertNotIn("fnm default 24", result.stdout)
+        self.assertRegex(result.stdout, r"stow -t \S+ zsh oh-my-posh git nvim lazygit zed gh-dash\n")
+        self.assertNotIn("zsh-personal", result.stdout)
+
+    def test_personal_profile_adds_zshenv_package(self):
+        result = self.invoke(machine="arm64", profile="personal")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("gh-dash zsh-personal\n", result.stdout)
+        self.assertTrue((REPO / "zsh-personal/.zshenv").is_file())
+        self.assertFalse((REPO / "zsh/.zshenv").exists())
+
+    def test_missing_profile_stops_before_installation(self):
+        result = self.invoke(args=["--dry-run"])
+        self.assertEqual(result.returncode, 2)
+        self.assertIn("No profile is set", result.stderr)
+        self.assertNotIn("port -N", result.stdout)
+
+    def test_unknown_profile_stops_before_installation(self):
+        result = self.invoke(profile="laptop")
+        self.assertEqual(result.returncode, 2)
+        self.assertIn("Unknown profile: laptop", result.stderr)
+        self.assertNotIn("port -N", result.stdout)
 
     def test_rosetta_uses_native_arm_homebrew(self):
         result = self.invoke(machine="x86_64", translated="1")
